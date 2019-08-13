@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mari0er.github.io</id>
     <title>Mari0er&apos;s blog</title>
-    <updated>2019-08-13T06:48:13.538Z</updated>
+    <updated>2019-08-13T06:55:43.249Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mari0er.github.io"/>
     <link rel="self" href="https://mari0er.github.io/atom.xml"/>
@@ -42,9 +42,9 @@
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[30分钟打造一台"黑客"手机--Nethunter]]></title>
-        <id>https://mari0er.github.io/post/nethunter</id>
-        <link href="https://mari0er.github.io/post/nethunter">
+        <title type="html"><![CDATA[打造一台"黑客"手机--Nethunter]]></title>
+        <id>https://mari0er.github.io/post/nethunter.html</id>
+        <link href="https://mari0er.github.io/post/nethunter.html">
         </link>
         <updated>2018-01-31T02:15:09.000Z</updated>
         <content type="html"><![CDATA[<p>  最近在折腾Nethunter手机，发现刷机过程有点坑，于是想写篇文章记录一下，也好下次少走弯路！其实只要找对了正确的刷机包和刷机步骤，30分钟就可以打造一台B格满满的&quot;黑手&quot;。Nethunter下载地址请点<a href="https://build.nethunter.com/nightly">这里</a>(需要梯子才能下载),也可以点击<a href="https://pan.baidu.com/s/1ggYmleb">这里</a>(密码:v4wq)下载我所使用的所有工具和ROM包。废话不多说，刷机前的准备材料:</p>
