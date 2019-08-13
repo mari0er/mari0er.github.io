@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Hello Gridea | Mari0er&#39;s Blog</title>
+<title>常用命令积累 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -92,45 +92,81 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Hello Gridea</h2>
-            <div class="post-date">2018-12-12</div>
+            <h2 class="post-title">常用命令积累</h2>
+            <div class="post-date">2018-08-13</div>
             
-              <div class="feature-container" style="background-image: url('https://mari0er.github.io/post-images/hello-gridea.png')">
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0707/command1.jpg')">
               </div>
             
             <div class="post-content">
-              <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+              <p>这篇文章主要记录自己在学习中遇到的一些常用的命令</p>
 <!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="http://hvenotes.fehey.com/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>𝖶𝗂𝗇𝖽𝗈𝗐𝗌</strong> 或 <strong>𝖬𝖺𝖼𝖮𝖲</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+<h2 id="windows">Windows</h2>
+<blockquote>
+<p>tasklist　　　　　　                    //查看当前运行的进程<br>
+net user　　　　                        //查看用户<br>
+systeminfo　　　　                    //查看电脑详细信息<br>
+del + 文件名　　　                 　//删除文件<br>
+lusrmgr.msc　　                        //运行框打开用户配置<br>
+services.msc　                     　   //运行框查看服务<br>
+shutdown -s -f -t 0　　　　        //关机<br>
+ipconfig | find &quot;IPv4&quot;　　　　      //过滤参数<br>
+taskkill /f /im firefox.exe　　　　//关闭电脑某进程<br>
+copy 1.txt/b + 1.png/b 2.png　　//合并1.txt和1.png为2.png<br>
+rundll32.exe user32.dll,LockWorkStation　　//锁屏<br>
+netsh wlan show profiles name=&quot;TaoTao&quot; key=clear　　//查看wifi密码</p>
+</blockquote>
+<h2 id="linux">Linux</h2>
+<blockquote>
+<p>free -m　　//查看内存使用情况<br>
+df -m　　//查看储存使用情况<br>
+chmod +x *　　//给予当前目录所有文件执行权限<br>
+netstat -nao　　//查看打开的端口<br>
+taskkill /f -pid 1220　　//关闭占用端口的进程</p>
+</blockquote>
+<h2 id="web">Web</h2>
+<blockquote>
+<p>alert(document.lastModified);　　//判断是否为伪静态</p>
+</blockquote>
+<h2 id="mysql">Mysql</h2>
+<blockquote>
+<p>show variables like 'char%';　　//查看数据库编码</p>
+</blockquote>
+<h2 id="kali">Kali</h2>
+<blockquote>
+<p>leafpad /etc/apt/sources.list　　//更换软件源<br>
+sudo apt-get update &amp;&amp; apt-get upgrade -y　　//更新软件包和依赖<br>
+set exitonsession false　　//vps上设置可以回连多个回话<br>
+set enablestageencoding true　　//双端加密<br>
+set stagerverifysslcert false　　//ssl<br>
+set stageencodingfallback false　　//返回加密<br>
+idletime　　//meterpreter查看主机空闲时间<br>
+apt-get clean &amp; apt-get autoremove　　//清理下载的空间</p>
+</blockquote>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/NEUnvttdF" class="tag">
-                    Gridea
+                  <a href="https://mari0er.github.io/tag/ji-lei" class="tag">
+                    积累
+                  </a>
+                
+                  <a href="https://mari0er.github.io/tag/command" class="tag">
+                    command
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://mari0er.github.io/post/badusb.html">
+                  <h3 class="post-title">
+                    简易BadUSB制作和玩法
+                  </h3>
+                </a>
+              </div>
             
 
             

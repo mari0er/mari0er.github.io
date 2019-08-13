@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Hello Gridea | Mari0er&#39;s Blog</title>
+<title>编辑利器--Sublime Text3 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -92,45 +92,51 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Hello Gridea</h2>
-            <div class="post-date">2018-12-12</div>
+            <h2 class="post-title">编辑利器--Sublime Text3</h2>
+            <div class="post-date">2018-10-13</div>
             
-              <div class="feature-container" style="background-image: url('https://mari0er.github.io/post-images/hello-gridea.png')">
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0909/sublime.jpg')">
               </div>
             
             <div class="post-content">
-              <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="http://hvenotes.fehey.com/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>𝖶𝗂𝗇𝖽𝗈𝗐𝗌</strong> 或 <strong>𝖬𝖺𝖼𝖮𝖲</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+              <p>  俗话说工欲善其事必先利其器，这里记录一下使用Sublime Text3的一些插件和遇到的问题</p>
+<!--more-->
+<h3 id="0x01-安装package-control">0x01 安装Package Control</h3>
+<p>  下载安装好Sublime后，按住 Ctrl+` 会打开console，接着输入以下代码即可</p>
+<pre><code>import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
+</code></pre>
+<h3 id="0x02-自用插件推荐">0x02 自用插件推荐</h3>
+<h4 id="1file-header">1.File Header</h4>
+<p>安装后每次新建PY文件时就可以自动生成文件头，如需自定义文件头请修改C:\Users\***\AppData\Roaming\Sublime Text 3\Packages\FileHeader\template\header文件夹下的python.tmpl文件</p>
+<h4 id="2anaconda">2.Anaconda</h4>
+<p>写代码没有提示功能我不能忍，有了这个插件就可以自动补全了，提高写代码的效率。解决白框问题：选择Settings-Default选项，搜寻“anaconda_linting” 改为false即可</p>
+<h4 id="3side-bar">3.Side Bar</h4>
+<p>安装后，左边管理文件和文件夹会很方便</p>
+<h3 id="0x03-遇到的问题及解决办法">0x03 遇到的问题及解决办法</h3>
+<h4 id="1无法输入input数据">1.无法输入input数据</h4>
+<p>虽然Sublime运行python程序很方便，但是不能直接 Ctrl+B 对input()函数进行输入，可以安装SublimeREPL插件，利用这个插件可以在交互式的环境下进行赋值和输入，<strong>数据一定要加引号</strong></p>
+<h4 id="2python2和python3并存的情况下anaconda报错">2.Python2和Python3并存的情况下，anaconda报错</h4>
+<p>选择Settings-Default选项，搜寻“python_interpreter”，修改为你的Python安装路径</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/NEUnvttdF" class="tag">
-                    Gridea
+                  <a href="https://mari0er.github.io/tag/sublime-text3" class="tag">
+                    sublime text3
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://mari0er.github.io/post/bettercap.html">
+                  <h3 class="post-title">
+                    局域网嗅探利器--Bettercap
+                  </h3>
+                </a>
+              </div>
             
 
             
