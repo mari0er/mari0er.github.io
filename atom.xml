@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mari0er.github.io</id>
-    <title>Mari0er&apos;s Blog -</title>
-    <updated>2019-08-13T09:23:43.032Z</updated>
+    <title>Mari0er&apos;s Blog</title>
+    <updated>2019-08-13T13:01:59.051Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mari0er.github.io"/>
     <link rel="self" href="https://mari0er.github.io/atom.xml"/>
     <logo>https://mari0er.github.io/images/avatar.png</logo>
     <icon>https://mari0er.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Mari0er&apos;s Blog -</rights>
+    <rights>All rights reserved 2019, Mari0er&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[简易BadUSB制作和玩法]]></title>
         <id>https://mari0er.github.io/post/badusb.html</id>
@@ -37,9 +37,9 @@
         <link href="https://mari0er.github.io/post/wifi.html">
         </link>
         <updated>2018-02-21T08:23:09.000Z</updated>
-        <summary type="html"><![CDATA[<p>破解Wifi一时爽  一直破解一直爽</p>
+        <summary type="html"><![CDATA[<p>  破解wifi的工具有很多，比如大家熟悉的airmon-ng套件，CDlinux(水滴)，以及利用中间人直接获取密码的fluxion工具等，这些工具有的步骤繁琐，有的安装麻烦(个人认为)。在这里我推荐直接利用kali自带的wifite工具和hashcat来破解wifi，因为wifite工具操作简单几乎全自动化。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>破解Wifi一时爽  一直破解一直爽</p>
+        <content type="html"><![CDATA[<p>  破解wifi的工具有很多，比如大家熟悉的airmon-ng套件，CDlinux(水滴)，以及利用中间人直接获取密码的fluxion工具等，这些工具有的步骤繁琐，有的安装麻烦(个人认为)。在这里我推荐直接利用kali自带的wifite工具和hashcat来破解wifi，因为wifite工具操作简单几乎全自动化。</p>
 ]]></content>
     </entry>
 </feed>

