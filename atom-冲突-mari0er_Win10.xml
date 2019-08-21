@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://mari0er.github.io</id>
+    <title>Mari0er&apos;s Blog</title>
+    <updated>2019-08-13T01:01:08.313Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://mari0er.github.io"/>
+    <link rel="self" href="https://mari0er.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://mari0er.github.io/images/avatar.png</logo>
+    <icon>https://mari0er.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2019, Mari0er&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://mari0er.github.io/post/hello-gridea</id>
+        <link href="https://mari0er.github.io/post/hello-gridea">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></content>
+    </entry>
+</feed>
