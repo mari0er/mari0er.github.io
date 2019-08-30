@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>badbsb | Mari0er&#39;s Blog</title>
+<title>两条命令给终端配置代理 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -91,34 +97,74 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: badbsb</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://mari0er.github.io/post/badusb.html">
-                  <h2 class="post-title">简易BadUSB制作和玩法</h2>
-                </a>
-                <div class="post-date">
-                  2018-03-07
-                </div>
-                <div class="post-abstract">
-                  <p>  BadUSB是前几年的热门话题，该漏洞由Karsten Nohl和Jakob Lell共同发现，于2014年在BlackHat安全大会上公布。之后研究它的人很多，网上的教程也有很多，最近自己研究了一下并通过一些小技巧解决了黑框和杀软弹窗的问题。</p>
-
-                </div>
+          <div class="post-detail">
+            <h2 class="post-title">两条命令给终端配置代理</h2>
+            <div class="post-date">2019-08-30</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0102/proxy1.png')">
               </div>
-              
-                <a class="right" href="https://mari0er.github.io/post/badusb.html">
-                  <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0505/0602.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
+            
+            <div class="post-content">
+              <p>  电脑开了SS但是终端用不了，有时候想git东西比较缓慢,现在有了一个好的解决办法。</p>
+<!-- more -->
+<p>Cmder几种终端模式命令如下：</p>
+<blockquote>
+<p><strong>CMD模式</strong></p>
+</blockquote>
+<pre><code>set http_proxy=http://127.0.0.1:1080
+set https_proxy=http://127.0.0.1:1080
+</code></pre>
+<blockquote>
+<p><strong>Bash模式,同样适用Kali</strong></p>
+</blockquote>
+<pre><code>export http_proxy=http://127.0.0.1:1080
+export https_proxy=http://127.0.0.1:1080
+</code></pre>
+<blockquote>
+<p><strong>Powershell模式</strong></p>
+</blockquote>
+<pre><code>$env:http_proxy=http://127.0.0.1:1080
+$env:https_proxy=http://127.0.0.1:1080
+</code></pre>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://mari0er.github.io/tag/ss" class="tag">
+                    SS
+                  </a>
+                
+                  <a href="https://mari0er.github.io/tag/cmder" class="tag">
+                    Cmder
+                  </a>
+                
+                  <a href="https://mari0er.github.io/tag/dai-li" class="tag">
+                    代理
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://mari0er.github.io/post/procdump.html">
+                  <h3 class="post-title">
+                    简单两步抓取Windwos明文密码
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
 
         </div>
       </div>
@@ -140,6 +186,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '5b4969a9b9f711ab2c13',
+        clientSecret: '876cb8a836b6dada9c0728752da1e5a73d15a232',
+        repo: 'talk',
+        owner: 'mari0er',
+        admin: ['mari0er'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 
