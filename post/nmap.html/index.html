@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569228481287">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569230409807">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1569228481287" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1569230409807" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -107,14 +107,14 @@
             <div class="post-content">
               <p>  每次去客户那里都要求进行端口扫描，回来后发现扫描记录不好找，所以现在最好养成良好的扫描习惯，这里简单记录一下。</p>
 <!-- more -->
-<h3 id="0x01-找出所有活跃主机">0x01 找出所有活跃主机</h3>
-<p>客户给定IP段之后，首先得确定存活活跃的主机，利用如下命令可以得到一份活跃的主机IP文本<br>
-<code>nmap -sn 192.168.1.100-120 -oX 100.txt</code></p>
-<h3 id="0x02-简单处理活跃的ip文本">0x02 简单处理活跃的IP文本</h3>
-<p>得到的IP文本需要简单处理一下，以便后续进行扫描.利用如下命令可以得到一个可利用的简单IP文本(可能还需要手工修改一下)<br>
-<code>cat 100.txt |grep 192.168|cut -c 22-45 &gt; 192.168.1.X.txt</code></p>
+<h3 id="0x01-扫描活跃主机">0x01 扫描活跃主机</h3>
+<p>客户给定IP段之后，首先得确定存活的主机，利用如下命令可以得到一份存活的主机IP列表<br>
+<code>nmap -sn 192.168.1.100-120 -oX 1.txt</code></p>
+<h3 id="0x02-处理ip列表">0x02 处理IP列表</h3>
+<p>得到的IP列表需要简单处理一下，以便后续进行扫描。利用如下命令可得到一份直接利用的简单IP列表(可能需要手工修改一下)<br>
+<code>cat 1.txt |grep 192.168|cut -c 22-45 &gt; 192.168.1.X.txt</code></p>
 <h3 id="0x03-进行端口扫描">0x03 进行端口扫描</h3>
-<p>利用命令行扫描保存未xml文件，方便后续利用图形Nmap进行查看<br>
+<p>利用命令行扫描保存为xml文档，方便后续利用图形Nmap进行查看。<br>
 <code>nmap -sV -Pn -iL 192.168.1.X.txt -oX 192.168.1.X.xml</code></p>
 
             </div>
