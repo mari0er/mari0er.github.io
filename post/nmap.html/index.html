@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569308794284">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1586240241517">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1569308794284" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1586240241517" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -109,7 +109,7 @@
 <!-- more -->
 <h3 id="0x01-扫描活跃主机">0x01 扫描活跃主机</h3>
 <p>客户给定IP段之后，首先得确定存活的主机，利用如下命令可以得到一份存活的主机IP列表</p>
-<pre><code>nmap -sn 192.168.1.100-120 -oX 1.txt
+<pre><code>nmap -sn -Pn 192.168.1.100-120 -oN 192.168.1.X.txt
 </code></pre>
 <h3 id="0x02-处理ip列表">0x02 处理IP列表</h3>
 <p>得到的IP列表需要简单处理一下，以便后续进行扫描。利用如下命令可得到一份直接利用的简单IP列表(可能需要手工修改一下)</p>
@@ -124,7 +124,7 @@
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/nmap" class="tag">
+                  <a href="https://mari0er.github.io/tag/nmap/" class="tag">
                     nmap
                   </a>
                 
@@ -133,7 +133,7 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/cmd.html">
+                <a href="https://mari0er.github.io/post/cmd.html/">
                   <h3 class="post-title">
                     两条命令给终端配置代理
                   </h3>

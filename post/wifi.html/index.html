@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1569308794284">
+<link rel="shortcut icon" href="https://mari0er.github.io/favicon.ico?v=1586240241517">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://mari0er.github.io">
-        <img src="https://mari0er.github.io/images/avatar.png?v=1569308794284" class="site-logo">
+        <img src="https://mari0er.github.io/images/avatar.png?v=1586240241517" class="site-logo">
         <h1 class="site-title">Mari0er&#39;s Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,11 +111,11 @@
 <p>  首先你需要一张外置网卡，这里推荐网卡神器--RTL8187。插入网卡待Kali识别后，直接输入wifite命令，系统会自动将网卡改为monitor模式并扫描附件wifi热点，等到扫描到自己想要破解的wifi后即可按 ctrl+c 停止扫描。可以看到，扫描的信息还是很全的包括SSID、信道、信号强弱、是否开启wps以及是否有客户端在线。如果开启了wps，基本上可以破解出来(除非路由器开启了防pin功能)。接下来就是选择想要破解的wifi编号，这里我选择2，因为相比之下信号比较强并且有客户端在线，便于抓取握手包。</p>
 <pre><code>root@kali:~# wifite
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0401.png" alt=""><br>
+<p><img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0401.png" alt="" loading="lazy"><br>
 ​</p>
 <h2 id="0x02">0x02</h2>
 <p>  在选择目标后，工具会自动发起deauth攻击，强制客户端下线，当下线后的客户端重新连接wifi时，此时就可以抓取握手包。这个过程很快，客户端可能自己都察觉不到。由于我之前抓取过该热点的握手包，工具会直接提醒，你们在抓取时可以看到全过程，这里我选择跳过。最后，抓取的握手包会保存在主目录的hs文件夹下。<br>
-<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0402.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0402.png" alt="" loading="lazy"><br>
 ​</p>
 <h2 id="0x03">0x03</h2>
 <p>  接下来就是跑握手包了，跑包的工具有很多种，比如常用的aircrack-ng、EWSA等，在没有GPU的情况下(我的笔记本独显坏了 伤心-.-)，经过测试发现hashcat的破解速度是比较快的。最新版的Kali自带hashcat工具，没有的话可以直接安装。安装完成后运行hashcat可能会出现识别不了电脑cpu的错误，点击<a href="https://1drv.ms/u/s!Avl1qZqVOurQgh-sprSgzsZvHsFW?e=urfbLn">这里</a>下载驱动，解压后进入文件夹输入 ./install.sh 命令即可进行安装。安装过程比较简单，直接下一步就好。</p>
@@ -130,11 +130,11 @@ root@kali:~/Desktop/opencl_runtime_16.1.1_x64_ubuntu_6.4.0.25# ./install.sh
 <pre><code>root@kali:~/hs# hashcat -m 2500 -D 1 14149_1519481620.hccapx big.txt
 </code></pre>
 <p>下面这张图左边是hashcat跑完整个字典的时间，大约是3分30秒，右边是aircrack-ng工具跑完整个字典的时间，大约是6分20秒（测试时我把wifi密码放到了字典的最后），可以看出hashcat节省了大概一半的时间，这对于字典非常大的情况来说节省的时间就非常直观了。<br>
-<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0403.jpg" alt=""><br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0403.jpg" alt="" loading="lazy"><br>
 ​</p>
 <h2 id="0x05">0x05</h2>
 <p>  现在，可以愉快的连接wifi上网了，但有时候可能会因为各种原因导致wifi信号非常不稳定，这对于我来说是不能忍受的。于是，Wifi扩展器便派上用场了，这个工具充当中继器的同时也起到了放大信号的作用。下图是我淘的360wifi扩展器，比较小巧，便于摆放，同时最重要的一点是它可以自定义扩展器的wifi名称并隐藏，不会引起怀疑。具体设置方法可以参考说明书，设置好后，可以利用充电宝将扩展器放到wifi信号相对强的地方以达到最好的效果。有了这个东西，感觉就像家里装了一个路由器一样，简直不能太好用！！<br>
-<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0404.jpg" alt=""></p>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/0303/0404.jpg" alt="" loading="lazy"></p>
 <h2 id="0x06">0x06</h2>
 <p>蹭网的感觉虽然很爽，但是会影响网络主人的体验。那如何防止被蹭网呢？</p>
 <ol>
@@ -152,7 +152,7 @@ root@kali:~/Desktop/opencl_runtime_16.1.1_x64_ubuntu_6.4.0.25# ./install.sh
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/po-jie-wifi" class="tag">
+                  <a href="https://mari0er.github.io/tag/po-jie-wifi/" class="tag">
                     破解wifi
                   </a>
                 
@@ -161,7 +161,7 @@ root@kali:~/Desktop/opencl_runtime_16.1.1_x64_ubuntu_6.4.0.25# ./install.sh
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/fishing.html">
+                <a href="https://mari0er.github.io/post/fishing.html/">
                   <h3 class="post-title">
                     绕过360进行Word文档钓鱼
                   </h3>
