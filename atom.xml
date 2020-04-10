@@ -2,13 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mari0er.github.io</id>
     <title>Mari0er&apos;s Blog</title>
-    <updated>2020-04-07T12:25:31.445Z</updated>
+    <updated>2020-04-10T02:32:14.977Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mari0er.github.io"/>
     <link rel="self" href="https://mari0er.github.io/atom.xml"/>
     <logo>https://mari0er.github.io/images/avatar.png</logo>
     <icon>https://mari0er.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Mari0er&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[CVE-2020-1938 Tomcat AJP复现]]></title>
+        <id>https://mari0er.github.io/post/tomcat-ghost.html/</id>
+        <link href="https://mari0er.github.io/post/tomcat-ghost.html/">
+        </link>
+        <updated>2020-04-09T08:29:09.000Z</updated>
+        <summary type="html"><![CDATA[<p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[固定IP段之端口扫描]]></title>
         <id>https://mari0er.github.io/post/nmap.html/</id>
@@ -29,17 +40,6 @@
         <summary type="html"><![CDATA[<p>  电脑开了SS但是终端用不了，有时候想git东西比较缓慢,现在有了一个好的解决办法。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>  电脑开了SS但是终端用不了，有时候想git东西比较缓慢,现在有了一个好的解决办法。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[简单两步抓取Windwos明文密码]]></title>
-        <id>https://mari0er.github.io/post/procdump.html/</id>
-        <link href="https://mari0er.github.io/post/procdump.html/">
-        </link>
-        <updated>2019-08-28T07:57:51.000Z</updated>
-        <summary type="html"><![CDATA[<p>  前几天渗透拿到了Webshell，在抓取管理员密码进行远程桌面时遇到了问题，这里记录一下。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>  前几天渗透拿到了Webshell，在抓取管理员密码进行远程桌面时遇到了问题，这里记录一下。</p>
 ]]></content>
     </entry>
 </feed>

