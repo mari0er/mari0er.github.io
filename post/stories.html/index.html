@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>sublime text3 | Mari0er&#39;s Blog</title>
+<title>The funny stories of my friends | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://mari0er.github.io/styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -97,34 +103,36 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: sublime text3</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://mari0er.github.io/post/sublime.html/">
-                  <h2 class="post-title">编辑利器--Sublime Text3</h2>
-                </a>
-                <div class="post-date">
-                  2018-10-13
-                </div>
-                <div class="post-abstract">
-                  <p>  俗话说工欲善其事必先利其器，这里记录一下使用Sublime Text3的一些插件和遇到的问题</p>
+          <div class="post-detail">
+            <h2 class="post-title">The funny stories of my friends</h2>
+            <div class="post-date">2023-05-01</div>
+            
+            <div class="post-content">
+              <p><strong>沙雕朋友欢乐多，It was at this moment that he knew,he fucked up</strong></p>
+<!-- more -->
+<details>
+<summary> **No.1** </summary>
+&emsp;&emsp;最近整了把87键的阿米洛红轴键盘，感觉还不错，自己手指力气比较大两年都坏了三把键盘了，希望这个能坚持久一点吧。
+</details> 
+<details>
+<summary>**&emsp;No.2&emsp;**</summary>
+&emsp;&emsp;感觉这次疫情把自己的厨艺水平都拉高了许多，毕竟我做饭不是看我想吃什么，而是看我会做什么。
+![food](https://raw.githubusercontent.com/mari0er/picture/master/1111/food.jpg)
+</details> 
 
-                </div>
-              </div>
-              
-                <a class="right" href="https://mari0er.github.io/post/sublime.html/">
-                  <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0909/sublime.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
+            </div>
+            
+            
 
-          <div class="pagination-container">
-  
-  
-</div>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
 
         </div>
       </div>
@@ -146,6 +154,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '5d34af6f9ca71f892da3',
+        clientSecret: '9d05f0c599744391ea574fa4f2b1805775e2544a',
+        repo: 'talk',
+        owner: 'mari0er',
+        admin: ['mari0er'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 
