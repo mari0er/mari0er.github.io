@@ -2,13 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mari0er.github.io</id>
     <title>Mari0er&apos;s Blog</title>
-    <updated>2020-04-23T03:19:23.308Z</updated>
+    <updated>2020-05-06T02:50:27.830Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mari0er.github.io"/>
     <link rel="self" href="https://mari0er.github.io/atom.xml"/>
     <logo>https://mari0er.github.io/images/avatar.png</logo>
     <icon>https://mari0er.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Mari0er&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[MS17-010利用总结]]></title>
+        <id>https://mari0er.github.io/post/ms17-010.html/</id>
+        <link href="https://mari0er.github.io/post/ms17-010.html/">
+        </link>
+        <updated>2020-04-28T06:35:02.000Z</updated>
+        <summary type="html"><![CDATA[<p>  最近做安全服务，发现很多客户那边任然存在“永恒之蓝”漏洞的主机。这里简单复现一下，方便演示。<s><em>主要是自己忘了msf的基本命令了,复习一下。</em></s></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>  最近做安全服务，发现很多客户那边任然存在“永恒之蓝”漏洞的主机。这里简单复现一下，方便演示。<s><em>主要是自己忘了msf的基本命令了,复习一下。</em></s></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[WinRAR远程代码执行漏洞]]></title>
         <id>https://mari0er.github.io/post/winrar.html/</id>
@@ -29,17 +40,6 @@
         <summary type="html"><![CDATA[<p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Netcat使用总结]]></title>
-        <id>https://mari0er.github.io/post/netcat.html/</id>
-        <link href="https://mari0er.github.io/post/netcat.html/">
-        </link>
-        <updated>2020-03-10T03:17:04.000Z</updated>
-        <summary type="html"><![CDATA[<p>想用NC反弹shell时突然忘了语法，这里简单记录一下，备忘。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>想用NC反弹shell时突然忘了语法，这里简单记录一下，备忘。</p>
 ]]></content>
     </entry>
 </feed>
