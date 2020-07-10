@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mari0er.github.io</id>
     <title>Mari0er&apos;s Blog</title>
-    <updated>2020-07-10T02:05:34.202Z</updated>
+    <updated>2020-07-10T07:38:21.143Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mari0er.github.io"/>
     <link rel="self" href="https://mari0er.github.io/atom.xml"/>
@@ -10,14 +10,14 @@
     <icon>https://mari0er.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Mari0er&apos;s Blog</rights>
     <entry>
-        <title type="html"><![CDATA[SMBv3漏洞复现--CVE-2020-0796]]></title>
+        <title type="html"><![CDATA[SMBGhost漏洞复现--CVE-2020-0796]]></title>
         <id>https://mari0er.github.io/post/CVE-2020-0796.html/</id>
         <link href="https://mari0er.github.io/post/CVE-2020-0796.html/">
         </link>
         <updated>2020-07-09T07:11:33.000Z</updated>
-        <summary type="html"><![CDATA[<p>  最近一直出差，还没来得及复现0796的漏洞，这次刚好有时间，来搞一搞。个人感觉有点鸡肋，需要提前关闭系统的防火墙，<sub>不知道是不是自己的姿势不对</sub>。</p>
+        <summary type="html"><![CDATA[<p>  最近一直出差，还没来得及复现0796的漏洞，今天刚好有时间，来搞一搞。个人感觉有点鸡肋，需要提前关闭系统的防火墙，<s>也可能是自己的姿势不对</s>。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>  最近一直出差，还没来得及复现0796的漏洞，这次刚好有时间，来搞一搞。个人感觉有点鸡肋，需要提前关闭系统的防火墙，<sub>不知道是不是自己的姿势不对</sub>。</p>
+        <content type="html"><![CDATA[<p>  最近一直出差，还没来得及复现0796的漏洞，今天刚好有时间，来搞一搞。个人感觉有点鸡肋，需要提前关闭系统的防火墙，<s>也可能是自己的姿势不对</s>。</p>
 ]]></content>
     </entry>
     <entry>
