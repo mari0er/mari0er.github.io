@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>常用命令积累 | Mari0er&#39;s Blog</title>
+<title>CobaltStrike钓鱼邮件攻击 | Mari0er&#39;s Blog</title>
 <meta name="description" content="">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,69 +104,48 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">常用命令积累</h2>
-            <div class="post-date">2018-08-13</div>
+            <h2 class="post-title">CobaltStrike钓鱼邮件攻击</h2>
+            <div class="post-date">2020-11-23</div>
             
-              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/0707/command1.jpg')">
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/mari0er/picture/master/1515/cs.png')">
               </div>
             
             <div class="post-content">
-              <p>这篇文章主要记录自己在学习中遇到的一些常用的命令</p>
+              <p>  客户应急演练需要用到钓鱼邮件，这里记录一下，备忘！！！</p>
 <!-- more -->
-<h2 id="windows">Windows</h2>
+<h3 id="0x01-制作钓鱼邮件">0x01 制作钓鱼邮件</h3>
+<p>首先找到一个邮件模板，任何内容都可以，最好和目标的工作相关。打开文档，按照如下流程进行操作</p>
 <blockquote>
-<p>tasklist　　　　　　                    //查看当前运行的进程<br>
-net user　　　　                        //查看用户<br>
-systeminfo　　　　                    //查看电脑详细信息<br>
-del + 文件名　　　                 　//删除文件<br>
-lusrmgr.msc　　                        //运行框打开用户配置<br>
-services.msc　                     　   //运行框查看服务<br>
-shutdown -s -f -t 0　　　　        //关机<br>
-ipconfig | find &quot;IPv4&quot;　　　　      //过滤参数<br>
-taskkill /f /im firefox.exe　　　　//关闭电脑某进程<br>
-copy 1.txt/b + 1.png/b 2.png　　//合并1.txt和1.png为2.png<br>
-rundll32.exe user32.dll,LockWorkStation　　//锁屏<br>
-netsh wlan show profiles name=&quot;TaoTao&quot; key=clear　　//查看wifi密码<br>
-for /L %I in (1,1,254) DO @ping -w 1 -n 1 192.168.200.%I | findstr &quot;TTL=&quot; &gt;&gt; result.txt   //利用ICMP扫描200网段的所有机器</p>
+<p>视图---&gt;宏---&gt;查看宏---&gt;创建(注意宏的位置选择当前文件)---&gt;删除源代码---&gt;粘贴CS宏代码---&gt;关闭编辑器---&gt;word文件另存为启用宏的文件(可修改后缀为doc)</p>
 </blockquote>
-<h2 id="linux">Linux</h2>
+<h3 id="0x02-宏免杀">0x02 宏免杀</h3>
+<p>由于CS的宏病毒利用时间久远，各种杀软已经能自动查杀，利用这个工具<a href="https://github.com/outflanknl/EvilClippy">EvilClippy</a>可以进行简单免杀。免杀原理是用一个正常的VB绕过杀软的检测，工具使用需要如下四个文件：EvilClippy.exe、OpenMcdf.dll、带宏病毒的文档以及一个正常的VB空文件<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1515/Evilclippy%20.png" alt="evilclippy" loading="lazy"><br>
+使用方法也很简单，一条命令解决</p>
 <blockquote>
-<p>free -m　　//查看内存使用情况<br>
-df -m　　//查看储存使用情况<br>
-chmod +x *　　//给予当前目录所有文件执行权限<br>
-netstat -nao　　//查看打开的端口<br>
-taskkill /f -pid 1220　　//关闭占用端口的进程</p>
+<p>EvilClippy.exe -s fake.vba -r 流程.docm</p>
 </blockquote>
-<h2 id="web">Web</h2>
+<p><img src="https://raw.githubusercontent.com/mari0er/picture/master/1515/use.png" alt="use" loading="lazy"><br>
+可以看到通过工具生成的文件火绒查杀没报毒，可以达到一定的免杀效果。接下来把文件发送给目标，目标打开文档并<strong>启用宏</strong>则CS可以正常上线。<br>
+<img src="https://raw.githubusercontent.com/mari0er/picture/master/1515/huorong.png" alt="HR" loading="lazy"></p>
+<h3 id="0x03-钓鱼邮件缺点">0x03 钓鱼邮件缺点</h3>
+<p>生成带宏病毒的Word和免杀都很简单，但是宏病毒攻击有一个致命的缺点那就是需要用户手动去点击<strong>启动宏</strong>的按钮，这就需要通过一定的技巧去欺骗用户了<s>反正是我的话，我不会点</s>，由于是应急演练可以提前把word设置成自动运行宏文件即可。</p>
 <blockquote>
-<p>alert(document.lastModified);　　//判断是否为伪静态</p>
-</blockquote>
-<h2 id="mysql">Mysql</h2>
-<blockquote>
-<p>show variables like 'char%';　　//查看数据库编码</p>
-</blockquote>
-<h2 id="kali">Kali</h2>
-<blockquote>
-<p>leafpad /etc/apt/sources.list　　//更换软件源<br>
-sudo apt-get update &amp;&amp; apt-get upgrade -y　　//更新软件包和依赖<br>
-set exitonsession false　　//vps上设置可以回连多个回话<br>
-set enablestageencoding true　　//双端加密<br>
-set stagerverifysslcert false　　//ssl<br>
-set stageencodingfallback false　　//返回加密<br>
-idletime　　//meterpreter查看主机空闲时间<br>
-apt-get clean &amp; apt-get autoremove　　//清理下载的空间</p>
+<p>本文作者： Mari0er<br>
+本文链接： https://mari0er.club/post/cobaltstrike-word.html<br>
+版权声明： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA</a> 许可协议。转载请注明出处！！</p>
 </blockquote>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://mari0er.github.io/tag/ji-lei/" class="tag">
-                    积累
+                  <a href="https://mari0er.github.io/tag/cobaltstrike/" class="tag">
+                    CobaltStrike
                   </a>
                 
-                  <a href="https://mari0er.github.io/tag/command/" class="tag">
-                    command
+                  <a href="https://mari0er.github.io/tag/hong/" class="tag">
+                    宏
                   </a>
                 
               </div>
@@ -174,9 +153,9 @@ apt-get clean &amp; apt-get autoremove　　//清理下载的空间</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://mari0er.github.io/post/badusb.html/">
+                <a href="https://mari0er.github.io/post/CVE-2020-0796.html/">
                   <h3 class="post-title">
-                    简易BadUSB制作和玩法
+                    SMBGhost漏洞复现--CVE-2020-0796
                   </h3>
                 </a>
               </div>
