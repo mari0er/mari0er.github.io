@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Spring4shell--远程命令执行漏洞 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2929/logo.png')">
+            </div>
+          
+          <h2 class="post-title">Spring4shell--远程命令执行漏洞</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-04-05</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/cve-2022-22965/">
+                    CVE-2022-22965
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/spring-core/">
+                    spring-core
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/spring4shell/">
+                    spring4shell
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  这两天爆出一个Spring框架的RCE，据说危害堪比之前的log4j2。客户要求进行简单排查，这里复现记录一下，备忘。</p>
+<!-- more -->
+<h3 id="0x01-环境搭建">0x01 环境搭建</h3>
+<p>在<a href="https://vulfocus.cn/#/dashboard?image_id=1d298835-07c5-468f-a23a-6b8ea38dd32c">vulfocus</a>上有现成的docker靶场环境，直接拉取即可。也可以看看上一篇文章，<a href="https://mari0er.top/post/vulfocus.html/">本地搭建vulfocus环境</a>。</p>
+<pre><code>docker pull vulfocus/spring-core-rce-2022-03-29
+docker run -t -i -p 8080:8080 vulfocus/spring-core-rce-2022-03-29:latest /bin/bash
+bash /app/tomcat/bin/startup.sh
+</code></pre>
+<p>利用漏洞条件比较严格，需要满足以下条件。<strong>该条件也可作为检查判断漏洞是否存在的依据</strong></p>
+<blockquote>
+<p>1.JDK9或更高版本<br>
+2.使用传统的WAR打包方式，并部署在独立的Servlet容器上<br>
+3.使用spring-webmvc 或 spring-webflux依赖<br>
+4.Spring Framework versions 5.3.0 to 5.3.17, 5.2.0 to 5.2.19, and older versions</p>
+</blockquote>
+<h3 id="0x02-漏洞利用">0x02 漏洞利用</h3>
+<p>打开靶场Tomcat服务后访问127.0.0.1:8080，之后利用exp即可。通过返回的URL可以直接执行命令。<br>
+<img src="https://tuchuang.looklook.workers.dev/2929/exp.png" alt="" loading="lazy"></p>
+<h3 id="0x03-漏洞防护">0x03 漏洞防护</h3>
+<p>升级Spring框架至最新版本即可。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/vulfocus.html/">
+              <h3 class="post-title">
+                下一篇：VulFocus靶场搭建
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

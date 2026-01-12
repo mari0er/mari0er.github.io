@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>CobaltStrike钓鱼邮件攻击 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1515/cs.png')">
+            </div>
+          
+          <h2 class="post-title">CobaltStrike钓鱼邮件攻击</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-11-23</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/cobaltstrike/">
+                    CobaltStrike
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/hong/">
+                    宏
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  客户应急演练需要用到钓鱼邮件，这里记录一下，备忘！！！</p>
+<!-- more -->
+<h3 id="0x01-制作钓鱼邮件">0x01 制作钓鱼邮件</h3>
+<p>首先找到一个邮件模板，任何内容都可以，最好和目标的工作相关。打开文档，按照如下流程进行操作</p>
+<blockquote>
+<p>视图---&gt;宏---&gt;查看宏---&gt;创建(注意宏的位置选择当前文件)---&gt;删除源代码---&gt;粘贴CS宏代码---&gt;关闭编辑器---&gt;word文件另存为启用宏的文件(可修改后缀为doc)</p>
+</blockquote>
+<h3 id="0x02-宏免杀">0x02 宏免杀</h3>
+<p>由于CS的宏病毒利用时间久远，各种杀软已经能自动查杀，利用这个工具<a href="https://github.com/outflanknl/EvilClippy">EvilClippy</a>可以进行简单免杀。免杀原理是用一个正常的VB绕过杀软的检测，工具使用需要如下四个文件：EvilClippy.exe、OpenMcdf.dll、带宏病毒的文档以及一个正常的VBA空文件<br>
+<img src="https://tuchuang.looklook.workers.dev/1515/Evilclippy%20.png" alt="evilclippy" loading="lazy"><br>
+使用方法也很简单，一条命令解决</p>
+<blockquote>
+<p>EvilClippy.exe -s fake.vba -r 流程.docm</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/1515/use.png" alt="use" loading="lazy"><br>
+可以看到通过工具生成的文件火绒查杀没报毒，可以达到一定的免杀效果。接下来把文件发送给目标，目标打开文档并<strong>启用宏</strong>则CS可以正常上线。<br>
+<img src="https://tuchuang.looklook.workers.dev/1515/huorong.png" alt="HR" loading="lazy"></p>
+<h3 id="0x03-钓鱼邮件缺点">0x03 钓鱼邮件缺点</h3>
+<p>可以看到生成带宏病毒的Word和免杀都很简单，但是宏病毒攻击有一个致命的缺点那就是需要用户手动去点击<strong>启动宏</strong>的按钮，这就需要通过一定的技巧去欺骗用户了<s>反正是我的话，我不会点</s>，由于是应急演练可以提前把word设置成自动运行宏文件即可。</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/cobaltstrike-word.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/CVE-2020-0796.html/">
+              <h3 class="post-title">
+                下一篇：SMBGhost漏洞复现--CVE-2020-0796
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

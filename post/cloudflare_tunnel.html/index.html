@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Cloudflare tunnel内网穿透 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/9999/logo.png')">
+            </div>
+          
+          <h2 class="post-title">Cloudflare tunnel内网穿透</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-02-15</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/cloudflare/">
+                    cloudflare
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/tunnel/">
+                    tunnel
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/nei-wang-chuan-tou/">
+                    内网穿透
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/sui-dao/">
+                    隧道
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>开发测试时有时需要将内网服务映射到外网，一般都是在VPS上利用Frp进行操作。需要分别进行客户端和服务端配置，有点麻烦。最近发现CF的隧道也能达到相同的效果，配置方便最重要的是省去了VPS，即开即用，记录备忘。</p>
+<!-- more -->
+<h3 id="0x01-准备">0x01 准备</h3>
+<p>进行内网映射前需要提前准备:</p>
+<blockquote>
+<p>一个Cloudflare的账号<br>
+一个可用的域名</p>
+</blockquote>
+<h3 id="0x02-安装cloudflare-tunnel">0x02 安装Cloudflare Tunnel</h3>
+<p><strong>MAC用户</strong></p>
+<blockquote>
+<p>brew install cloudflared</p>
+</blockquote>
+<p><strong>其他用户</strong></p>
+<blockquote>
+<p>根据不同的系统，点击这里进行<a href="https://github.com/cloudflare/cloudflared/releases">下载</a></p>
+</blockquote>
+<h3 id="0x03-cloudflare授权">0x03 Cloudflare授权</h3>
+<p>通过命令行进行授权登录，若不自动弹出浏览器也可将URL手动粘贴至浏览器进行打开。</p>
+<pre><code>cloudflared login
+</code></pre>
+<p><img src="https://tuchuang.looklook.workers.dev/9999/1.png" alt="" loading="lazy"><br>
+登录后会让你针对域名进行授权，授权完毕后本地会保存证书文件，下次可以直接操作无需再次登录。<br>
+<img src="https://tuchuang.looklook.workers.dev/9999/2.png" alt="" loading="lazy"><br>
+<img src="https://tuchuang.looklook.workers.dev/9999/3.png" alt="" loading="lazy"></p>
+<h3 id="0x04-创建隧道并绑定域名">0x04 创建隧道并绑定域名</h3>
+<p>首先需要创建一个隧道，之后将隧道绑定到一个子域名，绑定后可以看到CF上自动添加了一条DNS解析。</p>
+<pre><code class="language-bash">cloudflared tunnel create web1
+
+cloudflared tunnel route dns 4e734e63-a12d-44ca-9bf2-78796cfe2c21 test.mari0er.top
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/9999/4.png" alt="" loading="lazy"></figure>
+<h3 id="0x05-内网映射">0x05 内网映射</h3>
+<p>创建并绑定完隧道后，就可以自定义内网映射的服务了。除了将本机服务进行映射外，内网其他主机的服务同样可以进行映射，这里将内网路由器地址通过域名放到了公网</p>
+<pre><code>cloudflared tunnel --name web1 --url http://192.168.200.1
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/9999/5.png" alt="" loading="lazy"></figure>
+<h3 id="0x06-端口转发">0x06 端口转发</h3>
+<p>有时需要在家远控公司的电脑，此时就需要进行端口转发。比如将公司电脑的3389转发到家里本地的3389端口</p>
+<pre><code class="language-bash">cloudflared tunnel --name web1 --url rpd:127.0.0.1     #公司电脑
+
+cloudflared access rdp --hostname test.mari0er.top --listener 127.0.0.1:3389   #家里电脑
+</code></pre>
+<h3 id="0x07-其他服务">0x07 其他服务</h3>
+<p>除了常见的http协议，类似rdp、ssh、tcp、https同样也可以进行映射和转发</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">协议</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">URL试例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HTTP/S</td>
+<td style="text-align:center">Incoming HTTP requests are proxied directly to your local service.</td>
+<td style="text-align:center">https://localhost:8000</td>
+</tr>
+<tr>
+<td style="text-align:center">HTTP over Unix socket</td>
+<td style="text-align:center">Just like HTTP, but using a Unix socket instead.</td>
+<td style="text-align:center">unix:/home/production/echo.sock</td>
+</tr>
+<tr>
+<td style="text-align:center">HTTPS over Unix socket</td>
+<td style="text-align:center">Just like HTTPS, but using a Unix socket instead.</td>
+<td style="text-align:center">unix+tls:/home/production/echo.sock</td>
+</tr>
+<tr>
+<td style="text-align:center">TCP</td>
+<td style="text-align:center">TCP connections are proxied to your local service.</td>
+<td style="text-align:center">tcp://localhost:2222</td>
+</tr>
+<tr>
+<td style="text-align:center">SSH</td>
+<td style="text-align:center">SSH connections are proxied to your local service.</td>
+<td style="text-align:center">Learn more.	ssh://localhost:22</td>
+</tr>
+<tr>
+<td style="text-align:center">RDP</td>
+<td style="text-align:center">RDP connections are proxied to your local service.Learn more.</td>
+<td style="text-align:center">rdp://localhost:3389</td>
+</tr>
+</tbody>
+</table>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/linux-shell.html/">
+              <h3 class="post-title">
+                下一篇：Linux上线CS和MSF
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>向日葵远控桌面RCE | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2626/logo.png')">
+            </div>
+          
+          <h2 class="post-title">向日葵远控桌面RCE</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-02-16</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/sunlogin/">
+                    Sunlogin
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/rce/">
+                    RCE
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>前几天刷推刷到了一个向日葵的RCE，想到运维好多人都在用这个软件，马上下载看了看。工具用起来很简单，一键利用一把梭。记录备忘。</p>
+<!-- more -->
+<p>0x01 版本和工具<br>
+这里验证成功的版本有两个</p>
+<blockquote>
+<p>影响版本：10.3.0.27372<br>
+影响版本：11.0.0.33162<br>
+利用工具：下载地址点<a href="https://mega.nz/file/V5sgnZCR#Qk18PpmDSQA_XuV6dQze82qYpZmt6wo2JGDs-je5aas">这里</a></p>
+</blockquote>
+<p>0x02 利用方法<br>
+下载上面的源码，根据需要的平台自行编译，不知道咋编译的可以看看<a href="https://mari0er.top/post/golang.html/">这篇文章</a>。<br>
+1.扫描端口：端口可以自定义<br>
+<img src="https://tuchuang.looklook.workers.dev/2626/scan1.png" alt="scan" loading="lazy"></p>
+<p>2.命令执行：<br>
+<img src="https://tuchuang.looklook.workers.dev/2626/rce.png" alt="rce" loading="lazy"></p>
+<p><s><em>也可以直接上线CS，<strong>命令需要先base64编码一下</strong></em></s>，不成功，挖坑待填。</p>
+<blockquote>
+<p>cat powershell.txt | iconv --to-code UTF-16LE | base64</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/golang.html/">
+              <h3 class="post-title">
+                下一篇：Mac安装GO语言环境
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

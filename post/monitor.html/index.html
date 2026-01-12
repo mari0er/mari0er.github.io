@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>网站运行状态监控 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2323/Logo.png')">
+            </div>
+          
+          <h2 class="post-title">网站运行状态监控</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-08-18</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/wang-zhan-jian-kong/">
+                    网站监控
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/monitor/">
+                    monitor
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  最近有一个网站监控的需求，需要在目标网站出现故障时第一时间通过邮件等方式被告知。期间写过小程序，但需要一个24小时在线的服务器作为载体运行它遂放弃。现在发现Github上的一个<a href="https://github.com/qikaile/uptime-status">开源项目</a>通过第三方探测机构的API结合GitHub静态页面的方式对网站进行监控，既美观又能解决服务器的问题。记录一下搭建过程，备忘。</p>
+<!-- more -->
+<h3 id="0x01-注册uptime-robot账号">0x01 注册Uptime Robot账号</h3>
+<p>  Uptime Robot是一个国外的一个网站监控服务，每5分钟检查一次我们需要监控的网站，最多可以免费检查50个站点，免费版本已经完美满足我的需求。首先进行注册，注册完成后点击左上角 <strong>Add New Monitor</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/2323/monitor" alt="new-monitor" loading="lazy"><br>
+可以看到支持Http(s)、关键字、端口、Ping等监控方式，根据需求自行进行选择。我这里需要监控的都是网站域名所以选择Http(s)方式<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/monitor2" alt="monitor-github" loading="lazy"><br>
+这里有Name和URL两项需要自定义，<strong>右边有勾选邮箱通知的选项</strong>，之后直接右下角创建即可。</p>
+<h3 id="0x02-获取api-keys">0x02 获取API Keys</h3>
+<p>  创建完Monitor后点击<strong>My Settings</strong>可以看到获取的API Key分两种，Specific API和Read-Only API。简单理解就是通过页面展示时Specific API针对单一的Monitor，你添加哪个API就展示哪个Monitor的状态，而Read-Only API就是针对整个账号的，你添加的所有Monitor状态都会一起展示出来。建议直接生成一个Read-Only Key，简单方便，之后会用到这个KEY。<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/API" alt="API" loading="lazy"></p>
+<h3 id="0x03-利用github搭建展示页面">0x03 利用Github搭建展示页面</h3>
+<blockquote>
+<p>其实上面勾选了邮箱通知后已经可以满足一部分人的需求了(当网站Down掉时会自动发送邮件提醒)，不过通过网页的形式进行展示能更加直观的反应监控期间网站的运行情况。利用Cloudflare和Github进行搭建可以直接进行&quot;白嫖&quot;，域名和服务器啥都不需要，全网都能访问查看。</p>
+</blockquote>
+<p>首先fork作者的<a href="https://github.com/qikaile/uptime-status">github项目</a>至自己的账号，随后登录CF账号,点击网页进行部署(<strong>下面的Workers后面会用到</strong>)<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/CF.png" alt="CF" loading="lazy"><br>
+绑定自己的Github账号后点击<strong>创建项目</strong>，选择自己刚刚fork的项目，点击<strong>Authorize</strong>进行授权<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/CF2.png" alt="CF2" loading="lazy"><br>
+部署配置这里，项目名称对应相应的域名(<strong>名称.pages.dev</strong>)，根据需要修改为你想要的域名。当然你也可以通过CF绑定自己的域名进行访问（<s>这里就不演示了</s>），之后等待部署完成即可。<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/BS.png" alt="BS" loading="lazy"><br>
+部署完成后通过域名即可进行访问(<s>此时访问的是Github作者的监控页面,很好理解，你没绑定自己的API</s>)<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/done.png" alt="done" loading="lazy"></p>
+<h3 id="0x04-利用cf对api进行代理">0x04 利用CF对API进行代理</h3>
+<blockquote>
+<p>网上反馈存在API跨域问题，具体表现为监控页面一直处于转圈状态刷新不出来，修改/public/config.js文件里的ApiKeys为你之前获取的API Key，访问域名大概率一直转圈。</p>
+</blockquote>
+<p>解决办法也很简单，登录CF，点击主页上Workers--&gt;创建Worker，删除左边的代码，修改为如下的代码。</p>
+<pre><code>const handleRequest = async ({ request }) =&gt; {
+  let url = new URL(request.url);
+  let response = await fetch('https://api.uptimerobot.com' + url.pathname, request);
+  response = new Response(response.body, response);
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', '*');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type,Access-Token');
+  response.headers.set('Access-Control-Expose-Headers', '*');
+  return response;
+}
+
+addEventListener('fetch', (event) =&gt; {
+  event.respondWith(handleRequest(event));
+});
+</code></pre>
+<p>右边可能提示报错，不用管它，记录右边出现的URL链接(<strong>ApiDomain</strong>)，直接<strong>保存并部署</strong>即可。<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/worker.png" alt="worker" loading="lazy"></p>
+<h3 id="0x05-修改config文件">0x05 修改config文件</h3>
+<p>最后还需要修改/public/config.js文件两处参数，这两个参数上面都记录过。之后通过域名就可以看到刚刚添加的Monitor了，以后添加新的Monitor也都会自动出现在当前页面里。<br>
+<img src="https://tuchuang.looklook.workers.dev/2323/KEY.png" alt="config" loading="lazy"></p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/monitor.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/anfu.html/">
+              <h3 class="post-title">
+                下一篇：疑难杂症--安全加固
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

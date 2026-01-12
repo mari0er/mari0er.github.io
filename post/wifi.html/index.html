@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>破解隔壁Wifi--附加增强信号的方法 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0303/1.jpg')">
+            </div>
+          
+          <h2 class="post-title">破解隔壁Wifi--附加增强信号的方法</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-02-21</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/po-jie-wifi/">
+                    破解wifi
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  破解wifi的工具有很多，比如大家熟悉的airmon-ng套件，CDlinux(水滴)，以及利用中间人直接获取密码的fluxion工具等，这些工具有的步骤繁琐，有的安装麻烦(个人认为)。在这里我推荐直接利用kali自带的wifite工具和hashcat来破解wifi，因为wifite工具操作简单几乎全自动化。</p>
+<!-- more -->
+<h2 id="0x01">0x01</h2>
+<p>  首先你需要一张外置网卡，这里推荐网卡神器--RTL8187。插入网卡待Kali识别后，直接输入wifite命令，系统会自动将网卡改为monitor模式并扫描附件wifi热点，等扫描到自己想要破解的wifi后即可按 ctrl+c 停止扫描。可以看到，扫描的信息还是很全的包括SSID、信道、信号强弱、是否开启wps以及是否有客户端在线。如果开启了wps，基本上可以破解出来(除非路由器开启了防pin功能)。接下来就是选择想要破解的wifi编号，这里我选择2，因为相比之下信号比较强并且有客户端在线，便于抓取握手包。</p>
+<pre><code>root@kali:~# wifite
+</code></pre>
+<p><img src="https://tuchuang.looklook.workers.dev/0303/0401.png" alt="" loading="lazy"><br>
+​</p>
+<h2 id="0x02">0x02</h2>
+<p>  在选择目标后，工具会自动发起deauth攻击，强制客户端下线，当下线后的客户端重新连接wifi时，此时就可以抓取握手包。这个过程很快，客户端可能自己都察觉不到。由于我之前抓取过该热点的握手包，工具会直接提醒，你们在抓取时可以看到全过程，这里我选择跳过。最后，抓取的握手包会保存在主目录的hs文件夹下。<br>
+<img src="https://tuchuang.looklook.workers.dev/0303/0402.png" alt="" loading="lazy"><br>
+​</p>
+<h2 id="0x03">0x03</h2>
+<p>  接下来就是跑握手包了，跑包的工具有很多种，比如常用的aircrack-ng、EWSA等，在没有GPU的情况下(我的笔记本独显坏了 伤心-.-)，经过测试发现hashcat的破解速度是比较快的。最新版的Kali自带hashcat工具，没有的话可以直接安装。安装完成后运行hashcat可能会出现识别不了电脑cpu的错误，点击<a href="https://1drv.ms/u/s!Avl1qZqVOurQgh-sprSgzsZvHsFW?e=urfbLn">这里</a>下载驱动，解压后进入文件夹输入 ./install.sh 命令即可进行安装。安装过程比较简单，直接下一步就好。</p>
+<pre><code>root@kali:~# apt-get update $ apt-get upgrade
+root@kali:~# apt-get install hashcat
+root@kali:~/Desktop# cd opencl_runtime_16.1.1_x64_ubuntu_6.4.0.25/
+root@kali:~/Desktop/opencl_runtime_16.1.1_x64_ubuntu_6.4.0.25# ./install.sh
+</code></pre>
+<p>​</p>
+<h2 id="0x04">0x04</h2>
+<p>  安装完驱动后利用hashcat跑包，需要将握手包转换为.hccapx格式。点击<a href="https://hashcat.net/cap2hccapx/">这里</a>进行在线转换，进入网站后点击选择文件按钮上传你抓取的握手包，然后直接点击Convert按钮就可以得到转换后的包。这里简单说一下hashcat的语法，<strong>-m 2500</strong>表明加密方式是wpa/wpa2 　<strong>-D 1</strong>表明利用CPU破解 2表示利用GPU破解，参数big.txt是字典。理论上，只要你的字典足够大，就一定可以跑出密码。如果遇到复杂密码也可以走某宝路线，跑不出来不收钱。</p>
+<pre><code>root@kali:~/hs# hashcat -m 2500 -D 1 14149_1519481620.hccapx big.txt
+</code></pre>
+<p>下面这张图左边是hashcat跑完整个字典的时间，大约是3分30秒，右边是aircrack-ng工具跑完整个字典的时间，大约是6分20秒（测试时我把wifi密码放到了字典的最后），可以看出hashcat节省了大概一半的时间，这对于字典非常大的情况来说节省的时间就非常直观了。<br>
+<img src="https://tuchuang.looklook.workers.dev/0303/0403.jpg" alt="" loading="lazy"><br>
+​</p>
+<h2 id="0x05">0x05</h2>
+<p>  现在，可以愉快的连接wifi上网了，但有时候可能会因为各种原因导致wifi信号非常不稳定，这对于我来说是不能忍受的。于是，Wifi扩展器便派上用场了，这个工具充当中继器的同时也起到了放大信号的作用。下图是我淘的360wifi扩展器，比较小巧，便于摆放，同时最重要的一点是它可以自定义扩展器的wifi名称并隐藏，不会引起怀疑。具体设置方法可以参考说明书，设置好后，可以利用充电宝将扩展器放到wifi信号相对强的地方以达到最好的效果。有了这个东西，感觉就像家里装了一个路由器一样，简直不能太好用！！<br>
+<img src="https://tuchuang.looklook.workers.dev/0303/0404.jpg" alt="" loading="lazy"></p>
+<h2 id="0x06">0x06</h2>
+<p>蹭网的感觉虽然很爽，但是会影响网络主人的体验。那如何防止被蹭网呢？</p>
+<ol>
+<li>可以设置一个带标点和特殊符号的密码，这样被破解的概率可以大大降低</li>
+<li>可以隐藏Wifi的名称，通过手机的添加网络功能连接自己的Wifi</li>
+<li>实在不行还可以绑定Mac地址，不信还能被蹭网！！</li>
+</ol>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/wifi.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/fishing.html/">
+              <h3 class="post-title">
+                下一篇：绕过360进行Word文档钓鱼
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

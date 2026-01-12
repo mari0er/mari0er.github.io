@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://mari0er.top</id>
+    <title>Mari0er&apos;s Blog</title>
+    <updated>2026-01-12T08:16:09.200Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://mari0er.top"/>
+    <link rel="self" href="https://mari0er.top/atom.xml"/>
+    <logo>https://mari0er.top/images/avatar.png</logo>
+    <icon>https://mari0er.top/favicon.ico</icon>
+    <rights>All rights reserved 2026, Mari0er&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[再谈邮件钓鱼]]></title>
+        <id>https://mari0er.top/post/how_to_fish.html/</id>
+        <link href="https://mari0er.top/post/how_to_fish.html/">
+        </link>
+        <updated>2023-12-01T07:54:16.000Z</updated>
+        <summary type="html"><![CDATA[<p>这次不讲操作只讨论思路，准确来说是讨论针对企业内网的邮件钓鱼。内网环境里常规的伪造邮件不可行，只能通过其他方法进行操作，思路不一定是以远控主机为目的，重要的是以企业的演练目的为准，跳出常规的&quot;红蓝队&quot;思路。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>这次不讲操作只讨论思路，准确来说是讨论针对企业内网的邮件钓鱼。内网环境里常规的伪造邮件不可行，只能通过其他方法进行操作，思路不一定是以远控主机为目的，重要的是以企业的演练目的为准，跳出常规的&quot;红蓝队&quot;思路。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[钓鱼邮件之从入门到"入狱"]]></title>
+        <id>https://mari0er.top/post/gofish.html/</id>
+        <link href="https://mari0er.top/post/gofish.html/">
+        </link>
+        <updated>2023-03-15T06:31:01.000Z</updated>
+        <summary type="html"><![CDATA[<p>参加过多次护网，每次溯源都会遇到各种类型的钓鱼邮件。于是想着自己也从头搭建一遍，熟悉一下流程。同时客户有演练的需求也方便快速部署，记录备忘。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>参加过多次护网，每次溯源都会遇到各种类型的钓鱼邮件。于是想着自己也从头搭建一遍，熟悉一下流程。同时客户有演练的需求也方便快速部署，记录备忘。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cloudflare tunnel内网穿透]]></title>
+        <id>https://mari0er.top/post/cloudflare_tunnel.html/</id>
+        <link href="https://mari0er.top/post/cloudflare_tunnel.html/">
+        </link>
+        <updated>2023-02-15T02:58:29.000Z</updated>
+        <summary type="html"><![CDATA[<p>开发测试时有时需要将内网服务映射到外网，一般都是在VPS上利用Frp进行操作。需要分别进行客户端和服务端配置，有点麻烦。最近发现CF的隧道也能达到相同的效果，配置方便最重要的是省去了VPS，即开即用，记录备忘。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>开发测试时有时需要将内网服务映射到外网，一般都是在VPS上利用Frp进行操作。需要分别进行客户端和服务端配置，有点麻烦。最近发现CF的隧道也能达到相同的效果，配置方便最重要的是省去了VPS，即开即用，记录备忘。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux上线CS和MSF]]></title>
+        <id>https://mari0er.top/post/linux-shell.html/</id>
+        <link href="https://mari0er.top/post/linux-shell.html/">
+        </link>
+        <updated>2022-11-11T08:23:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>渗透过程中遇到Windows环境比较多，习惯了上线CS和MSF进行操作。打靶场的时候拿到Linux权限后有点蒙，不知掉咋上线和添加代理了。这里记录一下常用的上线方式。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>渗透过程中遇到Windows环境比较多，习惯了上线CS和MSF进行操作。打靶场的时候拿到Linux权限后有点蒙，不知掉咋上线和添加代理了。这里记录一下常用的上线方式。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker常用命令]]></title>
+        <id>https://mari0er.top/post/docker.html/</id>
+        <link href="https://mari0er.top/post/docker.html/">
+        </link>
+        <updated>2022-08-23T01:55:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>用的不多，容易忘记，记录一下，随时查询。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>用的不多，容易忘记，记录一下，随时查询。</p>
+]]></content>
+    </entry>
+</feed>

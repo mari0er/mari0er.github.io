@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>钓鱼邮件之从入门到&#34;入狱&#34; | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/8888/logo.png')">
+            </div>
+          
+          <h2 class="post-title">钓鱼邮件之从入门到&#34;入狱&#34;</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-03-15</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/fish/">
+                    fish
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/you-jian/">
+                    邮件
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/diao-yu/">
+                    钓鱼
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>参加过多次护网，每次溯源都会遇到各种类型的钓鱼邮件。于是想着自己也从头搭建一遍，熟悉一下流程。同时客户有演练的需求也方便快速部署，记录备忘。</p>
+<!-- more -->
+<h3 id="0x01-认识钓鱼邮件">0x01 认识钓鱼邮件</h3>
+<p>钓鱼邮件的最终目的是通过欺骗和诱骗接收者来获取敏感信息或执行某些操作。攻击者通常会伪造一封看起来像来自可信来源（如公司管理员、求职者、邮件服务商等）的电子邮件，试图诱骗接收者点击链接、下载附件、安装程序、输入账户密码等，以便攻击者能够获取他们的敏感信息或控制权。</p>
+<p>常见的钓鱼方式如下(<strong>针对攻击手法</strong>)</p>
+<ol>
+<li>附件为exe后缀的恶意文件，通过替换图标或文件名添加空格伪装成 PDF、Word等</li>
+<li>附件为加密PDF和解密exe程序，exe程序实际为恶意程序</li>
+<li>构造改密码的钓鱼网页，获取用户输入的信息</li>
+<li>构造恶意文件PDF、Word，盗取用户浏览器cookie</li>
+<li>......</li>
+</ol>
+<p>有了以上的攻击手法，还需要有效地引诱用户进行操作(<strong>针对邮件内容</strong>)</p>
+<ol>
+<li>伪装求职者求职，附件发送简历</li>
+<li>伪造公司邮件服务器升级，提醒用户重新进行验证</li>
+<li>以谈业务为由，邀请客户加入QQ群聊(群员串通好进行欺骗)</li>
+<li>.......</li>
+</ol>
+<p>对钓鱼邮件有了大致的了解，接下来开始一步步尝试。</p>
+<h3 id="0x02-开始搭建">0x02 开始搭建</h3>
+<p>为了便于统计数据这里采用Gophish加上自建邮箱的方案进行。自建邮箱能保证邮件不被丢入垃圾邮箱，Gophish则能很好的展示钓鱼邮件的细节，包括何人何时点击了链接以及提交的数据。</p>
+<h4 id="一-自建邮箱">一. 自建邮箱</h4>
+<h5 id="1-postfix">1. Postfix</h5>
+<p>自建邮箱有很多方案，实际上就是搭建一个smtp服务。最简单的是利用Postfix发邮件。服务器一键安装后选择<strong>Internet Site</strong>，接着输入自定义的仿冒域名即可进行邮件发送。此时，邮箱为<strong>linux用户名</strong>@<strong>自定义域名</strong></p>
+<pre><code class="language-bash">apt install postfix
+</code></pre>
+<p><img src="https://tuchuang.looklook.workers.dev/8888/second.png" alt="" loading="lazy"><br>
+但是缺点也很明显，可以看到会被大多数邮件服务商纳入垃圾邮件中，有的甚至直接不接受邮件。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/1.png" alt="" loading="lazy"></p>
+<h5 id="2-zoho邮箱">2. Zoho邮箱</h5>
+<p>最好的方法是采用自定义域名的第三方邮箱，这样的好处是不会被各个邮件服务商纳入垃圾邮箱同时也省去了自建SMTP服务的麻烦，注册后直接利用Zoho官方的邮件服务器进行发送。注册Zoho邮箱时需要提前购买一个和目标类似的域名，增加迷惑性。具体搭建方法可以参考<a href="https://mega.nz/file/o4l2hSrS#pqLz4ltPCUt8Cm-MjhY8aEiTM7RXv4J7PEfQR_nmM5U">这个</a>，按流程添加几个TXT、MX解析记录后即可完成搭建。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/2.png" alt="" loading="lazy"></p>
+<h4 id="二-gophish平台搭建">二. Gophish平台搭建</h4>
+<p>注意：Gophish不是钓鱼邮件流程中的必要环节，主要是为了方便统计数据(演练后方便写报告进行汇报)。<br>
+Gophish可运行在Windows、Linux、MacOS等主流操作系统上，这里以Linux为例进行搭建。</p>
+<ol>
+<li>准备一台服务器(推荐Ubuntu 22.04.2 LTS)，下载<a href="https://github.com/gophish/gophish/releases">程序源码</a></li>
+<li>解压后编辑config.json文件，修改listen_url为0.0.0.0，给权限后管理员运行./gophish<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/server.png" alt="" loading="lazy"></li>
+<li>浏览器打开服务器的3333端口，第一次登录后需强制修改密码，初始密码打印在程序运行后的日志中<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/change.png" alt="" loading="lazy"></li>
+<li>登录后有如下模块和页面<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/mode.png" alt="" loading="lazy"></li>
+</ol>
+<h4 id="三-模块详解">三. 模块详解</h4>
+<ol>
+<li>配置发送者邮箱<br>
+这里以内网自建SMTP为例，若使用Zoho邮件需要进设置打开SMTP。之后将账户配置到平台上<strong>Sending Profiles</strong>即可进行邮件发送。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/6.png" alt="" loading="lazy"></li>
+<li>配置钓鱼页面<br>
+作用：通过邮件内超链接将用户跳转至构造的钓鱼页面，通过平台统计链接打开的次数同时抓取用户提交的数据。<br>
+导入方式有两种，第一种是点击Import Site克隆网站，需要服务器能访问到相应页面。第二种是通过html源码进行编辑，编辑之后建议通过预览按钮进行细微的修改，比如字体样式和中文乱码的问题。抓取用户提交的数据时注意勾选相应的复选框，同时可以自定义用户提交后跳转的页面。<br>
+<strong>建议：通过查看正常修改密码或其他操作页面的源码进行编辑，这样更具有迷惑性</strong>。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/diao.png" alt="" loading="lazy"></li>
+<li>编写邮件内容<br>
+寻找合适主题和内容进行编写，建议先通过两个邮箱进行测试，将邮件导出为eml文件，之后文本打开将源码导入即可。用户跳转的钓鱼页面实际上为服务器的80端口,若需要自定义域名建议购买相似域名进行DNS解析，此时需要公网服务器进行搭建。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/8.png" alt="" loading="lazy"><br>
+<img src="https://tuchuang.looklook.workers.dev/8888/9.png" alt="" loading="lazy"></li>
+<li>添加钓鱼目标邮箱<br>
+添加目标邮箱地址，可通过CSV批量导入，也可以单独添加进行测试。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/10.png" alt="" loading="lazy"></li>
+<li>创建钓鱼邮件事件<br>
+通过选择之前创建的项目发起钓鱼事件，可相应扩大时间段分批分量慢慢发送，避免引起怀疑。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/11.png" alt="" loading="lazy"></li>
+<li>通过首页统计数据<br>
+通过仪表盘可具体到某用户打开邮件和点击链接的时间，以及用户提交的数据，可视化展示，方便查看。<br>
+<img src="https://tuchuang.looklook.workers.dev/8888/12.png" alt="" loading="lazy"><br>
+<img src="https://tuchuang.looklook.workers.dev/8888/13.png" alt="" loading="lazy"></li>
+</ol>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/cloudflare_tunnel.html/">
+              <h3 class="post-title">
+                下一篇：Cloudflare tunnel内网穿透
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

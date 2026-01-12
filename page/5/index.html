@@ -1,0 +1,444 @@
+
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/netcat.html/">
+        <h2 class="post-title">Netcat使用总结</h2>
+      </a>
+      <div class="post-abstract">
+        <p>想用NC反弹shell时突然忘了语法，这里简单记录一下，备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-03-10</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/netcat/">
+                netcat
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/nc/">
+                nc
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/netcat.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1010/reverse.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/nmap.html/">
+        <h2 class="post-title">固定IP段之端口扫描</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  每次去客户那里都要求进行端口扫描，回来后发现扫描记录不好找，所以现在最好养成良好的扫描习惯，这里简单记录一下。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-09-23</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/nmap/">
+                nmap
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/nmap.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0102/1.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/cmd.html/">
+        <h2 class="post-title">两条命令给终端配置代理</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  电脑开了SS但是终端用不了，有时候想git东西比较缓慢,现在有了一个好的解决办法。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-08-30</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/ss/">
+                SS
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/cmder/">
+                Cmder
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/dai-li/">
+                代理
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/cmd.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0102/proxy1.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/procdump.html/">
+        <h2 class="post-title">简单两步抓取Windwos明文密码</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  前几天渗透拿到了Webshell，在抓取管理员密码进行远程桌面时遇到了问题，这里记录一下。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-08-28</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/procdump/">
+                procdump
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/mi-ma/">
+                密码
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/procdump.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0102/logo.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/kms.html/">
+        <h2 class="post-title">自建KMS服务器</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  每次重装完系统都要去找激活的工具或者密钥，可最终不是报毒就是无效，心累！偶然看到网上自建KMS服务器的<a href="https://laod.cn/black-technology/kms-centos-vlmcsd.html">文章</a>，跟着尝试，成功激活Windwos，这里简单总结一下。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-11-16</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/kms/">
+                kms
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/windows-ji-huo/">
+                windows激活
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/kms.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0909/kms.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/sublime.html/">
+        <h2 class="post-title">编辑利器--Sublime Text3</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  俗话说工欲善其事必先利其器，这里记录一下使用Sublime Text3的一些插件和遇到的问题</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-10-13</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/sublime-text3/">
+                sublime text3
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/sublime.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0909/sublime.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/bettercap.html/">
+        <h2 class="post-title">局域网嗅探利器--Bettercap</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  Bettercap是一款局域网内的中间人工具，目前该工具更新到了2.9版本<a href="https://github.com/bettercap/bettercap">(github地址)</a>，编写代码由ruby语言改成了go语言，更新后的界面和操作方式类似msf，相比ruby版本，go语言版操作更加方便功能也更加强大。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-09-29</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/zhong-jian-ren/">
+                中间人
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/bettercap/">
+                bettercap
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/mitm/">
+                MITM
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/bettercap.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0808/bettercap.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/command.html/">
+        <h2 class="post-title">常用命令积累</h2>
+      </a>
+      <div class="post-abstract">
+        <p>这篇文章主要记录自己在学习中遇到的一些常用的命令</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-08-13</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/ji-lei/">
+                积累
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/command/">
+                command
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/command.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0707/command1.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+    <a href="https://mari0er.top/page/4/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+    <a href="https://mari0er.top/page/6/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  
+</div>
+
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

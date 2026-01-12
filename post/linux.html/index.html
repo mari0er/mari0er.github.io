@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Linux---安服加固和应急检查 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1818/linux1.jpg')">
+            </div>
+          
+          <h2 class="post-title">Linux---安服加固和应急检查</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-04-18</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/linux/">
+                    linux
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/ying-ji-xiang-ying/">
+                    应急响应
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/an-quan-jia-gu/">
+                    安全加固
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>Windows的加固步骤比较熟，Linux的加固命令不太熟，记录一下，工作备忘。<br>
+<strong>再次声明：不同系统、相同系统的不同版本之间命令存在差别。</strong></p>
+<!-- more -->
+<h2 id="0x01-linux-安全加固">0x01 Linux-安全加固</h2>
+<h3 id="1-查看系统版本">1. 查看系统版本</h3>
+<p>内核版本：  cat  /proc/version<br>
+其他linux：  lsb_release -a<br>
+CentOS：    cat /etc/redhat-release<br>
+SuSE： cat /etc/SuSE-release</p>
+<h3 id="2-查看空口令账户">2. 查看空口令账户</h3>
+<p>查看空口令用户： awk -F: '($2==&quot;&quot;)' /etc/shadow<br>
+显示所有用户名：  cat /etc/passwd | cut -f 1 -d :</p>
+<h3 id="3-查看密码策略">3. 查看密码策略</h3>
+<p>密码文件： cat /etc/login.defs<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/pass.png" alt="pass" loading="lazy"></p>
+<p>MAX_DAY  180    密码可用的最长时间<br>
+MIN_DAY     10      修改密码最短间隔天数<br>
+MIN_LEN      8        密码最小长度<br>
+WARE_AGE   21      密码过期前警告天数<br>
+<strong>注意：这个地方只对新加的账号有效，对已存在的账号需要用chage命令自己修改</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/1818/root-pass.png" alt="root-pas" loading="lazy"></p>
+<p>chage -l root  list 列出用户的详细密码状态<br>
+chage -M 180 root 天数	Maxdays 密码有效期<br>
+chage -m 10 root 天数	mindays 修改两次密码修改间隔时间<br>
+chage -W 21 root 天数	warning 密码过期前警告天数<br>
+chage -d 2021-11-11 root 日期	date 修改密码最后一次更改日期</p>
+<h3 id="4查看密码复杂度">4.查看密码复杂度</h3>
+<p>cat /etc/pam.d/system-auth<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/fuza.png" alt="fuza" loading="lazy"><br>
+minlen=8(密码最小长度) ucredit=-1（至少包含一个大写字母） lcredit=-1（至少包含一个小写字母<br>
+dcredit=-1（至少包含一个数字） ocredit=-1（至少包含一个其他字符）<br>
+<strong>注意：针对改密码时生效，若之前账户存在弱口令，弱口令仍存在</strong></p>
+<h3 id="5登录失败策略">5.登录失败策略</h3>
+<p>cat  /etc/pam.d/sshd<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/login-fail.png" alt="login-fail" loading="lazy"><br>
+<strong>注释： 连续输错密码3次，锁定账户5分钟。</strong></p>
+<h3 id="6-修改unask值">6. 修改unask值</h3>
+<p><img src="https://tuchuang.looklook.workers.dev/1818/unask.png" alt="umask" loading="lazy"><br>
+系统默认的umask值是0022；对于普通用户，系统默认的umask值是0002<br>
+<strong>注意：umask命令只能临时修改权限，永久修改umask数值请修改/etc/bashrc文件，添加一行 umask 027，此时你创建的文件是750权限，表示文件所有者读写和运行，组成员读和执行权限，其他成员无权限。</strong></p>
+<h3 id="7-接入日志服务器">7. 接入日志服务器</h3>
+<p>vim  /etc/rsyslog.conf<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/log.png" alt="log" loading="lazy"><br>
+<strong>注释：设置成日志服务器的地址即可。有的系统是syslog.conf，有的系统不加514端口</strong></p>
+<h3 id="8-设置登录超时">8. 设置登录超时</h3>
+<p>vim /etc/profile<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/TMOUT.png" alt="TMOUT" loading="lazy"><br>
+<strong>注释：添加TMOUT=180 表示3分钟闲置超时，在工作站工作人员需要时刻观察参数,不做此加固项</strong></p>
+<h3 id="9-登录地址限制">9. 登录地址限制</h3>
+<p>修改vim /etc/hosts.allow文件，加入堡垒机和管理员的IP地址<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/allow.png" alt="allow" loading="lazy"><br>
+修改vim /etc/hosts.deny文件，添加拒绝所有<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/deny.png" alt="deny" loading="lazy"></p>
+<h3 id="10-关闭ftp匿名服务">10. 关闭FTP匿名服务</h3>
+<p>vim /etc/vsftpd.conf<br>
+anonymous_enable=NO</p>
+<h2 id="0x02-linux-应急检查">0x02 Linux-应急检查</h2>
+<h3 id="1-检查用户登录情况">1. 检查用户登录情况</h3>
+<p>who        查看当前登录用户（tty本地登陆  pts远程登录）<br>
+last         查看登录过的用户和登录的时间<br>
+lastlog     查看所有用户上次登录的时间<br>
+uptime   查看登陆多久、多少用户，负载</p>
+<h3 id="2-查看有无其他特权账号">2. 查看有无其他特权账号</h3>
+<p>awk -F: '$3==0{print $1}' /etc/passwd<br>
+<strong>一般情况下，默认root为特权账号，防止其他用户例如数据库等账号被恶意提权</strong></p>
+<h3 id="3-查看历史命令记录">3. 查看历史命令记录</h3>
+<p><img src="https://tuchuang.looklook.workers.dev/1818/history.png" alt="history" loading="lazy"><br>
+<strong>通过历史命令可以判断是否是人为恶意入侵事件,不同用户的历史记录存在在/home/user/目录下</strong></p>
+<h3 id="4-查看异常端口">4. 查看异常端口</h3>
+<p>netstat -antlp | more<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/netstat.png" alt="netstat" loading="lazy"></p>
+<h3 id="5-检查异常进程">5. 检查异常进程</h3>
+<p>ps aux</p>
+<h3 id="6-检查定时任务">6. 检查定时任务</h3>
+<p>crontab -u root -l<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/crontab.png" alt="corntab" loading="lazy"><br>
+<strong>通过-u指定不同的用户名，重点关注数据库等用户</strong></p>
+<h3 id="6-检查异常文件">6. 检查异常文件</h3>
+<p>查看敏感目录，如/tmp、/opt等目录下的文件，特别注意带隐藏属性的文件，必要时使用stat查看文件修改时间。<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/stat.png" alt="stat" loading="lazy"><br>
+若在WEB目录下发现可疑文件可以将WEB目录备份下来利用D盾或其他在线Webshell查杀工具进行查杀--https://n.shellpub.com</p>
+<h3 id="7-查看登录成功失败的ip">7. 查看登录成功失败的IP</h3>
+<p>查看登陆成功的用户的日期、用户名和IP<br>
+grep &quot;Accepted&quot; /var/log/secure | awk '{print $1,$2,$3,$9,$11}'<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/secced.png" alt="secced" loading="lazy"></p>
+<p>查看登陆失败的用户IP信息<br>
+grep &quot;Failed password&quot; /var/log/secure|grep -E -o &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)&quot;|uniq -c<br>
+<img src="https://tuchuang.looklook.workers.dev/1818/faild.png" alt="faild" loading="lazy"></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/cobaltstrike.html/">
+              <h3 class="post-title">
+                下一篇：Cobalt Strike利用CDN隐藏IP
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

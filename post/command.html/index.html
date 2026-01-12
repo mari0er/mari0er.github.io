@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>常用命令积累 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0707/command1.jpg')">
+            </div>
+          
+          <h2 class="post-title">常用命令积累</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-08-13</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/ji-lei/">
+                    积累
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/command/">
+                    command
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>这篇文章主要记录自己在学习中遇到的一些常用的命令</p>
+<!-- more -->
+<h2 id="windows">Windows</h2>
+<blockquote>
+<p>tasklist　　　　　　                    //查看当前运行的进程<br>
+net user　　　　                        //查看用户<br>
+systeminfo　　　　                    //查看电脑详细信息<br>
+del + 文件名　　　                 　//删除文件<br>
+lusrmgr.msc　　                        //运行框打开用户配置<br>
+services.msc　                     　   //运行框查看服务<br>
+shutdown -s -f -t 0　　　　        //关机<br>
+ipconfig | find &quot;IPv4&quot;　　　　      //过滤参数<br>
+taskkill /f /im firefox.exe　　　　//关闭电脑某进程<br>
+copy 1.txt/b + 1.png/b 2.png　　//合并1.txt和1.png为2.png<br>
+rundll32.exe user32.dll,LockWorkStation　　//锁屏<br>
+netsh wlan show profiles name=&quot;TaoTao&quot; key=clear　　//查看wifi密码<br>
+for /L %I in (1,1,254) DO @ping -w 1 -n 1 192.168.200.%I | findstr &quot;TTL=&quot; &gt;&gt; result.txt   //利用ICMP扫描200网段的所有机器</p>
+</blockquote>
+<h2 id="linux">Linux</h2>
+<blockquote>
+<p>free -m　　//查看内存使用情况<br>
+df -m　　//查看储存使用情况<br>
+chmod +x *　　//给予当前目录所有文件执行权限<br>
+netstat -nao　　//查看打开的端口<br>
+taskkill /f -pid 1220　　//关闭占用端口的进程<br>
+find / -name redis*　　//通过文件名查找目录</p>
+</blockquote>
+<h2 id="web">Web</h2>
+<blockquote>
+<p>alert(document.lastModified);　　//判断是否为伪静态</p>
+</blockquote>
+<h2 id="mysql">Mysql</h2>
+<blockquote>
+<p>show variables like 'char%';　　//查看数据库编码</p>
+</blockquote>
+<h2 id="kali">Kali</h2>
+<blockquote>
+<p>leafpad /etc/apt/sources.list　　//更换软件源<br>
+sudo apt-get update &amp;&amp; apt-get upgrade -y　　//更新软件包和依赖<br>
+set exitonsession false　　//vps上设置可以回连多个回话<br>
+set enablestageencoding true　　//双端加密<br>
+set stagerverifysslcert false　　//ssl<br>
+set stageencodingfallback false　　//返回加密<br>
+idletime　　//meterpreter查看主机空闲时间<br>
+apt-get clean &amp; apt-get autoremove　　//清理下载的空间</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/badusb.html/">
+              <h3 class="post-title">
+                下一篇：简易BadUSB制作和玩法
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

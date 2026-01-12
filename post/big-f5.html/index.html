@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>BIG-F5漏洞环境搭建 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/4444/logo.jpg')">
+            </div>
+          
+          <h2 class="post-title">BIG-F5漏洞环境搭建</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-07-18</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/big-f5/">
+                    BIG-F5
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/f5/">
+                    F5
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/cve-2022-1388/">
+                    CVE-2022-1388
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>鉴于爆出的F5漏洞，苦于网上没有现成的Docker环境，于是自己搭建一遍。搭建好了之后，也便于安服复现啥的，搭建过程其实很简单，记录备忘。</p>
+<!-- more -->
+<h3 id="0x01-下载ova文件">0x01 下载OVA文件</h3>
+<ol>
+<li>首先去官网注册一个账号，<a href="https://login.f5.com/resource/registerEmail.jsp">点击这里</a></li>
+<li>之后选择试用版，根据自己需要的版本进行下载<br>
+<img src="https://tuchuang.looklook.workers.dev/4444/edition.png" alt="" loading="lazy"></li>
+</ol>
+<h3 id="0x02-利用vmware打开">0x02 利用VMware打开</h3>
+<p>下载完成后直接利用VMware打开即可，默认会有很多网口，不用管。待安装完成后<strong>终端页面</strong>会提示你输入账号密码，默认账号密码为<strong>root/default</strong>，之后会强制你进行默认密码的修改。</p>
+<p>修改完成后，此时通过浏览器可以直接打开登录页面，默认账号密码为<strong>admin/admin</strong>，登录后同样会强制你进行密码修改。<br>
+<img src="https://tuchuang.looklook.workers.dev/4444/login.png" alt="" loading="lazy"></p>
+<h3 id="0x03-激活big-f5">0x03 激活BIG-F5</h3>
+<p>注册后官方会发送一个激活码到你的邮箱，登录WEB页面后可根据提示进行激活。<br>
+<s>我这里提示网络错误，无法进行激活。待成功激活后补...</s></p>
+<h3 id="0x04-漏洞利用">0x04 漏洞利用</h3>
+<p>拿之前的CVE-2022-1388漏洞举例，搭建的版本为15.1.4。<br>
+<strong>影响范围</strong></p>
+<blockquote>
+<p>11.6.1 - 11.6.5<br>
+12.1.0 - 12.1.6<br>
+13.1.0 - 13.1.4<br>
+14.1.0 - 14.1.4<br>
+15.1.0 - 15.1.5<br>
+16.1.0 - 16.1.2</p>
+</blockquote>
+<p><strong>EXP</strong>：<a href="https://github.com/horizon3ai/CVE-2022-1388">点这里</a><br>
+<img src="https://tuchuang.looklook.workers.dev/4444/POC.png" alt="" loading="lazy"></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/scanner.html/">
+              <h3 class="post-title">
+                下一篇：Nessus+AWVS---Docker破解版安装
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

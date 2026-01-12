@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>编辑利器--Sublime Text3 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0909/sublime.jpg')">
+            </div>
+          
+          <h2 class="post-title">编辑利器--Sublime Text3</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-10-13</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/sublime-text3/">
+                    sublime text3
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  俗话说工欲善其事必先利其器，这里记录一下使用Sublime Text3的一些插件和遇到的问题</p>
+<!--more-->
+<h3 id="0x01-安装package-control">0x01 安装Package Control</h3>
+<p>  下载安装好Sublime后，按住 Ctrl+` 会打开console，接着输入以下代码即可</p>
+<pre><code>import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
+</code></pre>
+<h3 id="0x02-自用插件推荐">0x02 自用插件推荐</h3>
+<h4 id="1file-header">1.File Header</h4>
+<p>安装后每次新建PY文件时就可以自动生成文件头，如需自定义文件头请修改C:\Users\***\AppData\Roaming\Sublime Text 3\Packages\FileHeader\template\header文件夹下的python.tmpl文件</p>
+<h4 id="2anaconda">2.Anaconda</h4>
+<p>写代码没有提示功能我不能忍，有了这个插件就可以自动补全了，提高写代码的效率。解决白框问题：选择Settings-Default选项，搜寻“anaconda_linting” 改为false即可</p>
+<h4 id="3side-bar">3.Side Bar</h4>
+<p>安装后，左边管理文件和文件夹会很方便</p>
+<h3 id="0x03-遇到的问题及解决办法">0x03 遇到的问题及解决办法</h3>
+<h4 id="1无法输入input数据">1.无法输入input数据</h4>
+<p>虽然Sublime运行python程序很方便，但是不能直接 Ctrl+B 对input()函数进行输入，可以安装SublimeREPL插件，利用这个插件可以在交互式的环境下进行赋值和输入，<strong>数据一定要加引号</strong></p>
+<h4 id="2python2和python3并存的情况下anaconda报错">2.Python2和Python3并存的情况下，anaconda报错</h4>
+<p>选择Settings-Default选项，搜寻“python_interpreter”，修改为你的Python安装路径</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/bettercap.html/">
+              <h3 class="post-title">
+                下一篇：局域网嗅探利器--Bettercap
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Parallels Desktop安装Kali-2021 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2121/logo.png')">
+            </div>
+          
+          <h2 class="post-title">Parallels Desktop安装Kali-2021</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-07-05</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/parallels-desktop/">
+                    Parallels Desktop
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/xu-ni-ji/">
+                    虚拟机
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/ejBSamRum/">
+                    kali
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>PD16安装最新的Kali提示认不出系统型号，安装PT-tools时也一直出错，成功解决了问题，记录一下备忘。</p>
+<!-- more -->
+<p><strong>-----------2021-10-09更新------------</strong><br>
+<s><em>用一段时间失效了，垃圾PD...</em></s></p>
+<h3 id="0x01-创建虚拟机并安装">0x01 创建虚拟机并安装</h3>
+<p>首先创建一个虚拟机，先不指定源，系统类型选择Kali linux，具体配置根据自己的需求进行配置<br>
+<img src="https://tuchuang.looklook.workers.dev/2121/new-kali.png" alt="new" loading="lazy"></p>
+<p>接下来在&quot;硬件&quot;--&quot;CD/DVD&quot;里把&quot;源&quot;指向你下载好的Kali镜像，之后开机就可以顺利进行安装，安装流程和之前虚拟机安装一样<br>
+<img src="https://tuchuang.looklook.workers.dev/2121/cd.png" alt="CD" loading="lazy"></p>
+<h3 id="0x02-安装pt-tools">0x02 安装PT-Tools</h3>
+<h4 id="1-解决deb问题">1. 解决deb问题</h4>
+<p>点击右上角挂载PT-Tools，直接根据提示解压到桌面进行安装。不出意外应该会提示安装出错<br>
+<img src="https://tuchuang.looklook.workers.dev/2121/error.png" alt="error" loading="lazy"></p>
+<p>根据报错信息去<a href="http://old.kali.org/kali/pool/main/l/linux/">kali.org</a>下载所对应的deb文件<br>
+<img src="https://tuchuang.looklook.workers.dev/2121/head.png" alt="head" loading="lazy"></p>
+<p>之后在kali里直接进行安装，</p>
+<blockquote>
+<p>apt install gdebi -y 先安装deb包安装工具<br>
+gdebi common.deb  输入y进行安装<br>
+gdebi headers.deb  输入y进行安装</p>
+</blockquote>
+<h4 id="2-解决编译报错问题">2. 解决编译报错问题</h4>
+<p>本以为接下来可以顺利一键安装，结果还是出现了问题。根据安装日志提示可以看到有个两个函数出现问题，<br>
+<img src="https://tuchuang.looklook.workers.dev/2121/error1.png" alt="error1" loading="lazy"><br>
+遂去Google了一番，找到了如下解决方法，先进入kmods目录解压prl_mod文件</p>
+<blockquote>
+<p>cd kmods<br>
+tar -zxvf prl_mod.tar.gz<br>
+rm prl_mod.tar.gz</p>
+</blockquote>
+<p>修改prl_fs/SharedFolders/Guest/Linux/prl_fs/inode.c文件，在最上面加上下面这两行：</p>
+<blockquote>
+<p>#define segment_eq(a, b) (b)<br>
+#define USER_DS 1</p>
+</blockquote>
+<p>修改prl_fs_freeze/Snapshot/Guest/Linux/prl_freeze/prl_fs_freeze.c文件，在最上面加上下面这行：</p>
+<blockquote>
+<p>#include &lt;linux/blkdev.h&gt;</p>
+</blockquote>
+<p>之后重新打包回去</p>
+<blockquote>
+<p>tar -zcvf prl_mod.tar.gz . dkms.conf Makefile.kmods</p>
+</blockquote>
+<h3 id="3-安装">3. 安装</h3>
+<p>接下来直接一键安装，根据提示重启，不出意外就可以直接拖拽文件了。</p>
+<blockquote>
+<p>./install</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/2121/secced.png" alt="secced" loading="lazy"></figure>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/movies.html/">
+              <h3 class="post-title">
+                下一篇：番外--4K影视下载
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

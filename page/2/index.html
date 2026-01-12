@@ -1,0 +1,469 @@
+
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/nps.html/">
+        <h2 class="post-title">NPS权限绕过漏洞</h2>
+      </a>
+      <div class="post-abstract">
+        <p>HVV期间爆出一个nps的权限绕过漏洞，会泄漏nps上配置的所有参数。记录备忘，<s>找个RT的倒霉蛋试试</s></p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-07-31</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/nps/">
+                nps
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/bypass/">
+                bypass
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/nps.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/6666/logo1.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/CVE-2022-26923.html/">
+        <h2 class="post-title">CVE-2022-26923域提权漏洞复现</h2>
+      </a>
+      <div class="post-abstract">
+        <p>五月份爆出的漏洞，利用域控证书服务进行域内提权，危害貌似挺大的。说不定近期HVV能用到，记录备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-07-22</span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/CVE-2022-26923.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/5555/logo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/big-f5.html/">
+        <h2 class="post-title">BIG-F5漏洞环境搭建</h2>
+      </a>
+      <div class="post-abstract">
+        <p>鉴于爆出的F5漏洞，苦于网上没有现成的Docker环境，于是自己搭建一遍。搭建好了之后，也便于安服复现啥的，搭建过程其实很简单，记录备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-07-18</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/big-f5/">
+                BIG-F5
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/f5/">
+                F5
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/cve-2022-1388/">
+                CVE-2022-1388
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/big-f5.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/4444/logo.jpg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/msdt.html/">
+        <h2 class="post-title">msdt rce复现--cve-2022-30190</h2>
+      </a>
+      <div class="post-abstract">
+        <p>最近爆出新的Office漏洞，在微软官方的介绍里，是Word调用应用程序使用 URL 协议调用 MSDT 时存在远程执行代码漏洞。全程不需要启用宏，或许是一个新的钓鱼手段，记录备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-06-21</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/msdt/">
+                msdt
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/office/">
+                office
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/cve-2022-30190/">
+                cve-2022-30190
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/diao-yu/">
+                钓鱼
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/msdt.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/3232/logo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/cme.html/">
+        <h2 class="post-title">内网利器--CrackMapExec</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  前端时间在推上发现了一个好用的工具，感觉配合CS使用效果应该挺好的。为此专门来学习一下工具的使用方法，记录备忘。所有命令均参考<a href="https://mpgn.gitbook.io/crackmapexec/">官方说明文档</a>。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-05-11</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/crackmapexec/">
+                crackmapexec
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/cme/">
+                cme
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/nei-wang/">
+                内网
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/cme.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2828/CME.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/struts2-rce.html/">
+        <h2 class="post-title">Struts2--远程代码执行漏洞</h2>
+      </a>
+      <div class="post-abstract">
+        <p>最近爆出一个Struts2的RCE，这个时间点感觉近期的HVV可能用得上。记录备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-04-14</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/cve-2021-31805/">
+                CVE-2021-31805
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/struts2/">
+                struts2
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/apache/">
+                apache
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/struts2-rce.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/3131/logo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/spring4shell.html/">
+        <h2 class="post-title">Spring4shell--远程命令执行漏洞</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  这两天爆出一个Spring框架的RCE，据说危害堪比之前的log4j2。客户要求进行简单排查，这里复现记录一下，备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-04-05</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/cve-2022-22965/">
+                CVE-2022-22965
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/spring-core/">
+                spring-core
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/spring4shell/">
+                spring4shell
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/spring4shell.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/2929/logo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://mari0er.top/post/vulfocus.html/">
+        <h2 class="post-title">VulFocus靶场搭建</h2>
+      </a>
+      <div class="post-abstract">
+        <p>  每次爆出新的高危漏洞，工作上有复现和总结防护方案的需求。漏洞搭建在自己的电脑上不方便和同事一起分析，于是利用Docker将漏洞环境全部放到了公司服务器上，方便协同。记录备忘。</p>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2022-03-18</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://mari0er.top/tag/vulfocus/">
+                VulFocus
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://mari0er.top/tag/ba-chang-huan-jing/">
+                靶场环境
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://mari0er.top/post/vulfocus.html/">
+        <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/3030/logo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+    <a href="https://mari0er.top/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+    <a href="https://mari0er.top/page/3/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  
+</div>
+
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

